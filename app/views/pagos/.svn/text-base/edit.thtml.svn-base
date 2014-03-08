@@ -1,0 +1,94 @@
+
+<!--validaciones del pago-->
+<?php $jsvalid->setModel('Pago'); ?> 
+<?php $jsvalid->required();?>
+ 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+
+
+<div class="contenedor">
+		<?php echo $jsvalid->form('edit', '', 'post', 'a_cuatrocincuenta') ?>
+       
+        <fieldset class="a_cuatrocincuenta">
+                
+        <legend><span>Editar Pago</span></legend>
+                                                    
+		<ol>
+        <li>
+        	<label>C&oacute;digo Pago</label>
+        	<?php echo $html->input('Pago/cod_pago',array('size' => '20', 'readonly' => 'readonly','value' => $pago['Pago']['cod_pago']));?>
+        </li>
+        
+        <li>
+        	<label>C&oacute;digo Socio</label>
+        	<!-- <?php echo $html->input('Pago/cod_socio',array('size' => '20', 'value' => $pago['Pago']['cod_socio']));?> -->
+        	<?php
+        	$tmp = '<select name="data[Pago][cod_socio]"  class="select_mediano" id="PagoCodSocio" style="width: 120px">';
+        	for($n=0; $n<count($socios); $n++)
+        		if($socios[$n] == $pago['Pago']['cod_socio'])
+        			$tmp .= '<option value="'.$socios[$n].'" selected="selected">'.$socios[$n].'</option>';
+        		else
+        			$tmp .= '<option value="'.$socios[$n].'" >'.$socios[$n].'</option>';
+        	$tmp .= '</select>';
+        	echo $tmp;
+			?>	
+        </li>
+        
+        <li>
+        	<label>Monto</label>
+        	<?php echo $html->input('Pago/num_monto',array('size' => '20', 'value' => $pago['Pago']['num_monto']));?>
+        </li>
+
+        <li>
+        	<label>Medio de pago</label>
+        	<!-- <?php echo $html->input('Pago/nom_mediopago', array('size' => '20', 'value' => $pago['Pago']['nom_mediopago']));?> -->
+        	<?php
+        	$tmp = '<select name="data[Pago][nom_mediopago]"  class="select_mediano" id="NomMedioPago" style="width: 120px">';
+        	for($n=0; $n<count($mediosDePago); $n++)
+        		if( strcmp($mediosDePago[$n], $pago['Pago']['nom_mediopago']) == 0 )
+        			$tmp .= '<option value="'.$mediosDePago[$n].'" selected="selected">'.$mediosDePago[$n].'</option>';
+        		else
+        			$tmp .= '<option value="'.$mediosDePago[$n].'" >'.$mediosDePago[$n].'</option>';
+        	$tmp .= '</select>';
+        	echo $tmp;
+			?>	
+        </li>
+        
+        <li><!-- 
+           	<label>Fecha creaci&oacute;n</label>
+        	<?php echo $html->input('Pago/fec_inicio', array('size' => '20', 'value' => $pago['Pago']['fec_inicio']));?>
+        	-->
+        	<?php echo $jsvalid->input('Pago/fec_inicio', 'Fecha inicio', array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency', 'value' => $pago['Pago']['fec_inicio'])); ?>
+        </li>
+        
+        <li>
+        	<label>Ajuste IPC</label>
+        	<!-- <?php echo $html->input('Pago/bit_ajusteipc', array('size' => '20', 'value' => $pago['Pago']['bit_ajusteipc']));?> -->
+        	<?php
+        	$tmp = '<select name="data[Pago][bit_ajusteipc]"  class="select_mediano" id="BitAjusteipc" style="width: 120px">';
+       		if( $pago['Pago']['bit_ajusteipc'] == 0 )
+       			$tmp .= '<option value="0" selected="selected">No</option><option value="1">S&iacute;</option>';
+       		else
+       			$tmp .= '<option value="0" >No</option><option value="1" selected="selected">S&iacute;</option>';
+        	$tmp .= '</select>';
+        	echo $tmp;
+			?>	
+        </li>
+
+        </ol>
+        <?php echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">"; ?>
+         <?php echo "<input type=\"hidden\" name=\"editar\" value=\"editar\">"; ?>
+        </fieldset>
+        
+        <fieldset class="submit" style="left: -50px">
+		<?php echo $html->submit('Guardar cambios');?>
+		</fieldset>
+		
+	</form>
+</div>
+
+<ul class="actions">
+<li><?php echo $html->link('Volver', '/pagos/index')?></li>
+</ul>

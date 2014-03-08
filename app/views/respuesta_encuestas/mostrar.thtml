@@ -1,0 +1,88 @@
+<?php
+$html->css("encuestas");
+
+if($this->params['url']['redirigido']){
+?>
+<script language="JavaScript" type="text/javascript">
+	alert("Usted ha sido redirigido aquí porque no contestó esta encuesta dentro del plazo establecido. Por favor respóndala para continuar.");
+</script>
+
+<?php
+}
+
+echo "<h1>".htmlentities($encuesta["Encuesta"]["titulo"])."</h1> <br />";
+echo "<form action='/respuestaencuestas/add?id_encuesta=".$_GET['id_encuesta']."' method='post' onSubmit='return validarRespuestas();' name='add'>";
+echo "<div> (*) Preguntas Obligatorias </div>";
+foreach($encuesta["PreguntaEncuesta"] as $pregunta)
+{
+	echo '<div class="divPregunta" name="'.$pregunta['tipo'].'%'.$pregunta['id'].'" >';
+	$mostrar = '<h2>'.htmlentities($pregunta['titulo']);
+	if($pregunta['requerido']==1)
+		$mostrar.="*";
+	$mostrar.='</h2><div class="verificador" id="verific_'.$pregunta['id'].'" ></div>';
+	echo $mostrar;
+
+
+
+	if($pregunta['tipo']==1 || $pregunta['tipo']=='text') //tipo texto
+	{
+		echo '<textarea name = "opcion'.$pregunta['id'].'" cols="35" rows="5"></textarea>';
+	}
+	elseif($pregunta['tipo']==2 || $pregunta['tipo']=='checkbox') // tipo checkbox
+	{
+		foreach($pregunta['Opcion'] as $opcion)
+		{
+			if($opcion['titulo'][0]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 1);
+			if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+			echo '<input type="checkbox" name="opcion'.$pregunta['id'].'[]" value="'.$opcion['id'].'" >'.htmlentities($opcion['titulo'])."</input> <br />";
+		}
+	}
+	elseif($pregunta['tipo']==3 || $pregunta['tipo']=='radio') // tipo radio
+	{
+		foreach($pregunta['Opcion'] as $opcion)
+		{
+			if($opcion['titulo'][0]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 1);
+			if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+			echo '<input type="radio" name="opcion'.$pregunta['id'].'" value="'.$opcion['id'].'" >'.htmlentities($opcion['titulo'])."</input> <br />";
+		}
+	}
+	elseif($pregunta['tipo']==4 || $pregunta['tipo']=='ranking') // tipo ranking
+	{
+		foreach($pregunta['Opcion'] as $opcion)
+		{
+			if($opcion['titulo'][0]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 1);
+			if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+				$opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+
+			?>
+			<p>
+				<?php echo htmlentities($opcion['titulo']); ?>
+				<input style="margin-left:5px" type="text" size="2" name="opcion<?php echo $pregunta['id'];?>[]"  />
+				<input style="margin-left:5px; visibility:hidden" type="text" size="2" name="opcion<?php echo $pregunta['id'];?>_v[]"  value="<?php echo $opcion['id'];?>" />
+			</p>
+		<?php
+		}
+	}
+	$oblig = '<br/><input type ="text" style="visibility:hidden" id = "oblig'.$pregunta['id'].'" name="obligatorio'.$pregunta['id'].'" value="';
+	if($pregunta['requerido']==1)
+		$oblig.='1" /><br/>';
+	else
+		$oblig.='0" /><br/>';
+	echo $oblig;
+	echo "<br />";
+	echo "</div>";
+
+
+}
+
+?>
+<div class="submit">
+	<?php echo $html->submit ('Enviar Respuestas'); ?>
+
+</div>
+</form>

@@ -1,0 +1,23 @@
+@CHARSET "ISO-8859-1";
+div.comment 
+{
+	
+	width: 100%;
+}
+div.comment p q
+{
+	font-weight: bolder;
+	margin-left: 12%;
+}
+div.comment p
+{
+	
+}
+div.comment textarea
+{
+	width: 300px;
+}
+div.comments
+{
+	width: 100%;
+}

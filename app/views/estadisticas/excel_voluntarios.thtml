@@ -1,0 +1,69 @@
+<?php 
+
+$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1,'Size' => 10, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+$sheet1->setColumn(0, 4, 20);
+$sheet1->freezePanes(array(1, 0));
+
+$excel->write($sheet1, 0, 0, 'Nombre',$heading_format);
+$dia = mb_convert_encoding('día','UTF-8','ASCII');
+$anyo = mb_convert_encoding('año','UTF-8','ASCII');
+if($tipo==2):
+$excel->write($sheet1, 0, 1, "Aperturas ".$dia,$heading_format);
+$excel->write($sheet1, 0, 2, "Aperturas mes",$heading_format);
+$excel->write($sheet1, 0, 3, "Aperturas ".$anyo,$heading_format);
+endif;
+if($tipo==4):
+$excel->write($sheet1, 0, 1, "Seguimientos ".$dia,$heading_format);
+$excel->write($sheet1, 0, 2, "Seguimientos mes",$heading_format);
+$excel->write($sheet1, 0, 3, "Seguimientos ".$anyo,$heading_format);
+endif;
+if($tipo==6):
+$excel->write($sheet1, 0, 1, "Fallidos ".$dia,$heading_format);
+$excel->write($sheet1, 0, 2, "Fallidos mes",$heading_format);
+$excel->write($sheet1, 0, 3, "Fallidos ".$anyo,$heading_format);
+endif;
+if($tipo==8):
+$excel->write($sheet1, 0, 1, "Cierres ".$dia,$heading_format);
+$excel->write($sheet1, 0, 2, "Cierres mes",$heading_format);
+$excel->write($sheet1, 0, 3, "Cierres ".$anyo,$heading_format);
+endif;
+
+foreach($personas as $key => $persona){ 
+	$cod_persona = $persona['Voluntario']['cod_persona'];
+	$nombre = $persona['Persona']['nom_nombre'].' '.$persona['Persona']['nom_appat'];
+	
+	$excel->write($sheet1, $key+1,0,$nombre);
+	if($tipo==2):
+	$excel->write($sheet1, $key+1,1,$seguimiento->CuentaLlamadasUsuario($cod_persona,2,1));
+	$excel->write($sheet1, $key+1,2,$seguimiento->CuentaLlamadasMesUsuario($cod_persona,2));
+	$excel->write($sheet1, $key+1,3,$seguimiento->CuentaLlamadasAnualUsuario($cod_persona,2));
+	endif;
+	if($tipo==4):
+	$excel->write($sheet1, $key+1,1,$seguimiento->CuentaLlamadasUsuario($cod_persona,4,1));
+	$excel->write($sheet1, $key+1,2,$seguimiento->CuentaLlamadasMesUsuario($cod_persona,4));
+	$excel->write($sheet1, $key+1,3,$seguimiento->CuentaLlamadasAnualUsuario($cod_persona,4));
+	endif;
+	if($tipo==6):
+	$excel->write($sheet1, $key+1,1,$seguimiento->CuentaLlamadasUsuario($cod_persona,6,1));
+	$excel->write($sheet1, $key+1,2,$seguimiento->CuentaLlamadasMesUsuario($cod_persona,6));
+	$excel->write($sheet1, $key+1,3,$seguimiento->CuentaLlamadasAnualUsuario($cod_persona,6));
+	endif;
+	if($tipo==8):
+	$excel->write($sheet1, $key+1,1,$seguimiento->CuentaLlamadasUsuario($cod_persona,8,1));
+	$excel->write($sheet1, $key+1,2,$seguimiento->CuentaLlamadasMesUsuario($cod_persona,8));
+	$excel->write($sheet1, $key+1,3,$seguimiento->CuentaLlamadasAnualUsuario($cod_persona,8));
+	endif;
+	
+}
+
+$excel->OutputFile();
+
+
+?> 

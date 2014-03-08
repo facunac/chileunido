@@ -1,0 +1,15 @@
+
+<div class='contenedor'>
+<?php
+  foreach($lista_admins as $titulo => $links)
+    {
+        echo "<h3>".$titulo."</h3>";
+        echo "<ul>";
+        foreach($links as $nombre => $link)
+        {
+            echo "<li><a href=".$link.">".$nombre."</a></li>";
+        }
+        echo "</ul><br>";
+    }
+?>
+</div>

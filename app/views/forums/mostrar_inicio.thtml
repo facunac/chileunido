@@ -1,0 +1,19 @@
+<h3>FORO!</h3>
+
+ <table class="chiletable">
+ <tr>
+ <th>Mensaje</th>
+ </tr>
+ <!-- Here's where we loop through our $posts array, printing out post info -->
+ <?php  foreach ($Phpbb_posts_texts as $key => $post)
+        {
+                 if($key>3)
+                    break;
+
+         echo "<tr>";
+         echo "<td>".$html->link($post['Phpbb_posts_text']['post_text'], "/forums/index/".$post['Phpbb_posts_text']['post_id'],array("class"=>"foro"))."</td>";
+         echo "</tr>";
+        }
+ ?>
+
+ </table>

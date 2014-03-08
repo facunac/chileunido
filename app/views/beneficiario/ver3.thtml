@@ -1,0 +1,162 @@
+<div class="contenedor">
+	<div class="info_izq">
+		<?php echo $html->formTag('modificar', 'post',array('class' => 'info_izq')) ?>
+		<?php echo $html->hidden('Persona/cod_persona', array('value' => $persona['Persona']['cod_persona'])); ?>
+		
+			<fieldset class = "a_trecientos">
+				<legend><span>Beneficiario</span></legend>
+				<table class="resultados">
+					<tr>
+						<td class="id">Fecha Ingreso:</td>
+						<td class="result" style="min-width: 100px"><?php $temxp = explode(" ",$persona['Beneficiario']['fec_ingreso']);$temxp = explode("-",$temxp[0]); echo $temxp[2]."-".$temxp[1]."-".$temxp[0]; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Nombre:</td>
+						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat'];?></td>
+					</tr>
+					<tr>
+						<td class="id">Edad:</td>
+						<td class="result"><?php echo $edad; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Rol Familiar:</td>
+						<td class="result"><?php echo $beneficiarios['Beneficiario']['tip_rolfamilia']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Tel&eacute;fono Fijo:</td>
+						<td class="result"><?php echo $personas['Persona']['num_telefono1']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Tel&eacute;fono M&oacute;vil:</td>
+						<td class="result"><?php echo $personas['Persona']['num_telefono2']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Comuna:</td>
+						<td class="result">
+							<?php  
+								$codigo=$personas['Persona']['cod_comuna'];
+								$i=0;
+								while($i!=$codigo)	$i++;
+								echo $comunas[$i];				
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td class="id">Comentario:</td>
+						<td class="result"><?php echo $beneficiarios['Beneficiario']['nom_comentario']; ?></td>
+					</tr>
+					<!--tr>
+						<td class="id">Ultimo Contacto:</td>
+						<td class="result"><!--?php echo $ultimo; ?></td>
+					</tr-->
+					
+					<tr>
+						<td class="id">Fecha de Proxima revisi&oacute;n:</td>
+						<td class="result"><?php echo $fecha; ?></td>
+					</tr>
+					
+				</table>
+			</fieldset>
+			<fieldset class="submit">
+				<?php echo $html->submitTag('Modificar') ?>
+			</fieldset>
+		</form>
+		
+		<div class="clear"></div>
+	</div>
+	
+	<div class="info_der">
+		
+		<div id="opciones_ver">
+			<?php
+				echo $html->formTag('ingresar_seguimiento_clinico','post',array('class' => 'form_anormal'));
+				echo $html->hidden('Caso/cod_caso', array('value' => $caso_derivado['Caso']['cod_caso']));
+				echo $html->hidden('Seguimiento/tip_actividad', array('value' => 'Seguimiento Clinico'));
+				echo $html->submitTag('Agregar Atencion Clinica');
+				echo '</form>';
+			?>
+			<?php
+				echo $html->formTag('reactivar','post',array('class' => 'form_anormal'));
+				echo $html->hidden('Caso/cod_caso', array('value' => $caso_derivado['Caso']['cod_caso']));
+				echo $html->hidden('Seguimiento/tip_actividad', array('value' => 'Cierre Clinico'));
+				echo $html->hidden('Seguimiento/cod_caso', array('value' => $caso_derivado['Caso']['cod_caso']));
+				echo $html->submitTag('Cerrar Caso');
+				echo '</form>';
+			?>
+			<!--?php
+				echo $html->formTag('retirar','post',array('class' => 'form_anormal'));
+				echo $html->hidden('Caso/cod_caso', array('value' => $caso_derivado['Caso']['cod_caso']));
+				echo $html->hidden('Seguimiento/cod_caso', array('value' => $caso_derivado['Caso']['cod_caso']));
+				echo $html->submitTag('Cerrar Caso Actual');
+				echo '</form>';
+			?-->
+		</div>
+	
+		<div class="paginacion">
+			<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+			<caption>Historia del Beneficiario</caption>
+				<thead>
+					<tr>
+		
+		
+				<th class="sortable-numeric">Fecha</th>
+				<th class="sortable-text">Descripci&oacute;n</th>
+				<th class="sortable-text">Tipo</th>
+				<th class="sortable-text">Voluntario</th>
+				<th class="th_tablagris">Ver</th>
+				<th class="th_tablegris">Editar</th>
+		</tr>
+			</thead>	
+			<tfoot>
+			</tfoot>
+			<tbody>
+			<?php $i=1; ?>
+	<?php $i=1; ?>
+	<?php foreach($seguimientos as $v){ ?>
+		<tr class ="odd">
+		
+			<td class="td_gris"><?php echo  $v['Seguimiento']['fec_ejecucion'] ?> </td>
+			<td class="td_gris"><?php  echo  $v['Respuestaficha']['nom_respuesta'] ?> </td>
+			<td class="td_gris"><?php echo $v['Actividad']['tip_actividad']?> </td>
+			<td class="td_gris"><?php echo  $v['Persona']['nom_nombre']." ". $v['Persona']['nom_appat']  ?> </td>
+			<td class="td_gris">
+				<?php
+					echo $html->formTag('ver_fichaseguimiento', 'post', array('style'=>'display:inline'));
+					echo $html->hidden('Seguimiento/cod_actividad', array('value' => $v['Seguimiento']['cod_actividad']));
+					echo $html->hidden('Seguimiento/num_evento', array('value' => $v['Seguimiento']['num_evento']));
+					echo $html->hidden('Persona/cod_persona', array('value' => $v['Persona']['cod_persona']));
+					echo $html->hidden('Beneficiario/cod_persona', array('value' => $personas['Persona']['cod_persona']));
+					//echo $html->submitTag('Ver');
+					
+			?>
+					<input type="image" src="<?php echo $this->webroot.'img/datos.png'; ?>" alt="Ver Ficha Seguimiento" title="Ver Ficha Seguimiento" />
+					
+				</form>
+				
+			</td>
+			<td class="td_gris">
+				<?php
+					echo $html->formTag('modificar_fichaseguimiento', 'post', array('style'=>'display:inline'));
+					echo $html->hidden('Seguimiento/cod_actividad', array('value' => $v['Seguimiento']['cod_actividad']));
+					echo $html->hidden('Seguimiento/num_evento', array('value' => $v['Seguimiento']['num_evento']));
+					echo $html->hidden('Persona/cod_persona', array('value' => $v['Persona']['cod_persona']));
+					echo $html->hidden('Beneficiario/cod_persona', array('value' => $personas['Persona']['cod_persona']));
+					//echo $html->submitTag('Ver');
+					
+			?>
+					<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Editar" title="Editar" />
+					
+				</form>
+				
+			</td>
+				
+		</tr>
+		<?php $i=$i+1; ?>
+		<?php } ?>
+		</tbody>		
+			</table>
+		</div>
+		<?php echo '</table>'; ?>
+	</div>	
+	<div class="clear"></div>
+</div>

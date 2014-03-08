@@ -1,0 +1,46 @@
+<div class="contenedor">
+<h2>Eliminaci&oacute;n de Beneficiarios</h2>
+<?php echo $html->formTag('index_eliminar/','post', array('style'=>'display:inline'));	?>
+<center>
+<table>
+	<tr>
+		<td>Nombre o Apellido (no ambos)</td>
+		<td><?php echo $html->input('Buscar/str', array('size' => '20','maxlength'=>'30')) ?></td>
+		<td><?php echo $html->submit('Buscar') ?></td>
+	</tr>
+</table>
+</center>
+</form>
+
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+<tr>
+	<th class="sortable-text">Nombre </th>
+	<th class="sortable-text">Apellido Paterno</th>
+	<th class="sortable-text">Apellido Materno</th>
+	<th class="sortable-text">Comuna</th>
+	<th class="sortable-text">Fecha Ingreso</th>
+	<th class="sortable-text">Sexo</th>
+	<th class="sortable-text">Ver</th>
+	<th class="td_gris">Eliminar</th>	
+</tr>
+<?php foreach ($beneficiarios as $b): ?>
+<tr>
+	<td class="td_gris_nombre"><?php echo $b['Persona']['nom_nombre']; ?></td>
+	<td class="td_gris"><?php echo $b['Persona']['nom_appat']; ?></td>
+	<td class="td_gris"><?php echo $b['Persona']['nom_apmat']; ?></td>
+	<td class="td_gris"><?php echo $b['Persona']['Comuna']['nom_comuna'];?></td>
+	<td class="td_gris"><?php echo $b['Beneficiario']['fec_ingreso']; ?></td>
+	<td class="td_gris"><?php echo $b['Beneficiario']['tip_sexo']; ?></td>
+	<td class="td_gris"><a href="<?php echo $html->url("/beneficiarios/ver/".$b['Persona']['cod_persona']); ?>"><img src="../img/ver.png" alt="ver" /></a></td>
+	<td class="td_gris">
+		<?php echo $html->formTag('eliminar/'.$b['Beneficiario']['cod_persona'],'post', array('style'=>'display:inline'));	?>
+		<input type="image" src="<?php echo $this->webroot.'img/cruz.png'; ?>" alt="Eliminar" title="Eliminar" />
+		</form>		
+		<?php echo $html->link('Eliminar','/beneficiarios/eliminar/' . $b['Beneficiario']['cod_persona'], null, 'Esta seguro que quiere eliminar PERMANENTEMENTE a  ' . $b['Persona']['nom_nombre'] . ' ' . $b['Persona']['nom_appat'])?>
+	</td>	
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+</div>

@@ -1,0 +1,48 @@
+<?php
+
+	echo $javascript->link('prototype');
+	echo $javascript->link('scriptaculous?load=effects');
+
+?>
+<script language="JavaScript">
+<!--
+var myCount=1;
+var maxCount = <?php echo $max; ?>;
+
+bannerRotate();
+function bannerRotate() {
+
+       <?php
+       for($index = 0; $index < $max; $index++){
+           echo 'if(myCount =='.$index.'){';
+           echo $ajax->remoteFunction(
+                    array('url'=>'/indicador/view/'.$index,
+                     'update' => array('dynamic1')
+                     )
+                    );
+          echo "};";
+       }
+      ?>
+    myCount++;
+    if(myCount>maxCount)myCount = 0;
+    setTimeout("bannerRotate()", 3000);
+}
+-->
+</script>
+ 
+<?php echo $ajax->div('dynamic1'); ?>
+<?php
+echo '<b>'.$texto.': </b>';
+echo "<b>tus llamadas </b>";
+echo "apertura ".$apertura_u;
+echo " seguimiento ".$seguimiento_u;
+echo " fallido ".$fallido_u;
+echo " cierre ".$cierre_u;
+echo "<br><b> todas las llamadas </b>";
+echo "apertura ".$apertura;
+echo " seguimiento ".$seguimiento;
+echo " fallido ".$fallido;
+echo " cierre ".$cierre;
+?>
+<?php echo $ajax->divEnd('dynamic1'); ?>
+

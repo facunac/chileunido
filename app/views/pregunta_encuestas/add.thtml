@@ -1,0 +1,70 @@
+
+<?php $n = $_GET['n']; ?>
+
+<body >
+<h2>Agregar Pregunta</h2>
+<form action=<?php echo $html->url('/preguntaencuestas/add'); ?> class='add_preguntaencuestas' method='post' onSubmit='return validarNuevaPregunta();' name='add'>
+
+<fieldset class="add_preguntaencuestas">
+    <legend>Nueva Pregunta</legend>
+	<table>
+		<tr>
+			<td>
+				<div class="required">
+					Pregunta <?php echo $_GET['n']; echo $html->input ('PreguntaEncuesta/titulo',  array ('size' => '30', 'maxlength' => '200')); ?>
+
+                                </div>
+                                <div id ="PreguntaEncuestaTitulo_v" class="verificador"></div>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td>
+				<div class="required">
+                                    <?php echo $form->generateSelectDiv('PreguntaEncuesta/tipo','Tipo', array('0'=>'Seleccione Tipo','text'=>'Text', 'checkbox'=> 'Checkbox', 'radio'=> 'Radio', 'ranking'=>'Ranking'), 0, array( 'onchange'=> 'GenerateOptions(\'inhere\',this.value,\'\',\'\',\'div\')'),null,false,null)?>
+
+                                </div>
+                             <div id ="PreguntaEncuestaTipo_v" class="verificador"></div>
+			</td>
+		</tr>
+                <tr>
+			<td>
+				<div class="required">
+                                        Obligatoria <?php echo $html->radio('PreguntaEncuesta/requerido', array('1'=>'Si', '0'=> 'No'), null, array('value'=>'1'))  ?>
+				</div>
+			</td>
+		</tr>
+                </table>
+
+                <br />
+
+                <div id="inhere">
+                </div>
+				<div id="aElim">
+				</div>
+                <br />
+
+				<div id="linkMas">
+				</div>
+
+                <br/>
+				<?php echo $html->input('PreguntaEncuesta/id_encuesta', array('value'=>''.$_GET['id_encuesta'], 'style'=>'visibility:hidden'))?>
+                <?php echo $html->input('PreguntaEncuesta/numOpciones', array('style'=>'visibility:hidden'))?>
+				<?php echo $html->input('PreguntaEncuesta/n', array('value'=>''.$n, 'style'=>'visibility:hidden'))?>
+
+
+</fieldset>
+    <div class="submit" >
+            <?php echo $html->submit('Crear y Continuar'); ?>
+			<?php echo $html->submit('Crear y Terminar', array('onClick' =>'cambiarAHabilitada()')); ?>
+
+
+    </div>
+	<?php echo $html->input('PreguntaEncuesta/habilitada', array('id'=>'habilitada', 'value'=>'0', 'style'=>'visibility:hidden'))?>
+	<div>
+	<?php echo $html->link('Volver a Encuestas','/encuestas');?>
+	</div>
+</form>
+</body>
+

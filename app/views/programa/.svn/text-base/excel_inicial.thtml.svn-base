@@ -1,0 +1,206 @@
+<?php 
+set_time_limit(0);
+
+
+if($opcion==2){
+$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+
+$sheet1->freezePanes(array(1, 0));
+
+$columna = array();
+
+$excel->write($sheet1, 0, 0, mb_convert_encoding('Nº FICHA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 1, 'FECHA',$heading_format);
+$excel->write($sheet1, 0, 2, mb_convert_encoding('CAMPAÑA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 3, 'NOMBRE',$heading_format);
+$excel->write($sheet1, 0, 4, 'IDENTIF.',$heading_format);
+$excel->write($sheet1, 0, 5, 'EDAD',$heading_format);
+$excel->write($sheet1, 0, 6, 'TELEFONO',$heading_format);
+$excel->write($sheet1, 0, 7, 'COMUNA',$heading_format);
+$excel->write($sheet1, 0, 8, 'COD_com',$heading_format);
+$excel->write($sheet1, 0, 9, mb_convert_encoding('Nº HIJOS','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 10, 'TIPO FLIA.',$heading_format);
+$excel->write($sheet1, 0, 11, 'ESTADO CIVIL',$heading_format);
+$excel->write($sheet1, 0, 12, '1 RELAC.',$heading_format);
+$excel->write($sheet1, 0, 13, '2 RELAC.',$heading_format);
+$excel->write($sheet1, 0, 14, '3 RELAC.',$heading_format);
+$excel->write($sheet1, 0, 15, 'EDUC PADRE',$heading_format);
+$excel->write($sheet1, 0, 16, 'EDUC MADRE',$heading_format);
+$excel->write($sheet1, 0, 17, 'TRAABJO PADRE',$heading_format);
+$excel->write($sheet1, 0, 18, 'TRABAJO MADRE',$heading_format);
+$excel->write($sheet1, 0, 19, 'MOTIVO',$heading_format);
+$excel->write($sheet1, 0, 20, 'DERIVACION',$heading_format);
+$excel->write($sheet1, 0, 21, 'DONDE',$heading_format);
+$excel->write($sheet1, 0, 22, 'DESCRIPCION MOTIVO',$heading_format);
+$excel->write($sheet1, 0, 23, 'VOLUNTARIA',$heading_format);
+$excel->write($sheet1, 0, 24, 'TIEMPO ASISTENCIA',$heading_format);
+$excel->write($sheet1, 0, 25, 'RESULTADO',$heading_format);
+$excel->write($sheet1, 0, 26, 'DERIVACION',$heading_format);
+
+foreach($casos as $key => $caso){ 
+	
+	$excel->write($sheet1, $key+1,0,$caso["Num_ficha"]);
+	$excel->write($sheet1, $key+1,1,$caso["Fecha"]);
+	$excel->write($sheet1, $key+1,2,$caso["Campana"]);
+	$excel->write($sheet1, $key+1,3,$caso["Nombre"]);
+	$excel->write($sheet1, $key+1,4,$caso["Identif"]);
+	$excel->write($sheet1, $key+1,5,$caso["Edad"]);
+	$excel->write($sheet1, $key+1,6,$caso["Telefono"]);
+	$excel->write($sheet1, $key+1,7,$caso["Comuna"]);
+	$excel->write($sheet1, $key+1,8,$caso["Cod_comuna"]);
+	$excel->write($sheet1, $key+1,9,$caso["Num_hijos"]);
+	$excel->write($sheet1, $key+1,10,$caso["Tipo_flia"]);
+	$excel->write($sheet1, $key+1,11,$caso["Estado_civil"]);
+	$excel->write($sheet1, $key+1,12,$caso["1_relac"]);
+	$excel->write($sheet1, $key+1,13,$caso["2_relac"]);
+	$excel->write($sheet1, $key+1,14,$caso["3_relac"]);
+	$excel->write($sheet1, $key+1,15,$caso["Educ_padre"]);
+	$excel->write($sheet1, $key+1,16,$caso["Educ_madre"]);
+	$excel->write($sheet1, $key+1,17,$caso["Trabajo_padre"]);
+	$excel->write($sheet1, $key+1,18,$caso["Trabajo_madre"]);
+	$excel->write($sheet1, $key+1,19,$caso["Motivo"]);
+	$excel->write($sheet1, $key+1,20,$caso["Derivacion_1"]);
+	$excel->write($sheet1, $key+1,21,$caso["Donde"]);
+	$excel->write($sheet1, $key+1,22,$caso["Descripcion_motivo"]);
+	$excel->write($sheet1, $key+1,23,$caso["Voluntario"]);
+	$excel->write($sheet1, $key+1,24,$caso["Tiempo_asistencia"]);
+	$excel->write($sheet1, $key+1,25,$caso["Resultado"]);
+	$excel->write($sheet1, $key+1,26,$caso["Derivacion_2"]);
+}
+
+
+	$sheet1->setColumn(0,26,20);
+
+
+
+$excel->OutputFile();
+
+}
+else if($opcion == 1){
+$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+
+$sheet1->freezePanes(array(1, 0));
+
+$columna = array();
+
+$excel->write($sheet1, 0, 0, mb_convert_encoding('Nº FICHA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 1, 'FECHA',$heading_format);
+$excel->write($sheet1, 0, 2, 'NOMBRE',$heading_format);
+$excel->write($sheet1, 0, 3, 'TELEFONO',$heading_format);
+$excel->write($sheet1, 0, 4, 'COMUNA',$heading_format);
+$excel->write($sheet1, 0, 5, 'GSE',$heading_format);
+$excel->write($sheet1, 0, 6, 'EDAD',$heading_format);
+$excel->write($sheet1, 0, 7, 'ESTADO CIVIL',$heading_format);
+$excel->write($sheet1, 0, 8, 'TIPO FLIA.',$heading_format);
+$excel->write($sheet1, 0, 9, 'NIVEL EDUC.',$heading_format);
+$excel->write($sheet1, 0, 10, mb_convert_encoding('Nº HIJOS','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 11, 'TRABAJO',$heading_format);
+$excel->write($sheet1, 0, 12, mb_convert_encoding('CAMPAÑA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 13, 'MESES EMBARAZO',$heading_format);
+$excel->write($sheet1, 0, 14, 'METODO PREVENCION',$heading_format);
+$excel->write($sheet1, 0, 15, 'PADRE GUAGUA',$heading_format);
+$excel->write($sheet1, 0, 16, 'MOTIVO CONSUL.',$heading_format);
+$excel->write($sheet1, 0, 17, 'DERIVACION',$heading_format);
+$excel->write($sheet1, 0, 18, 'RESULTADO',$heading_format);
+
+
+foreach($casos as $key => $caso){ 
+	
+	$excel->write($sheet1, $key+1,0,$caso["Num_ficha"]);
+	$excel->write($sheet1, $key+1,1,$caso["Fecha"]);
+	$excel->write($sheet1, $key+1,2,$caso["Nombre"]);
+	$excel->write($sheet1, $key+1,3,$caso["Telefono"]);
+	$excel->write($sheet1, $key+1,4,$caso["Comuna"]);
+	$excel->write($sheet1, $key+1,5,$caso["Cod_comuna"]);
+	$excel->write($sheet1, $key+1,6,$caso["Edad"]);
+	$excel->write($sheet1, $key+1,7,$caso["Estado_civil"]);
+	$excel->write($sheet1, $key+1,8,$caso["Tipo_flia"]);
+	$excel->write($sheet1, $key+1,9,$caso["Nivel_educ"]);
+	$excel->write($sheet1, $key+1,10,$caso["Num_hijos"]);
+	$excel->write($sheet1, $key+1,11,$caso["Trabajo"]);
+	$excel->write($sheet1, $key+1,12,$caso["Campana"]);
+	$excel->write($sheet1, $key+1,13,$caso["Meses"]);
+	$excel->write($sheet1, $key+1,14,$caso["Metodo"]);
+	$excel->write($sheet1, $key+1,15,$caso["Padre"]);
+	$excel->write($sheet1, $key+1,16,$caso["Motivo"]);
+	$excel->write($sheet1, $key+1,17,$caso["Derivacion"]);
+	$excel->write($sheet1, $key+1,18,$caso["Resultado"]);	
+	
+
+}
+
+
+	$sheet1->setColumn(0,18, 20);
+
+
+$excel->OutputFile();
+
+}
+else{
+	$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+
+$sheet1->freezePanes(array(1, 0));
+
+$columna = array();
+
+$excel->write($sheet1, 0, 0, mb_convert_encoding('Nº FICHA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 1, 'FECHA',$heading_format);
+$excel->write($sheet1, 0, 2, mb_convert_encoding('CAMPAÑA','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 3, 'NOMBRE',$heading_format);
+$excel->write($sheet1, 0, 4, 'IDENTIF.',$heading_format);
+$excel->write($sheet1, 0, 5, 'EDAD',$heading_format);
+$excel->write($sheet1, 0, 6, 'TELEFONO',$heading_format);
+$excel->write($sheet1, 0, 7, 'COMUNA',$heading_format);
+$excel->write($sheet1, 0, 8, 'COD_com',$heading_format);
+$excel->write($sheet1, 0, 9, mb_convert_encoding('Nº HIJOS','UTF-8','ASCII'),$heading_format);
+$excel->write($sheet1, 0, 10, 'MOTIVO',$heading_format);
+$excel->write($sheet1, 0, 11, 'VOLUNTARIA',$heading_format);
+
+foreach($casos as $key => $caso){ 
+	
+	$excel->write($sheet1, $key+1,0,$caso["Num_ficha"]);
+	$excel->write($sheet1, $key+1,1,$caso["Fecha"]);
+	$excel->write($sheet1, $key+1,2,$caso["Campana"]);
+	$excel->write($sheet1, $key+1,3,$caso["Nombre"]);
+	$excel->write($sheet1, $key+1,4,$caso["Identif"]);
+	$excel->write($sheet1, $key+1,5,$caso["Edad"]);
+	$excel->write($sheet1, $key+1,6,$caso["Telefono"]);
+	$excel->write($sheet1, $key+1,7,$caso["Comuna"]);
+	$excel->write($sheet1, $key+1,8,$caso["Cod_comuna"]);
+	$excel->write($sheet1, $key+1,9,$caso["Num_hijos"]);
+	$excel->write($sheet1, $key+1,10,$caso["Motivo"]);
+	$excel->write($sheet1, $key+1,11,$caso["Voluntario"]);
+	
+
+}
+
+
+$sheet1->setColumn(0,11 , 20);
+
+
+
+$excel->OutputFile();
+	
+}
+?> 

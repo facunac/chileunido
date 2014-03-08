@@ -1,0 +1,62 @@
+<?php 
+$jsvalid->setModel('Turno'); 
+$jsvalid->required();
+$jsvalid->setModel('Voluntario');
+$jsvalid->required();
+echo $jsvalid->returnScript(); 
+?>
+
+<?php echo $jsvalid->form('crear2', '', 'post', 'a_cuatrocincuenta') ?>
+
+<div class="contenedor">
+
+<fieldset class="a_cuatrocincuenta">
+<legend><span>Asignar Turno</span></legend>
+
+<ol>
+
+<?php echo $html->hidden('Extra/bit_clinico'); ?>
+<?php echo $html->hidden('Extra/nom_origenusuario'); ?>
+<?php echo $html->hidden('Turno/nom_dia'); ?>
+<?php echo $html->hidden('Turno/num_hora'); ?>
+
+<li><label>Voluntario</label>
+<?php
+if ($cod_voluntario != null) {
+	echo $html->hidden('Turno/cod_voluntario');
+	echo $html->input('Extra/nom_voluntario', array('disabled' => 'true'));
+} else {
+	echo $html->selectTag('Turno/cod_voluntario', $voluntarios, $html->tagValue('Turno/cod_voluntario'),
+		array('length' => '25'), array(), false);
+}
+?>
+</li>
+
+<li><label>Tipo de turno</label>
+<?php
+$tip_turno = !$bit_nopsicologo ? ($bit_clinico ? 'Clínico' : 'Telefónico') : 'No psicológico';
+echo $html->input('Extra/tip_box', array('value' => $tip_turno, 'disabled' => 'true'));
+?>
+</li>
+
+<li><label>Día de la semana</label>
+	<?php echo $html->input('Turno/nom_dia', array('disabled' => 'true')); ?>
+</li>
+
+<li><label>Hora</label>
+ 	<?php echo $html->input('Extra/nom_hora', array('disabled' => 'true')); ?>
+</li>
+
+<?php if (! $bit_nopsicologo) { ?>
+<li><label>Box</label>
+	<?php echo $html->selectTag('Turno/cod_box', $boxes, $html->tagValue('Turno/cod_box'), array(), array(), false);?>
+</li>
+<?php } ?>
+
+</ol></fieldset>
+
+<fieldset class="submit">
+	<?php echo $html->submitTag('Asignar');?>
+</fieldset>
+</form>
+</div>

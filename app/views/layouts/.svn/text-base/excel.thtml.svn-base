@@ -1,0 +1,8 @@
+<?php echo $content_for_layout ?> 
+<?php
+(empty($type)) ? $type = 'applications' : $type = $type;
+header("Content-type: application/vnd.ms-excel");
+header("Content-Disposition: attachment; filename=chileunido-".$type.".xls");
+header("Pragma: no-cache");
+header("Expires: 0");
+?> 

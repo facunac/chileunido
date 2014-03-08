@@ -1,0 +1,48 @@
+<div class="box">
+<h2>View Box</h2>
+
+<dl>
+	<dt>Cod Box</dt>
+	<dd>&nbsp;<?php echo $box['Box']['cod_box']?></dd>
+	<dt>Nom Box</dt>
+	<dd>&nbsp;<?php echo $box['Box']['nom_box']?></dd>
+	<dt>Tip Box</dt>
+	<dd>&nbsp;<?php echo $box['Box']['tip_box']?></dd>
+</dl>
+<ul class="actions">
+	<li><?php echo $html->link('Edit Box',   '/boxes/edit/' . $box['Box']['cod_box']) ?> </li>
+	<li><?php echo $html->link('Delete Box', '/boxes/delete/' . $box['Box']['cod_box'], null, 'Are you sure you want to delete: id ' . $box['Box']['cod_box'] . '?') ?> </li>
+	<li><?php echo $html->link('List Boxes',   '/boxes/index') ?> </li>
+	<li><?php echo $html->link('New Box',	'/boxes/add') ?> </li>
+</ul>
+
+</div>
+<div class="related">
+<h3>Related Turnos</h3>
+<?php if (!empty($box['Turno'])):?>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<?php foreach ($box['Turno']['0'] as $column => $value): ?>
+<th><?php echo $column?></th>
+<?php endforeach; ?>
+<th>Actions</th>
+</tr>
+<?php foreach ($box['Turno'] as $turno):?>
+<tr>
+	<?php foreach ($turno as $column => $value):?>
+		<td><?php echo $value;?></td>
+	<?php endforeach;?>
+	<td class="actions">
+		<?php echo $html->link('View', '/turnos/view/' . $turno['cod_turno']);?>
+		<?php echo $html->link('Edit', '/turnos/edit/' . $turno['cod_turno']);?>
+		<?php echo $html->link('Delete', '/turnos/delete/' . $turno['cod_turno'], null, 'Are you sure you want to delete: id ' . $turno['cod_turno'] . '?');?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php endif; ?>
+
+<ul class="actions">
+	<li><?php echo $html->link('New Turno', '/turnos/add/');?> </li>
+</ul>
+</div>

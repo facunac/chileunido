@@ -1,0 +1,132 @@
+<br/>
+<br/>
+<br/>
+		
+		<div id="back"><a href="javascript:history.back()"><input type="image" src="<?php echo $this->webroot.'img/deshacer.png'; ?>" alt="" title="Volver" /></a></div>
+		
+		<?php
+			
+			echo $html->formTag('agregar_caso1');
+			if($formulario==1)
+			{
+				//[Gabriela] Se agrega información básica del beneficiario y del caso
+		?>		
+				<fieldset class="a_grotesco"><legend><span>Informacion Basica Beneficiario y Caso</span></legend>
+					<ol>
+						<li>
+							<fieldset class="a_cuatrocincuenta"><legend><span>Datos Beneficiario</span></legend>
+								<table class="resultados">
+									<tr>
+										<td class="id">Nombre</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['nom_nombre']?></td>
+									</tr>
+									<tr>
+										<td class="id">Apellido Paterno</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['nom_appat'] ?></td>
+									</tr>
+									<tr>	
+										<td class="id">Apellido Materno</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['nom_apmat'] ?></td>
+									</tr>
+									<tr>	
+										<td class="id">Sexo</td>
+										<td class="result"><?php echo $informacion_beneficiario['Beneficiario']['tip_sexo'] ?></td>
+									</tr>
+									<tr>	
+										<td class="id">Indentificacion</td>
+										<td class="result"><?php echo $informacion_beneficiario['Beneficiario']['tip_rolfamilia'] ?></td>
+									</tr>
+									<tr>	
+										<td class="id">RUT</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['nom_rut']?></td>
+									</tr>
+									<tr>	
+										<td class="id">Edad</td>
+										<td class="result"><?php echo $edad?></td>
+									</tr>
+									<tr>	
+										<td class="id">Direccion</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['nom_direccion']?></td>
+									</tr>
+									<tr>	
+										<td class="id">Comuna</td>
+										<td class="result"><?php echo $informacion_personal['Comuna']['nom_comuna']?></td>
+									</tr>
+									<tr>	
+										<td class="id">Region</td>
+										<td class="result"><?php echo $informacion_personal['Comuna']['nom_region']?></td>
+									</tr>
+									<tr>	
+										<td class="id">Telefono 1</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['num_telefono1']?></td>
+									</tr>
+									<tr>	
+										<td class="id">Telefono 2</td>
+										<td class="result"><?php echo $informacion_personal['Persona']['num_telefono2']?></td>
+									</tr>
+								</table>
+							</fieldset>
+						</li>
+						<li>
+							<fieldset class="a_cuatrocincuenta"><legend><span>Datos del Caso</span></legend>
+								<table class="resultados">
+									<tr>
+										<td class="id">Tipo Ingreso</td>
+										<td class="result"><?php echo $informacion_caso['Tipoingreso']['nom_tipoingreso'] ?></td>
+									</tr>
+									<tr>
+										<td class="id">Prioridad</td>
+										<td class="result"><?php echo $informacion_caso['Caso']['tip_prioridad']?></td>
+									</tr>
+									<tr>
+										<td class="id">Fecha Proxima Revision</td>
+										<td class="result"><?php 
+										$fec=explode("-", $informacion_seguimiento['Seguimiento']['fec_proxrevision']);
+										$informacion_seguimiento['Seguimiento']['fec_proxrevision']=$fec[2]."-".$fec[1]."-".$fec[0];
+										echo $informacion_seguimiento['Seguimiento']['fec_proxrevision']?></td>
+									</tr>
+									<tr>
+										<td class="id">Tipo Proxima Revision</td>
+										<td class="result"><?php echo $informacion_seguimiento['Seguimiento']['tip_proxrevision']?></td>
+									</tr>
+									<tr>
+										<td class="id">Tipo Caso</td>
+										<td class="result"><?php echo $tipocaso?></td>
+									</tr>
+								</table>
+							</fieldset>
+						</li>
+					</ol>
+				</fieldset>
+		<?php	
+			}
+			if($formulario==2 || $formulario==3)
+			{
+			?>
+			
+				<fieldset class="a_grotesco"><legend><span></span></legend>
+					<ol>
+						<li>
+							<fieldset class="a_cuatrocincuenta"><legend><span>Informacion de Seguimiento Actual y Proximo</span></legend>
+								<ol>
+									<li><label><strong>Comentarios</strong></label><?php echo $html->input('Seguimiento/nom_comentario',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['nom_comentario'], 'disabled'=>'disabled')) ?></li>
+									<li><label><strong>Tipo Proximo Seguimiento</strong></label><?php echo $html->input('Seguimiento/tip_proxrevision',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['tip_proxrevision'], 'disabled'=>'disabled')) ?></li>
+									<li><label><strong>Fecha Proxima Revision</strong></label><?php 
+									$fec=explode("-", $informacion_seguimiento['Seguimiento']['fec_proxrevision']);
+									$informacion_seguimiento['Seguimiento']['fec_proxrevision']=$fec[2]."-".$fec[1]."-".$fec[0];
+									echo $html->input('Seguimiento/fec_proxrevision',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['fec_proxrevision'], 'disabled'=>'disabled')) ?></li>
+									
+								</ol>
+							</fieldset>
+						</li>
+					</ol>
+				</fieldset>
+				
+			<?php
+				
+			}
+			if($formulario!=-1) 
+				echo $fichas->desplegarFormulario($cod_formulario, "FormDesplegar", $num_evento); ?>
+			
+			</form>
+		<br/>

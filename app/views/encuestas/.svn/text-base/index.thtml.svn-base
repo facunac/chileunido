@@ -1,0 +1,72 @@
+<div class="chilediv">
+    <h1>Encuestas</h1>
+    <p><?php echo $html->link('Crear nueva encuesta','/encuestas/add');?>
+
+        <?php foreach ($todasEncuestas as $row): ?>
+            <?php echo '<h2>'.$row['tipo'].'</h2>'; ?>
+    <table class="chiletable">
+
+        <tr>
+            <th>Activa</th>
+            <th>Titulo</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Termino</th>
+            <th>Anonima</th>
+            <th colspan="5"></th>
+
+        </tr>
+
+        <!-- Here's where we loop through our $posts array, printing out post info -->
+
+            <?php foreach ($row['encuestas'] as $encuesta): ?>
+        <tr>
+            <td>
+                        <?php if(date("Y-m-d") >= $encuesta['Encuesta']['fecha_inicio'] && date("Y-m-d") <= $encuesta['Encuesta']['fecha_fin']) {
+                            echo "Si";
+                        }else {
+                            echo "No";
+                        }?></td>
+
+            <td>
+                        <?php echo htmlentities($encuesta['Encuesta']['titulo']); ?>
+            </td>
+            <td>
+                        <?php echo $encuesta['Encuesta']['fecha_inicio']; ?>
+            </td>
+            <td>
+                        <?php echo $encuesta['Encuesta']['fecha_fin']; ?>
+            </td>
+            <td>
+                        <?php if($encuesta['Encuesta']['anonima']==1) echo "Si"; else echo "No"; ?>
+            </td>
+            <td>
+                <a href=<?php echo $html->url('/encuestas/mostrar?id='.$encuesta['Encuesta']['id']);?> >Ver</a>
+            </td>
+            <td>
+                        <?php if($row['tipo']=="No Habilitadas"or $row['tipo']=='Futuras'or $row['tipo']=='Antiguas') { ?>
+					|<?php echo $html->link('Eliminar',"/encuestas/eliminar/{$encuesta['Encuesta']['id']}",null,'Estas seguro de eliminar la encuesta?')?>
+                        <?php } ?>
+            </td>
+                    <?php if($row['tipo']=='Activas' or $row['tipo']=='Futuras') { ?>
+            <td>
+					| <a href=<?php echo $html->url('/encuestas/deshabilitar?id='.$encuesta['Encuesta']['id']);?>>Deshabilitar</a>
+            </td>
+                    <?php }else if($row['tipo']=="No Habilitadas") { ?>
+            <td>
+					| <a href=<?php echo $html->url('/encuestas/habilitar?id='.$encuesta['Encuesta']['id']);?>>Habilitar</a>
+            </td>
+                        <?php }if($row['tipo']=="No Habilitadas" || $row['tipo']=="Futuras") { ?>
+            <td>
+					| <a href=<?php echo $html->url('/encuestas/editar?id='.$encuesta['Encuesta']['id']);?>>Editar</a>
+            </td>
+                    <?php } ?>
+            <td>
+					| <a href=<?php echo $html->url('/encuestas/mostrar_resultados?id_encuesta='.$encuesta['Encuesta']['id']);?>>Mostrar Resultados</a>
+            </td>
+
+        </tr>
+            <?php endforeach; ?>
+
+    </table>
+    <?php endforeach; ?>
+</div>

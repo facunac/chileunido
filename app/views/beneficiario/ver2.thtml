@@ -1,0 +1,112 @@
+<div class="contenedor">
+	<div class="info_izq">
+		<?php echo $html->formTag('modificar', 'post',array('class' => 'info_izq')) ?>
+		<?php echo $html->hidden('Persona/cod_persona', array('value' => $persona['Persona']['cod_persona'])); ?>
+		
+			<fieldset class = "a_trecientos">
+				<legend><span>Beneficiario</span></legend>
+				<table class="resultados">
+					<tr>
+						<td class="id">Fecha Ingreso:</td>
+						<td class="result" style="min-width: 100px"><?php $temxp = explode(" ",$persona['Beneficiario']['fec_ingreso']);$temxp = explode("-",$temxp[0]); echo $temxp[2]."-".$temxp[1]."-".$temxp[0]; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Nombre:</td>
+						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat'];?></td>
+					</tr>
+					<tr>
+						<td class="id">Edad:</td>
+						<td class="result"><?php echo $edad; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Rol Familiar:</td>
+						<td class="result"><?php echo $beneficiarios['Beneficiario']['tip_rolfamilia']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Comuna:</td>
+						<td class="result">
+							<?php  
+								$codigo=$personas['Persona']['cod_comuna'];
+								$i=0;
+								while($i!=$codigo)	$i++;
+									if(isset($comunas[$i])) echo $comunas[$i];
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td class="id">Comentario:</td>
+						<td class="result"><?php echo $beneficiarios['Beneficiario']['nom_comentario']; ?></td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
+		<div class="clear"></div>	
+	</div>
+
+	<div class="info_der">
+		<div id="opciones_ver">
+			<?php
+				echo $html->formTag('agregar_caso','post',array('id' => 'centro'));
+				echo $html->hidden('Caso/cod_beneficiario', array('value' => $cod_persona));
+				echo $html->submitTag('Reingresar Nuevo Caso');
+				echo '</form>';
+			?>
+		</div>
+		
+		<div class="paginacion">
+			<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+				<caption>Historia del Beneficiario</caption>
+				<thead>
+					<tr>
+						<th class="sortable-text">Tipo</th>
+						<th class="sortable-sortable-date-dmy">Fecha Ingreso</th>
+						<th class="sortable-sortable-date-dmy">Fecha T&eacute;rmino</th>
+						<th class="sortable-text">Comentarios</th>
+						<th class="th_tablagris">Reactivar/Ver Caso</th>
+					</tr>
+				</thead>	
+				<tbody>
+				<?php foreach($caso_retiro as $p){	?>
+					<tr class ="odd">
+						<td class="td_gris"><?php echo $p['Tipocaso']['nom_tipocaso']?> </td>
+						<td class="td_gris"><?php echo $p['Caso']['fec_ingreso']?></td>
+						<td class="td_gris"><?php echo $p['Caso']['fec_retiro']?></td>
+						<td class="td_gris"><?php echo $p['Caso']['nom_comentario']?></td>
+						<td class="td_gris">
+							<?php
+								echo $html->formTag('reactivar3','post', array('style'=>'display:inline'));
+								echo $html->hidden('Caso/cod_caso', array('value' => $p['Caso']['cod_caso']));
+								echo $html->hidden('Caso/cod_beneficiario', array('value' => $p['Caso']['cod_beneficiario']));
+								echo $html->hidden('Seguimiento/cod_caso', array('value' => $p['Caso']['cod_caso']));
+							?>
+								<input type="image" src="<?php echo $this->webroot.'img/reactivar.png'; ?>" alt="Reactivar" title="Reactivar" />
+							</form>
+							<?php
+								echo $html->formTag('ver_seguimientos');
+								echo $html->hidden('Caso/cod_caso', array('value' => $p['Caso']['cod_caso']));
+								echo $html->hidden('Seguimiento/cod_caso', array('value' => $p['Caso']['cod_caso']));
+							?>
+								<input type="image" src="<?php echo $this->webroot.'img/datos.png'; ?>" alt="Ver Seguimientos del Caso" title="Ver Seguimientos del Caso"/>
+							</form>
+							<?php
+								echo $html->formTag('modificar_fichaseguimiento', 'post', array('style'=>'display:inline'));
+								echo $html->hidden('Seguimiento/cod_actividad', array('value' => $v['Seguimiento']['cod_actividad']));
+								echo $html->hidden('Seguimiento/num_evento', array('value' => $v['Seguimiento']['num_evento']));
+								echo $html->hidden('Persona/cod_persona', array('value' => $v['Persona']['cod_persona']));
+								echo $html->hidden('Beneficiario/cod_persona', array('value' => $personas['Persona']['cod_persona']));
+								//echo $html->submitTag('Ver');
+								
+							?>
+								<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Editar" title="Editar" />
+								
+							</form>		
+						</td>
+						
+					</tr>
+				<?php } ?>
+				</tbody>		
+			</table>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>

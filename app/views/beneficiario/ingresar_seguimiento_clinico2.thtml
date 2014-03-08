@@ -1,0 +1,2 @@
+<p class="advertencia"> 
+<?php echo $mensaje."  Mensaje 2 es:".$mensaje2; ?>

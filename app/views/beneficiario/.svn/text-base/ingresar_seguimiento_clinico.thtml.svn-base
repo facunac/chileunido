@@ -1,0 +1,8 @@
+<?php echo $jsvalid->form('ingresar_seguimiento_clinico2') ?>
+<?php echo $fichas->desplegarFormulario($cod_formulario, 'Respuestaficha'); ?>
+
+<fieldset class="submit">
+	<?php echo $html->hidden('Seguimiento/tip_actividad', array('value' => $tip_actividad)); ?>
+	<?php echo $html->hidden('Caso/cod_caso', array('value' => $cod_caso)); ?>
+	<?php echo $html->submitTag('Ingresar') ?>
+</fieldset>

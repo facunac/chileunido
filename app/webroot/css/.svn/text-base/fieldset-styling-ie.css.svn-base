@@ -1,0 +1,26 @@
+legend {  
+position: relative;  
+left: -7px;  
+top: -0.75em; 
+} 
+
+fieldset {  
+position: relative; 
+}
+
+legend span {  
+margin-top: 1.25em; 
+} 
+fieldset ol {  
+padding-top: 3.25em; 
+}
+
+.iconos{
+position:fixed;
+}
+
+.paginacion ul.fdtablePaginater {display:inline-block;}
+.paginacion ul.fdtablePaginater {display:inline;}
+.paginacion ul.fdtablePaginater li {float:left;}
+.paginacion ul.fdtablePaginater {text-align:center;}
+.paginacion table { border-bottom:1px solid #C1DAD7; }

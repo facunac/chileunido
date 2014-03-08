@@ -1,0 +1,351 @@
+<div >
+	<?php $estado="Activo"; ?>
+		
+	<div id="layout">
+		<div class="fila" id="primerafila">
+			<div class="col_completo">
+				<?php if(($seguimientos ==NULL)&&($seguimientos_atrasados==NULL)){ ?>
+				<table class="table_tablagris">
+					<tr>
+						<td class="td_gris">Usted no tiene seguimientos asignados para hoy</td>
+					</tr>
+				</table>
+				
+				<?php }
+				else{?>	
+				<div class="paginacion">
+					<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+					<caption>Mis pacientes de hoy (<?php echo date("j-n-Y"); ?>)</caption>
+						<thead>
+						
+							<tr class ="odd">
+							<th class="sortable-numeric">&Uacute;ltimo Contacto</th>
+								<th class="sortable-text">Nombre</th>
+								<th class="sortable-text">Tipo Caso</th>
+								
+								
+								
+								<th class="sortable-text">Rol Familiar</th>
+								
+								<th class="sortable-numeric">Tel&eacute;fono</th>
+								
+								<th class="th_tablagris">Acciones</th>
+								
+							</tr>
+						</thead>	
+						<tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                    </tr>
+						</tfoot>
+						<tbody>
+							
+						<?php foreach($seguimientos as $v){ ?>
+							<tr>
+							<td class="td_gris"><?php 
+							$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
+						echo $f[0]; ?></td>
+								<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+								<td class="td_gris"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
+								<td class="td_gris"><?php echo $v['beneficiarios']['tip_rolfamilia']; ?></td>
+								
+								<td class="td_gris"><?php echo $v['personas']['num_telefono1']; ?></td>
+								<td class="td_gris">
+									<div class="iconos">
+										<?php echo $html->formTag('ingresar_seguimiento1', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/tip_actividad', array('value'=>'Seguimiento')); ?>
+											<input type="image" title="Realizar seguimiento exitoso" src="<?php echo $this->webroot.'img/llamadaExitosa.png'; ?>"  />
+										<?php echo "</form>"; ?>
+										
+										<?php echo $html->formTag('ingresar_seguimiento1', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/tip_actividad', array('value'=>'Seguimiento_Fallido')); ?>
+											<input type="image" title="Realizar seguimiento fallido (reagendar)" src="<?php echo $this->webroot.'img/llamadaFallida.png'; ?>" alt="Realizar seguimiento fallido (reagendar)"/>
+										<?php echo "</form>"; ?>
+										
+										<?php echo $html->formTag('desagendar', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$v['seguimientos']['num_evento'])); ?>
+											<?php echo $html->hidden('Beneficiario/nombre', array('value'=>$v['personas']['nom_nombre']." ".$v['personas']['nom_appat'])); ?>
+											<input type="image" title="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>" src="<?php echo $this->webroot.'img/desagendar.png'; ?>" alt="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>"/>
+										<?php echo "</form>"; ?>
+									</div>
+								</td>
+							</tr>
+						
+						<?php }?>
+						
+						<?php foreach($seguimientos_atrasados as $v){ ?>
+							<tr>
+							<td class="td_rojo"><?php 
+							$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
+						echo $f[0]; ?></td>
+								<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+								<td class="td_rojo"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
+								
+								<td class="td_rojo"><?php echo $v['beneficiarios']['tip_rolfamilia']; ?></td>
+								
+								<td class="td_rojo"><?php echo $v['personas']['num_telefono1']; ?></td>
+								<td class="td_rojo">
+									<div class="iconos">
+										<?php echo $html->formTag('ingresar_seguimiento1', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/tip_actividad', array('value'=>'Seguimiento')); ?>
+											<input type="image" src="<?php echo $this->webroot.'img/llamadaExitosa.png'; ?>" alt="Realizar seguimiento exitoso" title="Realizar seguimiento exitoso" />
+										<?php echo "</form>"; ?>
+										
+										<?php echo $html->formTag('ingresar_seguimiento1', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/tip_actividad', array('value'=>'Seguimiento_Fallido')); ?>
+											<input type="image" src="<?php echo $this->webroot.'img/llamadaFallida.png'; ?>" alt="Realizar seguimiento fallido (reagendar)" title="Realizar seguimiento fallido (reagendar)" />
+										<?php echo "</form>"; ?>
+										
+										<?php echo $html->formTag('desagendar', 'post', array('style'=>'display:inline')); ?>
+											<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
+											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+											<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$v['seguimientos']['num_evento'])); ?>
+											<?php echo $html->hidden('Beneficiario/nombre', array('value'=>$v['personas']['nom_nombre']." ".$v['personas']['nom_appat'])); ?>
+											<input type="image" src="<?php echo $this->webroot.'img/desagendar.png'; ?>" alt="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>" title="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>"/>
+										<?php echo "</form>"; ?>
+									</div>
+								</td>
+							</tr>
+						
+						<?php }?>
+						</tbody>		
+					</table>
+				</div>	
+				<?php }?>
+			</div>
+				
+
+			<div class="clear"></div>
+		</div>
+		<div class="fila">
+			<div class="col_izq">
+				<?php if($seguimientos2 ==NULL && $seguimientos3 ==NULL){ ?>
+				<table class="table_tablagris">
+					<tr>
+						<th class="td_gris">No hay casos pendientes, ni casos asignados para hoy </th>
+					</tr>
+				</table>
+				
+				<?php }
+				else{?>
+				
+			<div class="paginacion">
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+					<caption>Contactos agendados (general)</caption>
+					<thead>
+					
+						<tr class ="odd">
+							<th class="sortable-date DESC">&Uacute;ltimo Contacto</th>
+							<th class="sortable-text">Nombre</th>
+							<th class="sortable-text">Tipo Caso</th>
+							<?php
+								if($programa=='Acoge'){
+							?>
+							<th class="sortable-text">Embarazo</th>
+							<?}?>
+							
+							<th class="sortable-text">Rol Familiar</th>
+							<th class="th_tablagris">Acciones</th>
+						</tr>
+					</thead>	
+					<tfoot>
+                                            <tr>
+                                                <td></td>
+                                            </tr>
+					</tfoot>
+					<tbody>
+					
+						<?php foreach($seguimientos2 as $v){ ?>
+						
+						<tr>
+						<td class="td_gris"><?php 
+						$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
+						echo $f[0]; ?></td>
+							<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+							<td class="td_gris"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
+							
+							<?php
+								if($programa=='Acoge'){
+							?>
+							<td class="td_rojo"><?php
+							if($v['actividades']['tip_actividad'] == 'Termino Embarazo')
+								echo "Finalizado";
+							else
+								echo "Pendiente";
+							 ?></td>
+							 <?} ?>
+							<td class="td_gris"><?php echo $v['beneficiarios']['tip_rolfamilia']; ?></td>
+							<td class="td_gris">
+							
+								<?php echo $html->formTag('agendar_para_hoy', 'post', array('style'=>'display:inline')); ?>								
+									<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
+									<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
+									<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$v['seguimientos']['num_evento'])); ?>
+									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" />
+								<?php echo "</form>"; ?>
+							</td>
+						</tr>
+				
+						<?php }?>
+						<?php foreach($seguimientos3 as $w){ ?>
+
+
+						<tr>
+						<td class="td_rojo"><?php 
+						$f=explode(" ", $w['seguimientos']['fec_ejecucion']);
+						echo $f[0]; ?></td>
+							<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$w['personas']['cod_persona']); ?>"><?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat'] ?></a></td>
+							<td class="td_rojo"><?php echo $w['tipocasos']['nom_tipocaso']; ?></td>
+							
+							<?php
+								if($programa=='Acoge'){
+							?>
+							<td class="td_rojo"><?php
+							if($w['actividades']['tip_actividad'] == 'Termino Embarazo')
+								echo "Finalizado";
+							else
+								echo "Pendiente";
+							 ?></td>
+							<?} ?>
+							<td class="td_rojo"><?php echo $w['beneficiarios']['tip_rolfamilia']; ?></td>
+							
+							<td class="td_rojo">
+							
+								<?php echo $html->formTag('agendar_para_hoy', 'post', array('style'=>'display:inline')); ?>
+									<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
+									<?php echo $html->hidden('Caso/cod_caso', array('value'=>$w['casos']['cod_caso'])); ?>
+									<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$w['seguimientos']['num_evento'])); ?>
+									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']; ?> dentro de mis pacientes de hoy"/>
+								</form><?php echo "</form>"; ?>
+							
+							</td>
+						</tr>
+					<?php }?>
+					</tbody>		
+				</table>
+				</div>	
+				<?php }?>
+			</div>
+				
+			<div class="col_izq">
+				<?php echo $html->formTag('buscar_beneficiario','post', array('class' => 'a_cuatrocincuenta')); ?>     
+					<fieldset>
+						<legend><span>Buscar beneficiario</span></legend>
+						<ol>  
+							<li>
+								<label>RUT</label>
+								<?php echo $html->input('Persona/nom_rut',array('size' => '10','maxlength'=>'10')) ?>
+								-
+								<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'1')); ?></li>	
+
+							<li>
+								<label>Nombre</label>
+								<?php echo $html->input('FormBuscar/nom_nombre', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+							
+							<li>
+								<label>Apellido Paterno</label>
+								<?php echo $html->input('FormBuscar/nom_appat', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+							
+							<li>
+								<label>Apellido Materno</label>
+								<?php echo $html->input('FormBuscar/nom_apmat', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+							
+							<li>
+								<label>Comuna</label>
+								<?php echo $html->selectTag('FormBuscar/cod_comuna', $comunas); ?>
+							</li>
+							
+							<li>
+								<label>Convenio</label>
+								<?php echo $html->selectTag('FormBuscar/cod_convenio', $convenios); ?>
+							</li>
+							
+							<li>
+								<label>Solo yo</label>
+								<?php echo $html->checkbox('FormBuscar/soloyo', null, array('value'=>'1', 'checked'=>'')); ?>
+							</li>
+							
+						</ol>
+					</fieldset>
+					<fieldset class="submit">  
+							<?php echo $html->submitTag('Buscar') ?>
+					</fieldset>
+				</form>
+				<form class="a_cuatrocincuenta"><fieldset>
+					<legend><span>Otras Opciones</span></legend>
+					<div style="margin-top: 50px;">
+						
+						<ul>
+							<?php if($permisoschecker->allowedAction('beneficiarios','index_eliminar')){ ?>
+							<li><a href="index_eliminar">Eliminar Beneficiarios</a></li>
+							<?php } ?>
+						</ul>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+	<!-- [Diego Jorquera] Sólo los voluntarios clínicos debieran ver esto -->
+	<?php if ($bit_clinico) { ?>
+		
+		<div class="fila">
+			<div class="col_completo">
+			
+			<?php if($casos_derivados == NULL) { ?>
+				<table class="table_tablagris">
+					<tr>
+						<td class="td_gris">Usted no tiene pacientes clínicos actualmente</td>
+					</tr>
+				</table>
+				
+				<?php }
+				else{?>
+									
+				<div class="paginacion">
+					<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+						<caption>Mis pacientes clínicos</caption>
+						<thead>
+							<tr class ="odd">
+								<th class="sortable-text">Nombre</th>
+								<th class="sortable-text">Comentario</th>
+								<th class="sortable-text">Rol Familiar</th>
+							</tr>
+						</thead>	
+						<tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                    </tr>
+						</tfoot>
+						<tbody>
+
+							<?php if ($casos_derivados != null) {
+								      foreach($casos_derivados as $t) { ?>
+							<tr>
+							
+								<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver3/'.$t['Persona']['cod_persona']); ?>"><?php echo $t['Persona']['nom_nombre']." ".$t['Persona']['nom_appat'] ?></a></td>
+								<td class="td_gris"><?php echo $t['Tipocaso']['nom_tipocaso']; ?></td>
+								<td class="td_gris"><?php echo $t['Beneficiario']['tip_rolfamilia']; ?></td>
+								
+							</tr>
+							<?php } }?>
+                            
+							</tbody>		
+					</table>
+				</div>	
+				<?php }?>
+			</div>
+		</div>
+	<?php } ?>
+	</div>
+</div>

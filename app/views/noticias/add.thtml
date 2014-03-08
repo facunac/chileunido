@@ -1,0 +1,42 @@
+<?php
+$jsvalid->setModel ('Noticia');
+$jsvalid->required ();
+echo $jsvalid->returnScript ();
+?>
+
+<h2>Agregar noticia</h2>
+<?php echo $jsvalid->form ('add', 'add', 'post', 'add_noticia'); ?>
+<?php echo $javascript->link('fckeditor'); ?> 
+<fieldset class="add_noticia">
+	<table>
+		<tr>
+			<td>
+				<div class="required">
+					<?php echo $jsvalid->input ('Noticia/titulo', 'Titulo', array ('size' => '30', 'maxlength' => '200')); ?>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="required">
+					<?php echo $jsvalid->textarea ('Noticia/bajada', 'Bajada', array ('rows' => '3', 'cols' => '80')); ?>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="required">
+
+					<?php echo $jsvalid->textarea ('Noticia/contenido', 'Contenido', array ('rows' => '15', 'cols' => '80', 'id' => 'editor_contenido')); ?>
+					<script type="text/javascript">
+						tinyMCE.execCommand("mceAddControl", true, "editor_contenido");
+					</script>
+				</div>
+			</td>
+		</tr>
+	</table>
+</fieldset>
+<div class="submit">
+	<?php echo $html->submit ('Crear'); ?>
+</div>
+</form>

@@ -1,0 +1,17 @@
+<table class ="chiletable">
+    <caption>Lista de documentos</caption>
+    <tr>
+        <th>Nombre</th>
+        <th id="descripcion">Descripción</th>
+    </tr>
+    <!-- Here's where we loop through our $posts array, printing out post info -->
+<?php foreach ($links as $link): ?>
+    <tr>
+        <td><?php echo "<a href=../storedFiles/".$link['Link']['nombre'].">".$link['Link']['nombre']."</a>"; ?></td>
+        <td><?php echo $link['Link']['descripcion']; ?></td>
+    </tr>
+<?php endforeach;?>
+
+   
+
+</table>

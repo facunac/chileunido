@@ -1,0 +1,102 @@
+<!--validaciones de la anotacion-->
+<?php $jsvalid->setModel('Anotacione'); ?> 
+<?php $jsvalid->required();?>
+ 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+
+
+<script type="text/javascript">
+
+function check_fechas_validas() {
+	
+	if(!confirm('¿Ingresar anotacion?')){
+		return false;
+		exit();
+	}
+	
+	
+	var mensaje = 'La fecha de inicio debe ser anterior o igual a la fecha de termino.';
+	
+	var fec_inicial = document.getElementById('AnotacioneFechaInicio').value;
+	var fec_termino = document.getElementById('AnotacioneFechaTermino').value;
+	
+	var fec_inicial_split_result = fec_inicial.split("-");
+	var fec_termino_split_result = fec_termino.split("-");	
+		
+	if(fec_inicial_split_result[2]!=fec_termino_split_result[2]){
+			
+		if(fec_inicial_split_result[2]<fec_termino_split_result[2]){
+			return true;
+			exit();
+		}
+		alert(mensaje);
+		return false;
+		exit();		
+	
+	} else {
+		
+		if(fec_inicial_split_result[1]!=fec_termino_split_result[1]){
+			
+			if(fec_inicial_split_result[1]<fec_termino_split_result[1]){
+				return true;
+				exit();
+			}
+			alert(mensaje);
+			return false;
+			exit();		
+	
+		} else {
+		
+			if(fec_inicial_split_result[0]<=fec_termino_split_result[0]){
+				return true;
+				exit();
+			}
+			alert(mensaje);
+			return false;
+			exit();
+		}	
+	}
+	alert('error de procesamiento');
+	return false;
+	exit();
+}
+</script>
+
+<div class="contenedor">
+
+	<?php echo $jsvalid->form('ingresar', '', 'post', 'a_enorme') ?>
+
+		<fieldset class="a_enorme"">
+	                
+	        <legend><span>Ingrese nueva anotacion</span></legend>       
+	        
+	        <ol>
+	        	<li>
+	        		<label>Fecha de Inicio</label>
+	        		<?php echo $html->input('Anotacione/fecha_inicio',array('class' => "format-d-m-y divider-dash no-transparency", 'maxlength' => '255')) ;?>	
+	        	</li>
+	       		<li>
+	        		<label>Fecha de Termino</label>
+					<?php echo $html->input('Anotacione/fecha_termino',array('class' => "format-d-m-y divider-dash no-transparency", 'maxlength' => '255')) ;?>        	
+	        	</li>
+	        	<li>
+	        		<label>Comentario</label>
+	        		<?php echo $html->textarea('Anotacione/Comentario', array('cols' => '50', 'rows' => '10'));?>
+	        	</li>
+	         
+	        </ol>
+		</fieldset>
+	         
+	    <fieldset class="submit">
+			<?php echo $html->submitTag('Ingresar', array('onclick'=>'return check_fechas_validas()')) ?>
+		</fieldset>
+			
+	</form>	
+</div>
+
+
+<ul class="actions">
+	<li><?php echo $html->link('Volver', '/pagos/index')?></li>
+</ul>

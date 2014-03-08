@@ -1,0 +1,86 @@
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?>
+<!--validacion de las passwords iguales-->
+<?php $jsvalid->confirm('Voluntario/pas_voluntario1',array('Voluntario/pas_voluntario2'=>'Las contraseï¿½as deben ser iguales')); ?>
+<!--validaciones del voluntario-->
+<?php $jsvalid->setModel('Voluntario'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<div class="contenedor">
+	<?php echo $jsvalid->form('modificar2', '', 'post', 'a_cuatrocincuenta') ?>
+		<fieldset class="a_cuatrocincuenta">
+			<legend><span>Modificar Cuenta</span></legend>
+			<ol>  
+				<li><label>RUT</label>
+					<?php echo $html->input('Persona/nom_rut',array('size' => '10','maxlength'=>'10','value' => $persona['Persona']['nom_rut'])) ?>
+					-
+					<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'1','value' => $persona['Persona']['num_rutcodver'])); ?>
+				</li>
+	
+				<li><?php echo $jsvalid->input('Persona/nom_nombre', 'Nombre', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_nombre'])); ?></li>
+					
+				<li><?php echo $jsvalid->input('Persona/nom_appat', 'Apellido Paterno', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_appat'])); ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_apmat', 'Apellido Materno', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_apmat'])); ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/fec_nacimiento', 'Fecha de Nacimiento', array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency', 'value' => $persona['Persona']['fec_nacimiento']));?></li>
+				
+				<li><?php echo $jsvalid->textarea('Persona/nom_direccion', 'Direcci&oacute;n', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_direccion'])); ?></li>
+				
+				<li><label>Comuna</label>
+					<?php echo $html->selectTag('Persona/cod_comuna', $comunas, $persona['Persona']['cod_comuna'], array(), null, false); ?></li>
+					
+				<li><label>Tel&eacute;fonoFijo</label>
+				<input name="data[Persona][num_telefono1_pre]"  size="2" maxlength="255"  type="text" id="PersonaNumTelefono1Pre" value="<?php echo $persona['Persona']['num_telefono1_pre']; ?>" /> <input name="data[Persona][num_telefono1_post]"  size="20" maxlength="255" value="<?php echo $persona['Persona']['num_telefono1']; ?>" type="text" id="PersonaNumTelefono1Post" /></li>
+			
+				<li><label>Tel&eacute;fono M&oacute;vil</label>
+				
+				<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255','value' => $persona['Persona']['num_telefono2_pre'])); ?>
+				<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['num_telefono2']));?></li>	
+				
+				<li><?php echo $jsvalid->input('Persona/nom_email', 'E-mail', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_email'])); ?></li>
+				
+				<?php if($permisoschecker->allowed('personas','modificar')){ ?>
+				<li><label>Rol</label><?php echo $html->selectTag('Voluntario/est_rol',array_combine($roles,$roles),$persona['Voluntario']['est_rol'], array(), null, false); ?></li>
+				<?php } ?>
+				
+				<li><?php echo $jsvalid->input('Voluntario/nom_login', 'Usuario', array('size' => '20','maxlength'=>'255','value' => $persona['Voluntario']['nom_login'])); ?></li>
+				
+				<li><?php echo $jsvalid->password('Voluntario/pas_voluntario1', 'Cambiar contrase&ntilde;a', array('size' => '20','maxlength'=>'255')); ?></li>
+					
+				<li><?php echo $jsvalid->password('Voluntario/pas_voluntario2', 'Repita contrase&ntilde;a', array('size' => '20','maxlength'=>'255')); ?></li>
+
+				<?php if($cod_voluntario==$cod_persona) {?>
+					<li>
+						<?php echo $jsvalid->password('Voluntario/pas_voluntario3', 'Contrase&ntilde;a anterior (si la cambia)', array('size' => '20','maxlength'=>'255')) ?>
+					</li>
+				<?php } ?>
+
+				<?php if(!$permisoschecker->itsMe($persona['Persona']['cod_persona'])) { ?>
+					<li><label>Estado</label>
+					<?php echo $html->selectTag('Voluntario/est_voluntario', $estados, $persona['Voluntario']['est_voluntario'], array(), null, false); ?></li>
+				
+					<li><label>Programa</label>
+					<?php echo $html->selectTag('Voluntario/cod_programa', $programas, $persona['Voluntario']['cod_programa'], array(), null, false); ?></li>
+				
+					<li><label>Atenci&oacute;n cl&iacute;nica</label>
+					<?php echo $html->selectTag('Voluntario/bit_clinico', $si_no, $persona['Voluntario']['bit_clinico'], array(), null, false); ?></li>
+				
+					<li><?php echo $jsvalid->textarea('Voluntario/nom_comentario', 'Comentarios', array('size' => '20','maxlength'=>'255','value' => $persona['Voluntario']['nom_comentario'])); ?></li>
+				<?php } else { ?>
+					<?php echo $html->hidden('Voluntario/est_voluntario', array('value' => $persona['Voluntario']['est_voluntario'])); ?>
+					<?php echo $html->hidden('Voluntario/cod_programa', array('value' => $persona['Voluntario']['cod_programa'])); ?>
+				<?php } ?>
+					
+				
+				<?php echo $html->hidden('Persona/cod_persona', array('value' => $persona['Persona']['cod_persona'])); ?>
+			</ol>
+		</fieldset>
+		<fieldset class="submit">	
+			<?php echo $html->submitTag('Modificar') ?>
+		</fieldset>
+	</form>
+</div>

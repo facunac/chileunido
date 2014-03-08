@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+	<file name="dbo_adodb.php" local="128542155976406250"
+		remote="128547347510000000" testing="128547347510000000" />
+	<file name="dbo_mssql.php" local="128542155976562500"
+		remote="128547347510000000" testing="128547347510000000" />
+	<file name="dbo_mysql.php" local="128542155976093750"
+		remote="128547347510000000" testing="128547347510000000" />
+	<file name="dbo_mysqli.php" local="128542155976406250"
+		remote="128547347530000000" testing="128547347530000000" />
+	<file name="dbo_odbc.php" local="128542155976250000"
+		remote="128547347530000000" testing="128547347530000000" />
+	<file name="dbo_pear.php" local="128542155976250000"
+		remote="128547347530000000" testing="128547347530000000" />
+	<file name="dbo_postgres.php" local="128542155976093750"
+		remote="128547347530000000" testing="128547347530000000" />
+	<file name="dbo_sqlite.php" local="128542155976562500"
+		remote="128547347530000000" testing="128547347530000000" />
+</dwsync>

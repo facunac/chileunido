@@ -1,0 +1,243 @@
+/* 
+    Document   : noticias
+    Created on : 20-nov-2009, 1:01:26
+    Author     : Administrador
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+h1
+{
+	font-size: 42px;
+	font-family: "Times New Roman", serif;
+	margin :4px;
+	padding :0px;
+	color: #333;
+}
+hr
+{
+	color: #000;
+	background-color: #55f;
+	height: 3px;
+	width: 96%;
+	
+}
+
+
+/* ESTILO DEL AUTO COMPLETE */
+div.auto_complete 
+{
+	position :absolute;
+	width :250px;
+	background-color :white;
+	border :1px solid #888;
+	margin :0px;
+	padding :0px;
+}
+
+div.auto_complete ul
+{
+	list-style: none;
+	margin: 0px; 
+	padding :0px;
+	text-align: left;
+}
+
+li.selected
+{
+	background-color: #eee;
+	text-align: left;  
+}
+/*FIN	*/
+
+
+/*Estilo del buscador */
+div.tituloBuscador
+{
+	color: #777;
+	text-align:left;
+	font-family: "Times New Roman", serif;
+	font-size: 18px;
+	font-weight: bold;
+}
+div.labelBusqueda
+{
+	text-align: right;
+	font-family: "Times New Roman", serif;
+	color: #777;
+	float:left;
+}
+hr.hrBuscador
+{
+	color: #000;
+	background-color: #000;
+	height: 1px;
+	width: 100%;
+}
+/* Estilo del link agregar noticia*/
+a.linkAgregarNoticia:link
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform:uppercase;
+	/*text-decoration: underline;*/
+}
+a.linkAgregarNoticia:visited
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform:uppercase;
+	/*text-decoration: underline;*/
+}
+a.linkAgregarNoticia:hover
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform:uppercase;
+	text-decoration: underline;
+}
+
+
+
+/* Estilo de la lista de noticias */
+a.linkEditar:link
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 12px;
+}
+a.linkEditar:visited
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 12px;
+}
+a.linkEditar:hover
+{
+	color: #777;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 12px;
+	text-decoration: underline;
+}
+
+a.linkNoticia:link{
+	color: #333;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 44px;
+}
+a.linkNoticia:visited{
+	color: #333;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 44px;
+}
+a:link 
+{
+	color: #55f;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+a:visited 
+{
+	color: #78f;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+a.tituloNoticia:link 
+{
+	color: #55f;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+a.tituloNoticia:visited 
+{
+	color: #78f;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+a.tituloNoticia:hover 
+{
+	color: #78f;
+	font-family: "Times New Roman", serif;
+	font-weight: bold;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.ultimaNoticia
+{
+    width: 98%;
+    heigth: 200px;
+    text-align: center;
+    margin-bottom: 10px;
+    border-color: #cfd6e1;
+    border-style:solid;
+    overflow: auto;
+}
+
+.noticiaSecundaria
+{
+    width: 30%;
+    float: left;
+    margin: 2px;
+    border-color: #cfd6e1;
+    border-style:solid;
+    overflow: auto;
+}
+
+div.tituloNoticia
+{
+	text-align: left;
+	font-family: "Arial", serif;
+	font-weight: bold;
+	font-size: 28px;
+	margin :4px;
+}
+div.contenidoNoticia
+{
+	text-align: left;
+	font-family: "Arial", serif;
+	font-size: 12px;
+	margin :4px;
+}
+div.bajadaNoticia
+{
+	color: #555;
+	text-align: left;
+	font-family: "Arial", serif;
+	font-size: 12px;
+	margin :4px;
+}
+div.publicada
+{
+	font-weight: bold;
+	font-size: 10px;
+}
+
+div.creadaPor
+{
+	color: #555;
+	font-family: "Times New Roman", serif;
+	font-style: italic;
+}

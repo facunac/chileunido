@@ -1,0 +1,81 @@
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?> 
+<!--validacion de las passwords iguales-->
+<?php $jsvalid->confirm('Voluntario/pas_voluntario',array('Voluntario/pas_voluntario2'=>'Las passwords deben ser iguales'));?> 
+<!--validaciones del voluntario-->
+<?php $jsvalid->setModel('Voluntario'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<div class="contenedor">
+	<?php echo $jsvalid->form('crear2', '', 'post', 'a_cuatrocincuenta') ?>
+		<fieldset class="a_cuatrocincuenta">
+			<legend><span>Crear Cuenta</span></legend>
+			<ol>	
+				<li>
+					<label>RUT  (ej: 12345678-k)</label>
+					<?php echo $html->input('Persona/nom_rut',array('size' => '10','maxlength'=>'10')) ?>
+					-
+					<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'1')); ?>
+				</li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_nombre', 'Nombre', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_appat', 'Apellido Paterno', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_apmat', 'Apellido Materno', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/fec_nacimiento', 'Fecha de Nacimiento', array('size' => '15', 'class' => 'format-d-m-y divider-dash highlight-days-67 no-transparency'));?></li>
+				
+				<li><?php echo $jsvalid->textarea('Persona/nom_direccion', 'Direcci&oacute;n', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><label>Regi&oacute;n</label>
+					<?php echo $html->selectTag('Persona/cod_region', $regiones, 13, array("onchange" => "cargar_ubicacion('comuna','".$html->url("/comunas/listacomunas/")."'+this.value);", "class"=>"select_grande"), null, false); ?></li>
+				
+				<li id="comuna"><label>Comuna</label>
+					<?php echo $html->selectTag('Persona/cod_comuna', $comunas, null, array("class"=>"select_grande"), null, false); ?></li>
+				
+				<li><label>Tel&eacute;fono 1</label>
+				<input name="data[Persona][num_telefono1_pre]"  size="2" maxlength="255"  type="text" id="PersonaNumTelefono1Pre" value="02" /> <input name="data[Persona][num_telefono1_post]"  size="20" maxlength="255" type="text" id="PersonaNumTelefono1Post" /></li>
+			
+				<li><label>Tel&eacute;fono 2</label>
+				
+				<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255')); ?>
+				<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255'));?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_email', 'E-mail', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><?php echo $jsvalid->input('Voluntario/nom_login', 'Usuario', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><?php echo $jsvalid->password('Voluntario/pas_voluntario', 'Password', array('size' => '20','maxlength'=>'255')) ?></li>
+					
+				<li><?php echo $jsvalid->password('Voluntario/pas_voluntario2', 'Repita password', array('size' => '20','maxlength'=>'255')) ?></li>
+				
+				<li><label>Programa</label>
+					<?php echo $html->selectTag('Voluntario/cod_programa', $programas, null, array(), null, false); ?>
+				</li>
+				
+				<li><label>Atenci&oacute;n cl&iacute;nica</label>
+					<?php echo $html->selectTag('Voluntario/bit_clinico', $si_no, null, array(), null, false); ?>
+				</li>
+				
+				<li><label>Perfil</label>
+					<?php echo $html->selectTag('Voluntario/cod_perfil', $perfiles, null, array(), null, false); ?>
+				</li>
+				
+				<li>
+					<label>Rol</label>
+					<?php echo $html->selectTag('Voluntario/est_rol', array_combine($roles, $roles), null, array(), null, false); ?>
+				</li>
+				
+				
+				<li><?php echo $jsvalid->textarea('Voluntario/nom_comentario', 'Comentarios', array('size' => '20','maxlength'=>'255')) ?></li>
+			</ol>
+		</fieldset>
+		<fieldset class="submit">
+			<?php echo $html->submitTag('Crear') ?>
+		</fieldset>
+	</form>
+</div>

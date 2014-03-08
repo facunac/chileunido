@@ -1,0 +1,90 @@
+<div class="turnos">
+
+<?php if (count($pendientes) == 0) { ?>
+	
+<table class="table_tablagris">
+	<tr>
+		<td class="td_gris">No hay casos por derivar en este momento</td>
+	</tr>
+</table>
+
+<?php } else { ?>
+
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRatingsortcompletecallback-callbackTest-calculateTotalRating">
+
+<thead>
+<tr>
+<th class="sortable-text" width="100">Nombre beneficiario</th>
+<th class="sortable-text" width="100">Tipo de caso</th>
+<th class="text" width="100">Tel&eacute;fonos</th>
+
+
+<th class="th_tablagris" width="204">Derivar</th>
+<th class="th_tablagris" width="204">Reactivar</th>
+<th class="th_tablagris" width="204">Cerrar</th>
+
+
+</tr>
+</thead>
+<tfoot>
+</tfoot>
+<tbody>
+
+<?php
+
+	foreach ($pendientes as $pendiente) {
+
+?>
+
+<tr class ="odd">
+
+
+<!--  <td class="td_gris"><?php echo $pendiente['Caso']['nom_beneficiario'] ?> </td> -->
+<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$pendiente['Caso']['cod_beneficiario']); ?>"><?php echo $pendiente['Caso']['nom_beneficiario'] ?></a></td> 
+<td class="td_gris"><?php echo $pendiente['Caso']['nom_tipocaso'] ?></td>
+<td class="td_gris"><?php echo $pendiente['Caso']['num_telefono'] ?></td>
+
+
+
+<td class="td_gris">
+<?php 
+echo '<form action="'.$html->url('/derivaciones/derivar').'" method="post">';
+echo $html->hidden('Caso/cod_caso', array('value' => $pendiente['Caso']['cod_caso']));
+echo '<input type="image" src="'.$html->url('/img/agendar.png').'" alt="Derivar" title="Derivar">';
+echo '</form>';
+?>
+</td>
+
+
+<td class="td_gris">
+<?php 
+echo '<form action="'.$html->url('/beneficiarios/reactivar3').'" method="post">';
+echo $html->hidden('Caso/cod_caso', array('value' => $pendiente['Caso']['cod_caso']));
+echo $html->hidden('Caso/cod_beneficiario', array('value' => $pendiente['Beneficiario']['cod_persona']));
+echo $html->hidden('Seguimiento/cod_caso', array('value' => $pendiente['Caso']['cod_caso']));
+echo '<input type="image" src="'.$html->url('/img/desagendar.png').'" alt="Reactivar" title="Reactivar">';
+echo '</form>';
+?>
+</td>
+
+<td class="td_gris">
+<?php 
+echo '<form action="'.$html->url('/beneficiarios/retirar').'" method="post">';
+echo $html->hidden('Seguimiento/cod_caso', array('value' => $pendiente['Caso']['cod_caso']));
+echo '<input type="image" src="'.$html->url('/img/cruz.png').'" alt="Cerrar" title="Cerrar">';
+echo '</form>';
+?>
+</td>
+
+
+<?
+
+	}	// Fin foreach
+}		// Fin if
+
+?>
+
+</tbody>
+</table><br/>
+</div>

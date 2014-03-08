@@ -1,0 +1,1 @@
+<p><?php echo $mensaje.''.$mensaje2; ?></p>

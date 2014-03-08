@@ -1,0 +1,47 @@
+<?php if($SoloYos != null){ ?>
+
+<h3>No se puede eliminar el voluntario, por que tiene 'Solo Yo's </h3>
+<table>
+<?php 
+foreach ($SoloYos as $sy) 
+{
+	?>
+	<tr><td><a href="<?php echo "../../Beneficiarios/ver/".$sy['personas']['cod_persona'];?>"><?php echo '*'.$sy['personas']['nom_nombre'].' '.$sy['personas']['nom_appat'] ?></td></tr>
+	
+<? }?>
+
+</table>
+<br/><br/><br/>
+
+<?php echo $html->link('Desasignar sus solo yo', 'desasignarsoloyo/'.$persona['cod_persona']); ?>
+
+<?php }
+else {
+?>
+
+<?php echo $html->formTag('/Voluntarios/bajar') ?>
+
+<fieldset class="a_cuatrocincuenta">
+	<legend><span>Dar Voluntario de Baja</span></legend>
+	<div>
+	    <br /><br />
+		<p>Est&aacute; seguro que quiere dar de baja a <?php echo $nombreVoluntario; ?> ?</p>
+		<?php if ($cantTurnos > 0) { ?>
+		<p><i><b>Advertencia:</b> Este voluntario tiene turnos asociados; si es dado de baja<br/>
+		sus turnos serán borrados y los casos clínicos que está atendiendo serán<br/>
+		pasados a derivación.</i></p>
+		<?php } ?>
+		<p>
+			Raz&oacute;n de la baja: <?php echo $html->input('Baja/comentario',array('maxlength'=>'50','width'=>'30')); ?>
+		</p>
+		<p>
+				<?php echo $html->hidden('Voluntario/cod_persona',array('value'=>$persona['cod_persona'])); ?>
+				<?php echo $html->submitTag('Si, Dar de Baja') ?>
+				<a href="<?php echo $html->url('/personas/ver/'.$persona['cod_persona']); ?>">Cancelar</a>
+		</p>
+	</div>
+</fieldset>
+</form>
+<?php } ?>
+
+	

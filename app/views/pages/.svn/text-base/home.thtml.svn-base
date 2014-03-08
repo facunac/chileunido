@@ -1,0 +1,19 @@
+
+<div align="center">
+
+	<h2>Sistema de Gesti&oacute;n de Programas ChileUnido</h2>
+	<?php echo $html->formTag('/menu/') ?> 
+
+		<p><label for="email_address">Usuario:</label> 
+		<?php echo $html->inputTag('FormLogin/nom_login', array('size' => '40','maxlength'=>'255')) ?></p>
+		<?php echo $html->tagErrorMsg('FormLogin/nom_login', 'Error: se requiere un nombre de usuario') ?>
+
+		<p><label for="password_field">Password:</label> 
+		<?php echo $html->passwordTag('FormLogin/pas_voluntario', array('size' => '20', 'maxlength'=>'255')) ?> </p>
+		<?php echo $html->tagErrorMsg('FormLogin/pas_voluntario', 'Error: se requiere un password') ?> 
+
+		<p><label for="login_button">&nbsp;</label>
+		<?php echo $html->submitTag('Entrar') ?></p>
+        
+</div>
+

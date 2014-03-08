@@ -1,0 +1,57 @@
+<?php
+
+?>
+<div class="MoreOptionsContainer">
+	
+	<div>
+		<h3>Control de Socios y Pagos</h3>
+		<ul>
+		<?php if($permisoschecker->allowed('socios')){ 
+			echo "<li";
+			if($this->params["controller"]=='socios')		
+				echo " class=\"current\"";
+			echo ">";
+			echo $html->link('Lista de Socios', '/socios/');  ?></li>
+        <?php } ?>
+		<?php if($permisoschecker->allowed('pagos') ){ 
+			echo "<li";
+			if($this->params["controller"]=='donarstacks')		
+				echo " class=\"current\"";
+			echo ">";
+			echo $html->link('Fila P.A.T.', '/donarstacks/');  ?></li>
+	    <?php } ?>
+	
+		<?php if($permisoschecker->allowed('pagos') ){ 
+			echo "<li";
+			if($this->params["controller"]=='pagos')		
+				echo " class=\"current\"";
+			echo ">";
+			echo $html->link('P.A.T.', '/pagos/');  ?></li>
+	    <?php } ?>
+	    </ul>
+	</div>
+	<div>
+		<h3>Gesti&oacute;n de Convenios</h3>
+		<ul>
+			<?php if($permisoschecker->allowed('convenios')){ 
+                echo "<li";
+					if($this->params["controller"]=='convenios')
+						echo " class=\"current\"";
+					echo ">";
+					echo $html->link('Convenios', '/convenios/');  ?></li>
+            <?php } ?>
+		</ul>
+	</div>
+	<div>
+		<h3>Gestion de Atenciones Clínicas</h3>
+		<ul>
+			<?php if($permisoschecker->allowed('boxes')){ 
+                echo "<li";
+					if($this->params["controller"]=='boxes')
+						echo " class=\"current\"";
+					echo ">";
+					echo $html->link('Gestión Boxes', '/boxes/');  ?></li>
+            <?php } ?>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+<ul>
+<?php foreach($noticias as $noticia): ?>
+<li><?php echo $noticia['Noticia']['titulo']; ?></li>
+<?php endforeach; ?>
+</ul>

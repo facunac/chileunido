@@ -1,0 +1,27 @@
+<h1>Encuestas</h1>
+
+<table>
+	<tr>
+		<th>Titulo</th>
+		<th>Fecha Inicio</th>
+		<th>Fecha Termino</th>
+		<th>Anonima</th>
+	</tr>
+
+<?php foreach ($encuestas as $encuesta): ?>
+	<tr>
+		<td>
+			<?php echo $html->link($encuesta['Encuesta']['titulo'], '/encuestas/mostrar_resultados?id_encuesta='.$encuesta['Encuesta']['id']); ?>
+		</td>
+		<td>
+			<?php echo $encuesta['Encuesta']['fecha_inicio']; ?>
+		</td>
+		<td>
+			<?php echo $encuesta['Encuesta']['fecha_fin']; ?>
+		</td>
+		<td>
+			<?php if($encuesta['Encuesta']['anonima']==1) echo "Si"; else echo "No"; ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>

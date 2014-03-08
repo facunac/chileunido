@@ -1,0 +1,52 @@
+
+<h2>Agregar Encuesta</h2>
+
+<form action=<?php echo $html->url('/encuestas/add'); ?> class='add_encuestas' method='post' onSubmit='return validarNuevaEncuesta();' name='add'>
+<fieldset class="add_encuestas">
+	<legend>Nueva Encuesta</legend>
+	<table>
+		<tr>
+			<td>
+				<div class="required">
+					Título <?php echo $html->input ('Encuesta/titulo', array ('size' => '30', 'maxlength' => '200')); ?>
+				<div id="EncuestaTitulo_v" class="verificador"></div>
+
+                                </div>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td>
+				<div class="required">
+					Fecha de Inicio <?php echo $html->input ('Encuesta/fecha_inicio', array ('size' => '15', 'class' => 'format-y-m-d divider-dash highlight-days-67 no-transparency')); ?>
+				<div id="EncuestaFechaInicio_v" class="verificador"></div>
+                                </div>
+			</td>
+		</tr>
+                <tr>
+			<td>
+				<div class="required">
+					Fecha de Término <?php echo $html->input ('Encuesta/fecha_fin', array ('size' => '15', 'class' => 'format-y-m-d divider-dash highlight-days-67 no-transparency')); ?>
+				<div id="EncuestaFechaFin_v" class="verificador"></div>
+                                </div>
+			</td>
+		</tr>
+                <tr>
+			<td>
+				<div class="required">
+                                        
+                                        Anonima <?php echo $html->radio('Encuesta/anonima', array('1'=>'Si', '0'=> 'No'), null, array('value'=>'1'));  ?>
+
+                                       
+				</div>
+			</td>
+		</tr>
+
+	</table>
+</fieldset>
+<div class="submit">
+	<?php echo $html->submit ('Crear'); ?>
+	
+</div>
+</form>

@@ -1,0 +1,322 @@
+<br/>
+<br/>
+<br/>
+		
+
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?>
+
+<!--validaciones del beneficiario-->
+<?php $jsvalid->setModel('Beneficiario'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<script type="text/javascript">
+
+function paso_aborto() {
+	if (document.getElementById('CasoCodTipocaso').value == 3)
+	{
+		document.getElementById('ocultar_si_aborto').style.display = "none";
+		document.getElementById('ocultar_si_aborto2').style.display = "none";
+		document.getElementById('ocultar_si_noaborto').style.display = "";
+		document.getElementById('ocultar_si_noaborto2').style.display = "";
+	} else {
+		document.getElementById('ocultar_si_aborto').style.display = "";
+		document.getElementById('ocultar_si_aborto2').style.display = "";
+		document.getElementById('ocultar_si_noaborto').style.display = "none";
+		document.getElementById('ocultar_si_noaborto2').style.display = "none";
+	}
+}
+
+
+</script>
+
+
+
+<div id="back">
+	<a href="javascript:history.back()"><input type="image" src="<?php echo $this->webroot.'img/deshacer.png'; ?>" alt="" title="Volver" /></a>
+</div>
+
+<?php
+	
+if($formulario==1)
+{
+	echo $jsvalid->form('modificar_fichaseguimiento_persona');
+	
+	//[Gabriela] Se agrega informaciï¿½n bï¿½sica del beneficiario y del caso
+?>		
+		<fieldset class="a_grotesco"><legend><span>Informacion Basica Beneficiario y Caso</span></legend>
+			<ol>
+				<li>
+					<fieldset class="a_cuatrocincuenta"><legend><span>Datos Beneficiario</span></legend>
+						<table class="resultados">
+							
+							<?php echo $html->hidden('Persona/cod_persona', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['cod_persona']))
+							 ?>
+							 	
+							<tr>
+								<td class="id">Nombre</td>
+								<td class="result"><?php echo $jsvalid->input('Persona/nom_nombre', '', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['nom_nombre'])) ?></td>
+							</tr>
+							<tr>
+								<td class="id">Apellido Paterno</td>
+								<td class="result"><?php echo $jsvalid->input('Persona/nom_appat', '',array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['nom_appat'])) ?></td>
+							</tr>
+							<tr>	
+								<td class="id">Apellido Materno</td>
+								<td class="result"><?php echo $jsvalid->input('Persona/nom_apmat', '',array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['nom_apmat'])) ?></td>
+							</tr>
+							<tr>	
+								<td class="id">Sexo</td>
+								<td class="result"><?php echo $informacion_beneficiario['Beneficiario']['tip_sexo'] ?></td>
+							</tr>
+							
+							<tr>	
+								<td class="id">Rol Familiar</td>
+								<td class="result"><?php echo $html->selectTag('Beneficiario/tip_rolfamilia', $tip_rolfamilia, $informacion_beneficiario['Beneficiario']['tip_rolfamilia'], array(), null, false); ?></td>
+							</tr>
+							<tr>	
+								<td class="id">RUT</td>
+								<td class="result">
+									<?php echo $html->input('Persona/nom_rut',array('size' => '10','maxlength'=>'10','value' => $informacion_personal['Persona']['nom_rut_pre'])) ?>
+									-
+									<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'1','value' => $informacion_personal['Persona']['num_rutcodver'])); ?>
+								</td>
+							</tr>
+							<tr>	
+								<td class="id">Edad</td>
+								<td class="result"><?php echo $html->input('Persona/ano_nacimiento', array('size' => '20','maxlength'=>'3', 'value' => $edad));?></td>
+							</tr>
+							<tr>	
+								<td class="id">Direccion</td>
+								<td class="result"><?php echo $informacion_personal['Persona']['nom_direccion']?></td>
+							</tr>
+							<tr>	
+								<td class="id">Comuna</td>
+								<td class="result"><?php echo $html->selectTag('Persona/cod_comuna', $comunas, $informacion_personal['Persona']['cod_comuna'], array(), null, false); ?></td>
+							</tr>
+							<tr>	
+								<td class="id">Region</td>
+								<td class="result"><?php echo $informacion_personal['Comuna']['nom_region']?></td>
+							</tr>
+							<tr>	
+								<td class="id">Tel&eacute;fonoFijo</td>
+								<td class="result">
+									<?php echo $html->input('Persona/num_telefono1_pre', array('size' => '2','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono1_pre'])); ?>
+									<?php echo $html->input('Persona/num_telefono1_post', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono1_post']));?>
+									
+								</td>
+							</tr>
+							<tr>	
+								<td class="id">Tel&eacute;fono M&oacute;vil</td>
+								<td class="result">
+									<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono2_pre'])); ?>
+									<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono2_post']));?>
+								</td>
+							</tr>
+	
+							<tr>	
+								<td class="id">Comentarios</td>
+								<td class="result">
+								<?php echo $jsvalid->textarea('Beneficiario/nom_comentario', '', array('size' => '20','maxlength'=>'255','value' => $informacion_beneficiario['Beneficiario']['nom_comentario'])) ?>
+								</td>
+							</tr>
+							
+							
+						</table>
+					</fieldset>
+				</li>
+				
+				
+				<!-- ******************************  -->
+				
+					<fieldset id="via_acceso">
+						<legend><span>V&iacute;a de Acceso</span></legend>
+							<ol>
+								<li><label>Tipo Ingreso</label>
+									<?php echo $html->selectTag('Persona/cod_medio', $medio, $seleccionado_medio, array("onchange" => "cargar_ubicacion('tipoingreso','".$html->url("/tipoingresos/listatipoingreso/")."'+this.value);"), null, true); ?></li>
+									<li id="tipoingreso"><label>Cu&aacute;l</label>
+									<?php echo $html->selectTag('Caso/cod_tipoingreso', $tipoingreso, $seleccionado_tipoingreso, array(), null, true);?></li>
+									
+									<? // A continuación, les presentamos la ordinariez hecha código: ?>
+									<script type="text/javascript"> 
+									cargar_ubicacion('tipoingreso','<? echo $html->url("/tipoingresos/listatipoingreso/").$seleccionado_medio."/".$seleccionado_tipoingreso ?>');
+									</script>
+									<!-- 
+								<li style="<?php echo $defaultStyle; ?>"><label>Por qui&eacute;n llama?</label>
+									<?php echo $html->selectTag('Caso/est_porquien', $porquien, $seleccionado_porquien, array(), null, true);?></li>
+									-->
+							</ol>
+					</fieldset>
+				
+				<!-- ******************************  -->
+				
+				
+				
+				<li>
+					<fieldset class="a_cuatrocincuenta"><legend><span>Datos del Caso</span></legend>
+						<table class="resultados">
+							<tr>
+								<td class="id">Tipo Ingreso</td>
+								<td class="result"><?php echo $informacion_caso['Tipoingreso']['nom_tipoingreso'] ?></td>
+							</tr>
+							<tr>
+								<td class="id">Prioridad</td>
+								<td class="result"><?php echo $informacion_caso['Caso']['tip_prioridad']?></td>
+							</tr>
+							<tr>
+								<td class="id">Por qui&eacute;n llama?</td>
+								<!--  <td class="id"><span style="<?php echo $defaultStyle; ?>"><label>Por qui&eacute;n llama?</label></span></td> -->
+								<td class="result"><?php echo $html->selectTag('Caso/est_porquien', $porquien, $informacion_caso['Caso']['est_porquien'], array(), null, true);?></td>
+								
+							</tr>
+							
+							
+							<?php echo $html->hidden('Seguimiento/cod_caso', array('size' => '20','maxlength'=>'255','value' => $informacion_seguimiento['Seguimiento']['cod_caso'])); ?>
+		
+							<?php echo $html->hidden('Seguimiento/num_evento', array('size' => '20','maxlength'=>'255','value' => $informacion_seguimiento['Seguimiento']['num_evento'])); ?>
+							
+							<?php echo $html->hidden('Persona/fec_nacimiento', array('size' => '20','maxlength'=>'255','value' => $infomacion_personal['Persona']['fec_nacimiento'])); ?>
+			
+							
+							
+							<tr>
+								<td class="id">Fecha programada para seguimiento que sigue a este</td>
+								<td class="result">
+									<?php
+									$fec=explode("-", $informacion_seguimiento['Seguimiento']['fec_proxrevision']);
+									$informacion_seguimiento['Seguimiento']['fec_proxrevision']=$fec[2]."-".$fec[1]."-".$fec[0]; 
+									echo $html->input("Seguimiento/fec_proxrevision", array('class' => "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency", 'value' => $informacion_seguimiento['Seguimiento']['fec_proxrevision'], 'readonly' => 'readonly')); ?>
+									
+								</td>
+								<?php echo $javascript->codeBlock("var fechas=new Array($script); disableDates(fechas)"); ?>
+							</tr>
+							
+							
+							<tr>
+								<td class="id">Tipo Proxima Revision</td>
+								<td class="result"><?php echo $informacion_seguimiento['Seguimiento']['tip_proxrevision']?></td>
+							</tr>
+							
+							<?php
+							$seleccionado_tipocaso = $informacion_caso['Caso']['cod_tipocaso'];
+							if( $cod_programa != 2 )
+							{
+								$seleccionado_aborto 	= $informacion_caso['Caso']['cod_tipocaso'];
+								$seleccionado_noaborto	= $informacion_caso['Caso']['cod_tipocaso'];
+								
+								$seleccionado_tipocaso = 3;
+								foreach( $tipos_casos_noaborto as $key => $value )
+								{
+									if( $key == $informacion_caso['Caso']['cod_tipocaso'] )
+										$seleccionado_tipocaso = 4;
+								}
+							}
+							?>
+
+							<tr>
+								<td class="id">Tipo Caso</td>
+								<td><?php echo $html->selectTag('Caso/cod_tipocaso', $tipos_casos, $seleccionado_tipocaso, array('onChange' => "javascript:paso_aborto();"), null, false); ?></td>
+								<? //die($seleccionado_tipocaso); ?>
+							</tr>
+							
+							<tr>
+								<td class="id" style="display:none;" id="ocultar_si_aborto2">&nbsp;</td>
+								<td style="display:none;" id="ocultar_si_aborto"><?php echo $html->selectTag('Caso/cod_tipocaso_noaborto', $tipos_casos_noaborto, $seleccionado_noaborto, array(), array(), false); ?></td>
+							</tr>
+				
+							<tr>
+								<td class="id" style="display:;" id="ocultar_si_noaborto2">&nbsp;</td>
+								<td style="display:;" id="ocultar_si_noaborto"><?php echo $html->selectTag('Caso/cod_tipocaso_aborto', $tipos_casos_aborto, $seleccionado_aborto, array(), array(), false); ?></td>	
+							</tr>
+							
+							<body onload="javascript:paso_aborto()">
+							
+							
+							
+						</table>
+					</fieldset>
+		
+					<fieldset class="submit">	
+						<?php echo $html->submitTag('Modificar Datos Personales') ?></p>
+					</fieldset>
+				</li>
+			</ol>
+		</fieldset>
+	</form>
+	
+	<?php
+	echo $jsvalid->form('modificar_fichaseguimiento_fichainicial');
+
+		echo $fichas->desplegarFormulario($cod_formulario, "FormDesplegar", $num_evento, true);
+		
+		echo $html->hidden('Persona/cod_persona', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['cod_persona']));
+		echo $html->hidden('Seguimiento/num_evento', array('size' => '20','maxlength'=>'255','value' => $informacion_seguimiento['Seguimiento']['num_evento'])) 
+	?>
+
+	<fieldset class="submit">	
+		<?php echo $html->submitTag('Modificar Ficha Ingreso') ?></p>
+	</fieldset>
+	<br/>
+	
+<?php	
+}
+?>	
+	
+	
+	
+	
+<?php	
+if($formulario==2 || $formulario==3)
+{
+		
+	echo $html->formTag('nada_aun');
+?>
+		<fieldset class="a_grotesco"><legend><span></span></legend>
+			<ol>
+				<li>
+					<fieldset class="a_cuatrocincuenta"><legend><span>Informacion de Seguimiento Actual y Proximo</span></legend>
+						<ol>
+							<li><label><strong>Comentarios</strong></label><?php echo $html->input('Seguimiento/nom_comentario',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['nom_comentario'], 'disabled'=>'disabled')) ?></li>
+							<li><label><strong>Tipo Proximo Seguimiento</strong></label><?php echo $html->input('Seguimiento/tip_proxrevision',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['tip_proxrevision'], 'disabled'=>'disabled')) ?></li>
+							<li><label><strong>Fecha Proxima Revision</strong></label><?php echo $html->input('Seguimiento/fec_proxrevision',array('size' => '20','maxlength'=>'255','value'=>$informacion_seguimiento['Seguimiento']['fec_proxrevision'], 'disabled'=>'disabled')) ?></li>
+							
+						</ol>
+					</fieldset>
+				</li>
+			</ol>
+		</fieldset>
+	</form>
+	
+	<?php
+	//echo $jsvalid->form('modificar_fichaseguimiento_hayqueprogramarlogica');
+		//(si se quiere activar la modificacion, descomentar todo y cambiar a true el parametro, ver despues la logica que no estÃ¡ implementada)
+		echo $fichas->desplegarFormulario($cod_formulario, "FormDesplegar", $num_evento, false);
+		
+		//echo $html->hidden('Persona/cod_persona', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['cod_persona']));
+		//echo $html->hidden('Seguimiento/num_evento', array('size' => '20','maxlength'=>'255','value' => $informacion_seguimiento['Seguimiento']['num_evento'])) 
+	?>
+
+	<fieldset class="submit">	
+		<?php //echo $html->submitTag('Modificar Ficha Ingreso') ?></p>
+	</fieldset>
+	<br/>
+	
+<?php	
+}
+?>
+
+
+
+<?php
+if($formulario!=1 && $formulario!=2 && $formulario!=3){
+	echo $fichas->desplegarFormulario($cod_formulario, "FormDesplegar", $num_evento, false);
+?>
+	<br/>
+<?php	
+}
+?>
+
+	

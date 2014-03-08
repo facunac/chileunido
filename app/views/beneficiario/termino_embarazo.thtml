@@ -1,0 +1,78 @@
+<br/>
+<br/>
+
+<?php
+	echo $html->formTag('terminoEmbarazo1');
+	?>		
+	
+		<script type="text/javascript">
+		<!--
+			function openContinue()
+			{
+				var el1 = document.getElementById('informacionProxSeguimiento');
+				var el2 = document.getElementById('continuarSeguimientos');
+				var el3 = document.getElementById('cierreDefinitivo');
+				el1.style.display = el2.style.display  = "";
+				el3.style.display = "none";
+			}
+			function openEnd()
+			{
+				var el1 = document.getElementById('informacionProxSeguimiento');
+				var el2 = document.getElementById('continuarSeguimientos');
+				var el3 = document.getElementById('cierreDefinitivo');
+				el1.style.display = el2.style.display  = "none";
+				el3.style.display = "";
+			}
+		
+		-->
+		</script>
+		<?php echo $fichas->desplegarFormulario($cod_formulario, "FormCrear"); ?>
+		
+		<fieldset class="a_cuatrocincuenta">
+		<legend><span>Acci&oacute;n a seguir</span></legend>
+			<ol style="text-align:left">
+			<li><input type="radio" onclick="javascript:openContinue();"  name="data[accionASeguir]" value="continuar" />Continuar con seguimientos post-parto </li>
+			<li><input type="radio" onclick="javascript:openEnd();" name="data[accionASeguir]" value="cerrar" />Ir al cierre definitivo del caso </li>
+			</ol>
+		</fieldset>
+		<fieldset class="a_cuatrocincuenta" id="informacionProxSeguimiento" style="display:none;">
+		<legend><span>Informaci&oacute;n Pr&oacute;ximo Seguimiento</span></legend>
+		
+		<ol>
+			<li id="fechas"><label>Fecha Seguimiento :</label>
+				<?php echo $html->input("Seguimiento/fec_proxrevision", array('class' => "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency", 'maxlength' => '255', 'readonly' => 'true', 'value' => $prox_seguimiento)); ?>
+				</li>
+			
+		</ol>
+	</fieldset>
+	<fieldset class="submit" id="continuarSeguimientos" style="display:none;">
+			<?php
+				echo $html->hidden('Caso/cod_caso', array('value' => $cod_caso));
+				echo $html->hidden('Seguimiento/cod_caso', array('value' => $cod_caso));
+				echo $html->submitTag('Confirmar Termino Embarazo'); 
+			?>
+		</fieldset>
+		<fieldset class="submit" id="cierreDefinitivo" style="display:none;">
+				<?php echo $html->submitTag('Ir al cierre definitivo'); ?>
+		</fieldset>
+		
+	</form>
+	
+	<script type="text/javascript">
+<!--
+		//Esto coloca un calendario en el formulario y un valor default.
+		//Esto es medianamente turbio y no es parte del standard.
+		
+		function setBirthDateOnForm()
+		{
+			var dateString = "<?php echo $posible_nacimiento; ?>";
+			var el = document.getElementById('Respuestaficha1060');
+			el.value = dateString;
+			//el.className = "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency";
+			
+		}
+
+		setBirthDateOnForm();
+//-->
+</script>
+	

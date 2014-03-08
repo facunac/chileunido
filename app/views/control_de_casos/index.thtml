@@ -1,0 +1,199 @@
+<div class="contenedor">
+	<div id="layout">
+		<div class="fila_90">
+			<div class="paginacion">
+			   <table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+					<caption>Casos creados/cerrados/reactivados hoy (<?php echo date("j-n-Y"); ?>)</caption>
+				   <?php 
+				   $i = 0; $flag = 0;
+					
+				   if($casos_hoy == NULL){ ?>
+						<tr>
+							<td class="td_gris">No se registran actividades de apertura, cierre o reactivaci&oacute;n durante el d&iacute;a de hoy</td>
+						</tr>
+						
+						</table>
+					</div>
+					<?php }
+						
+					else{?>
+					
+					<div class="paginacion">
+					<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+						<thead>
+							<tr class ="odd">
+								<th class="sortable-text">Nombre Voluntario</th>
+								<th class="sortable-text">Actividad</th>
+								<th class="sortable-numeric">Hora</th>
+								<th class="sortable-text">Nombre Beneficiario</th>
+								<th class="sortable-text">Tipo Caso</th>
+								<th class="th_tablagris">Modificar</th>
+							</tr>
+						</thead>	
+						<tbody>
+
+						<?php
+						if(isset($casos_hoy))
+						{
+							foreach($casos_hoy as $c_h){ 
+								$casos[$i] = $c_h['s']['cod_caso'];
+								$i++;
+								//print_r($c_h);
+						?>
+							<tr>
+								<td class="td_gris"><?php echo $c_h[0]['nom_voluntario']; ?></td>
+								<td class="td_gris"><?php echo $c_h['a']['nom_actividad'];  ?></td>
+								<td class="td_gris"><?php echo substr($c_h['s']['fec_ejecucion'],10,6); ?></td>
+								<td class="td_gris"><?php echo $c_h[0]['nom_beneficiario'] ?></td>
+								<td class="td_gris"><?php echo $c_h['tc']['nom_tipocaso'];  ?></td>
+								<td class="td_gris">
+								
+								<?php echo $html->formTag('aprobar', 'post', array('style'=>'display:inline')); ?>
+									<?php echo $html->hidden('Caso/cod_caso', array('value'=>$c_h['s']['cod_caso'])); ?>
+									<?php echo $html->hidden('Seguimiento/cod_seguimiento', array('value'=>$c_h['s']['cod_evento'])); ?>
+									<?php echo $html->hidden('Beneficiario/nom_beneficiario', array('value'=>$c_h[0]['nom_beneficiario'])); ?>
+									<?php echo $html->hidden('Voluntario/nom_voluntario', array('value'=>$c_h[0]['nom_voluntario'])); ?>
+									<input type="image" src="<?php echo $this->webroot.'img/check.png'; ?>" alt="Aprobar acci&oacute;n de <?php echo $c_h[0]['nom_voluntario']; ?> sobre <?php echo $c_h[0]['nom_beneficiario']; ?>" title="Aprobar acci&oacute;n de <?php echo $c_h[0]['nom_voluntario']; ?> sobre <?php echo $c_h[0]['nom_beneficiario']; ?>" />
+								
+                                </form>
+
+
+								<?php
+								// [Diego Jorquera] Ver a quÃ© pÃ¡gina redireccionamos segÃºn el estado del caso
+								switch ($c_h['c']['est_caso']) {
+									case 'Activo': case 'Pendiente':
+										$ruta_form = '/beneficiarios/ver/';
+										break;
+									case 'Retiro':
+										$ruta_form = '/beneficiarios/ver2/';
+										break;
+									case 'Derivacion':
+										$ruta_form = '/beneficiarios/ver3/';
+										break;
+								}
+								?>
+
+								<?php echo $html->formTag($ruta_form.$c_h['c']['cod_beneficiario'],'post',array('style'=>'display:inline')); ?>
+								    
+									<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Modificar acci&oacute;n de <?php echo $c_h[0]['nom_voluntario']; ?> sobre <?php echo $c_h[0]['nom_beneficiario']; ?>" title="Modificar acci&oacute;n de <?php echo $c_h[0]['nom_voluntario']; ?> sobre <?php echo $c_h[0]['nom_beneficiario']; ?>">
+								</form>
+
+								</td>
+							</tr>
+						<?php } 
+						}
+						?>
+						
+					</tbody>		
+				</table>
+			</div>	
+            
+
+			
+			<?php } ?>
+			<?php //echo $html->image('flecha.png', array("alt"=>"My Images", "title"=>"My Images")); ?>
+            <!-- Selecci&oacute;n en bloque: 
+			<?php //echo $html->submit('Aprobar')?> 
+            </form>
+            -->
+   
+		</div>
+		<div class="fila_90">
+			<div class="paginacion">
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+					<caption>Casos creados/cerrados/reactivados semana anterior 
+					<?php echo 
+					"(".substr($fec_inferior[0][0]['inf'],8,2)."-".substr($fec_inferior[0][0]['inf'],5,2)."-".substr($fec_inferior[0][0]['inf'],0,4)." al ".substr($fec_superior[0][0]['sup'],8,2)."-".substr($fec_superior[0][0]['sup'],5,2)."-".substr($fec_superior[0][0]['sup'],0,4).")"; ?>
+				   </caption>
+				   <?php if($casos_anteriores == NULL){ ?>
+					<tr>
+						<td class="td_gris">No se registran actividades de apertura, cierre o reactivaci&oacute;n de casos durante la &uacute;ltima semana.</td>
+					</tr>   
+					<?php }
+					
+					else{?>
+					<thead>
+						<tr class ="odd">
+						<th class="sortable-text">Nombre Voluntario</th>
+						<th class="sortable-text">Actividad</th>
+						<th class="sortable-numeric">Fecha y Hora</th>
+						<th class="sortable-text">Nombre Beneficiario</th>
+						<th class="sortable-text">Tipo Caso</th>
+						<th class="th_tablagris">Modificar</th>
+					</tr>
+					</thead>	
+					<tbody>
+					<?php 
+
+					
+					if(isset($casos_anteriores))
+					{
+						foreach($casos_anteriores as $c_a){ 
+							// ploteo sï¿½lo los casos que no aparezcan arriba:
+							if(isset($casos)) { foreach($casos as $c) {if ($c == $c_a['s']['cod_caso']) $flag = 1;} }
+		
+							if($flag == 0) {
+
+					?>
+					<tr class ="odd">
+						<td class="td_gris"><?php echo $c_a[0]['nom_voluntario']; ?></td>
+						<td class="td_gris"><?php echo $c_a['a']['nom_actividad'];  ?></td>
+						<td class="td_gris"><?php echo substr($c_a['s']['fec_ejecucion'],8,2)."-".substr($c_a['s']['fec_ejecucion'],5,2)."-".substr($c_a['s']['fec_ejecucion'],0,4)." ".substr($c_a['s']['fec_ejecucion'],10,6); ?></td>
+						<td class="td_gris"><?php echo $c_a[0]['nom_beneficiario']; ?></td>
+						<td class="td_gris"><?php echo $c_a['tc']['nom_tipocaso'];  ?></td>
+						<td class="td_gris">
+							
+							<?php echo $html->formTag('aprobar', 'post', array('style'=>'display:inline')); ?>
+								<?php echo $html->hidden('Caso/cod_caso', array('value'=>$c_a['s']['cod_caso'])); ?>
+								<?php echo $html->hidden('Seguimiento/cod_seguimiento', array('value'=>$c_a['s']['cod_evento'])); ?>
+								<?php echo $html->hidden('Beneficiario/nom_beneficiario', array('value'=>$c_a[0]['nom_beneficiario'])); ?>
+								<?php echo $html->hidden('Voluntario/nom_voluntario', array('value'=>$c_a[0]['nom_voluntario'])); ?>
+								<input type="image" src="<?php echo $this->webroot.'img/check.png'; ?>" alt="Aprobar acci&oacute;n de <?php echo $c_a[0]['nom_voluntario']; ?> sobre <?php echo $c_a[0]['nom_beneficiario']; ?>" title="Aprobar acci&oacute;n de <?php echo $c_a[0]['nom_voluntario']; ?> sobre <?php echo $c_a[0]['nom_beneficiario']; ?>" />
+							</form>
+							
+							<?php
+							
+							// [Diego Jorquera] Ver a quÃ© pÃ¡gina redireccionamos segÃºn el estado del caso
+							switch ($c_a['c']['est_caso']) {
+								case 'Activo': case 'Pendiente':
+									$ruta_form = '/beneficiarios/ver/';
+									break;
+								case 'Retiro':
+									$ruta_form = '/beneficiarios/ver2/';
+									break;
+								case 'Derivacion':
+									$ruta_form = '/beneficiarios/ver3/';
+									break;
+							}
+							?>
+
+								<?php echo $html->formTag($ruta_form.$c_a['c']['cod_beneficiario'],'post',array('style'=>'display:inline')); ?>
+									                                    
+									<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Modificar acci&oacute;n de <?php echo $c_a[0]['nom_voluntario']; ?> sobre <?php echo $c_a[0]['nom_beneficiario']; ?>" title="Modificar acci&oacute;n de <?php echo $c_a[0]['nom_voluntario']; ?> sobre <?php echo $c_a[0]['nom_beneficiario']; ?>">
+								</form>
+						 </td>
+					</tr>
+					<?php
+						 }
+						 else {$flag = 0;}
+						 }
+					 }
+					 ?>
+				</tbody>		
+			</table>
+
+		</div>	
+			<?php } ?>
+            
+        <div id="pageNavPosition"></div>
+        
+        <script type="text/javascript"><!--
+			var pager = new Pager('anyid', 6); 
+			pager.init(); 
+			pager.showPageNav('pager', 'pageNavPosition'); 
+			pager.showPage(1);
+		//--></script>
+
+        </div>
+    </div>     
+</div>

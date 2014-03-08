@@ -1,0 +1,150 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+/*TABLAS*/
+
+.table_tablagris{
+	border-collapse:collapse;
+	padding:10px;
+	font-size:12px;
+	width:50%;
+	}
+
+.th_tablagris{
+	background:#a5a5a5;
+	border:1px solid black;
+	text-transform:uppercase;
+	text-align:center;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:7px;
+	padding-top:7px;
+	}
+	
+.table_tablagris td{
+	padding:5px;
+	}
+	
+.table_tablagris td.td_gris{
+	background:#d8d8d8;
+	border:1px solid black;
+	}
+
+.td_cen{
+	background:#d8d8d8;
+	border:1px solid black;
+	text-align:center;
+	}
+
+
+/*DIVS*/
+
+.menu{
+	background:#f1f1f1;
+	width:140px;
+	padding:12px;
+	text-transform:uppercase;
+	text-align:center;
+	border:1px solid #bebebe;
+	float:left;
+	}
+.menu:hover{
+	background:#d2d2d2;
+	}
+.menu_dentro{
+	background:#bebebe;
+	}
+	
+.header{
+	background:#022458;
+	padding:20px;
+	}
+
+.header_divs{
+	position:absolute;
+	font-size:10px;
+	color:#FFFFFF;
+	text-align:right;
+	}
+
+#header_sesion{
+	font-weight:bold;
+	font-size:14px;
+	text-transform:uppercase;
+	top:85px;
+	right:20px;
+	}
+	
+#header_cerrarsesion{
+	top:100px;
+	right:20px;
+	}
+	
+#header_sombra{
+	height:9px;
+	background:url(sombra.jpg);
+	}
+
+/* LINKS */
+
+a:link, a:visited{
+	color:#223f6d;
+	text-decoration:none;
+	}
+a:active{
+	color:#d2d2d2;
+	text-decoration:none;
+	}
+
+.header a:link, a:visited, a:active{
+	color:white;
+	}
+
+/*Forms*/
+form {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  min-width: 560px;
+  max-width: 620px;
+  width: 590px;
+}
+
+form fieldset {
+  clear: both;
+  font-size: 100%;
+  border:1px solid #BBBBBB;
+  padding: 10px;
+  margin: 0;
+  width:60%;
+}
+
+form fieldset legend {
+  color: #BBBBBB;
+  padding: 0 5px;
+}
+
+label { 
+	position: absolute; 
+	text-align:right; 
+	width:130px; 
+	font-size:12px;
+	font-weight:bold;
+	}
+	
+input, textarea { 
+	margin-left: 140px; 
+	font-size:12px;
+	}
+	
+label.check, label.radio {
+	 position:relative; text-align:left; 
+	 }
+
+
+/*IMAGENES*/
+img{
+	border:0px;
+	}

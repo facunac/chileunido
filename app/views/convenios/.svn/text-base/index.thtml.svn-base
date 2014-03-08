@@ -1,0 +1,42 @@
+<div class="contenedor">
+<h2>Lista de Convenios</h2>
+
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+<tr>
+	<th class="sortable-text">Nombre </th>
+	<th class="sortable-text">Fecha Inicio</th>
+	<th class="sortable-text">Vigencia</th>
+	<th class="sortable-text">Nombre Responsable</th>
+	<th class="sortable-text">Numero Contacto</th>
+	<th class="td_gris">Editar</th>
+	<th class="td_gris">Cambiar Vigencia</th>
+</tr>
+<?php foreach ($convenios as $convenio): ?>
+<tr>
+	<td class="td_gris_nombre"><?php echo $convenio['Convenio']['nom_convenio']; ?></td>
+	<td class="td_gris"><?php echo $convenio['Convenio']['fec_inicio']; ?></td>
+	<td class="td_gris"><?php if( $convenio['Convenio']['bit_vigente']) echo "Vigente"; else echo "No Vigente";?></td>
+	<td class="td_gris"><?php echo $convenio['Convenio']['nom_responsable']; ?></td>
+	<td class="td_gris"><?php echo $convenio['Convenio']['num_contacto']; ?></td>
+	<td class="td_gris">
+		<?php //echo $html->link('View','/convenios/view/' . $convenio['Convenio']['cod_convenio'])?>
+		<?php echo $html->formTag('edit/'.$convenio['Convenio']['cod_convenio'],'post', array('style'=>'display:inline')); ?>
+		<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Modificar" title="Modificar" />
+		</form>
+	</td>
+	<td class="td_gris">
+		<?php echo $html->formTag('cambiar/'.$convenio['Convenio']['cod_convenio'],'post', array('style'=>'display:inline'));	?>
+		<input type="image" src="<?php echo $this->webroot.'img/reactivar.png'; ?>" alt="Cambiar Vigencia" title="Cambiar Vigencia" />
+		</form>		
+		<?php //echo $html->link('Cambiar_Vigencia','/convenios/cambiar/' . $convenio['Convenio']['cod_convenio'], null, 'Esta seguro que quiere cambiar la vigencia del convenio  ' . $convenio['Convenio']['nom_convenio'])?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+
+<center><?php echo $html->formTag('add', 'post', array('class' => 'a_cuatrocincuenta_crear')) ?>
+                <?php echo $html->submitTag('Crear Nuevo Convenio') ?>
+        </form></center>
+</div>

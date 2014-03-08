@@ -1,0 +1,35 @@
+<br/>
+<br/>
+<br/>
+
+<?php
+		echo $html->formTag('agregar_caso1');
+		?> 
+			
+			
+			<fieldset class="a_cuatrocincuenta"><legend><span>Ingresar Datos del Caso</span></legend>
+				<ol>
+					<li><label>Tipo Ingreso</label>
+						<?php echo $html->selectTag('Persona/cod_medio', $medio, 1, array("onchange" => "cargar_ubicacion('tipoingreso','".$html->url("/tipoingresos/listatipoingreso/")."'+this.value);"), null, false); ?></li>
+					
+				<li id="tipoingreso"><label>Cu&aacute;l</label>
+						<?php echo $html->selectTag('Caso/cod_tipoingreso', $tipoingreso, null, array(), null, false); ?></li>
+					<li><label>Prioridad</label>
+						<?php echo $html->selectTag('FormCrear/tip_prioridad', $prioridades); ?></li>
+					
+					
+					<li><label>Tipo Caso</label>
+						<?php echo $html->selectTag('FormCrear/cod_tipocaso', $tipos_casos); ?></li>	
+						
+					<li><label>Asignar a: </label>
+					<?php echo $html->selectTag('FormCrear/cod_soloyo', $voluntarios,'0',null,null,false); ?></li>
+					
+					<li><?php echo $html->hidden('FormCrear/cod_beneficiario', array('value' => $cod_beneficiario)); ?></li>
+				</ol>
+			</fieldset>
+			<?php echo $fichas->desplegarFormulario($cod_formulario, "FormCrear"); ?>
+			<fieldset class="submit">
+				<?php echo $html->submitTag('Ingresar') ?>
+			</fieldset>
+			
+		</form>

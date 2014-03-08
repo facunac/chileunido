@@ -1,0 +1,80 @@
+<?php 
+
+$excel->font = 'Times New Roman';
+$excel->size = 10;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+if(isset($array_activo)){
+
+	$sheet1 =& $excel->AddWorksheet('Caso Activo');
+	$sheet1->setColumn(0, 4, 20);
+	$sheet1->freezePanes(array(1, 0));
+	
+	$telefono = mb_convert_encoding('Teléfono','UTF-8','ASCII');
+	$excel->write($sheet1, 0, 0, 'Nombre',$heading_format);
+	$excel->write($sheet1, 0, 1, 'Edad',$heading_format);
+	$excel->write($sheet1, 0, 2, 'Rol Familiar',$heading_format);
+	$excel->write($sheet1, 0, 3, 'Comuna',$heading_format);
+	$excel->write($sheet1, 0, 4, $telefono ,$heading_format);
+	
+	foreach($array_activo as $key => $datos){ 
+		
+		$excel->write($sheet1, $key+1,0,$datos["Nombre"]);
+		$excel->write($sheet1, $key+1,1,$datos["Edad"]);
+		$excel->write($sheet1, $key+1,2,$datos["Rol"]);
+		$excel->write($sheet1, $key+1,3,$datos["Comuna"]);
+		$excel->write($sheet1, $key+1,4,$datos["Telefono"]);
+	}
+}
+if(isset($array_derivacion)){
+
+	$sheet2 =& $excel->AddWorksheet('Caso en Derivación');
+	$sheet2->setColumn(0, 4, 20);
+	$sheet2->freezePanes(array(1, 0));
+	
+	$telefono = mb_convert_encoding('Teléfono','UTF-8','ASCII');
+	$excel->write($sheet2, 0, 0, 'Nombre',$heading_format);
+	$excel->write($sheet2, 0, 1, 'Edad',$heading_format);
+	$excel->write($sheet2, 0, 2, 'Rol Familiar',$heading_format);
+	$excel->write($sheet2, 0, 3, 'Comuna',$heading_format);
+	$excel->write($sheet2, 0, 4, $telefono ,$heading_format);
+	
+	foreach($array_derivacion as $key => $datos){ 
+		$excel->write($sheet2, $key+1,0,$datos["Nombre"]);
+		$excel->write($sheet2, $key+1,1,$datos["Edad"]);
+		$excel->write($sheet2, $key+1,2,$datos["Rol"]);
+		$excel->write($sheet2, $key+1,3,$datos["Comuna"]);
+		$excel->write($sheet2, $key+1,4,$datos["Telefono"]);
+	}
+}
+if(isset($array_retiro)){
+
+	$sheet3 =& $excel->AddWorksheet('Caso en Retiro');
+	$sheet3->setColumn(0, 4, 20);
+	$sheet3->freezePanes(array(1, 0));
+	
+	$telefono = mb_convert_encoding('Teléfono','UTF-8','ASCII');
+	$excel->write($sheet3, 0, 0, 'Nombre',$heading_format);
+	$excel->write($sheet3, 0, 1, 'Edad',$heading_format);
+	$excel->write($sheet3, 0, 2, 'Rol Familiar',$heading_format);
+	$excel->write($sheet3, 0, 3, 'Comuna',$heading_format);
+	$excel->write($sheet3, 0, 4, $telefono ,$heading_format);
+	
+	foreach($array_retiro as $key => $datos){ 
+		$excel->write($sheet3, $key+1,0,$datos["Nombre"]);
+		$excel->write($sheet3, $key+1,1,$datos["Edad"]);
+		$excel->write($sheet3, $key+1,2,$datos["Rol"]);
+		$excel->write($sheet3, $key+1,3,$datos["Comuna"]);
+		$excel->write($sheet3, $key+1,4,$datos["Telefono"]);
+	}
+}
+
+
+
+
+$excel->OutputFile();
+
+
+?> 

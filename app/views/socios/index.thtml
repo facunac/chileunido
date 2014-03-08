@@ -1,0 +1,145 @@
+
+<!-- 7198912598918279 -->
+
+<div class="socios">
+
+
+<?php
+// Mensaje en colores indicando resultados de editar, borrar, agregar.
+
+/*
+if( isset($_SESSION['success']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_verde">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+else
+if( isset($_SESSION['error']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_rojo">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+
+
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+unset($_SESSION['msg']);
+*/
+
+?>
+
+
+				
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRatingsortcompletecallback-callbackTest-calculateTotalRating">
+
+<thead>
+<tr>
+<th class="sortable-numeric" width="100">Rut</th>
+<th class="sortable-text" width="204">Nombre</th>
+<th class="sortable-text" width="204">Tel&eacute;fonos</th>
+<th class="sortable-text" width="204">Email</th>
+<th class="th_tablagris" width="204">Ver</th>
+<th class="th_tablagris" width="204">Editar</th>
+<th class="th_tablagris" width="204">Borrar</th>
+</tr>
+</thead>
+<tfoot>
+</tfoot>
+<tbody>
+
+<?php
+foreach($socios as $socio)
+{ ?>
+
+
+<tr class ="odd">
+
+
+
+<!--     <td class="td_gris"><?php echo $socio['Socio']['cod_socio'] ?></td> -->
+<td class="td_gris"><?php echo $socio['Socio']['nom_rut'] ?></td>
+<td class="td_gris_nombre"><?php echo $socio['Socio']['nom_nombre']." ".$socio['Socio']['nom_appat']."
+".$socio['Socio']['nom_apmat'] ?></td>
+<td class="td_gris"><?php echo $socio['Socio']['num_telefono1']." ".$socio['Socio']['num_telefono2']." ".$socio['Socio']['num_telefono3'] ?></td>
+<td class="td_gris"><?php echo $socio['Socio']['nom_email'] ?></td>
+                                       
+<!--   
+<td class="td_gris"><?php echo "<a href=\"./ver/" . $socio['Socio']['cod_socio']."\" style=\"img-decoration:none;text-decoration:none;\"><img
+src=\"../img/ver.png\" alt=\"Ver\" title=\"Ver\" style=\"border:0px\"></a>"  ?></td>
+-->
+										
+<td class="td_gris">
+<?php 
+echo $html->formTag('ver');
+echo $html->hidden('Socio/cod_socio', array('value' => $socio['Socio']['cod_socio']));
+echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">";
+echo "<input type=\"image\" src=\"/chileunido/img/ver.png\" alt=\"Ver\" title=\"Ver\">";
+echo '</form>';
+?>
+</td>
+
+<td class="td_gris">
+<?php 
+echo $html->formTag('editar');
+//echo $html->hidden('Socio/cod_socio', array('value' => $socio['Socio']['cod_socio']));
+echo $html->hidden('Socio/cod_socio', array('value' => $socio['Socio']['cod_socio']));
+echo $html->hidden('Socio/enviado','true');
+echo "<input type=\"image\" src=\"/chileunido/img/modificar.png\" alt=\"Editar\" title=\"Editar\">";
+echo '</form>';
+?>
+</td>
+										
+<!-- 
+<td class="td_gris"><?php echo "<a href=\"./borrar/" . $socio['Socio']['cod_socio']."\"><img
+src=\"../img/cruz.png\" alt=\"Borrar\" title=\"Borrar\" style=\"border:0px\"></a>"  ?></td>
+-->
+										
+<td class="td_gris">
+<?php 
+echo $html->formTag('borrar');
+echo $html->hidden('Socio/cod_socio', array('value' => $socio['Socio']['cod_socio']));
+echo "<input type=\"hidden\" name=\"id\" value=".$socio['Socio']['cod_socio'].">";
+echo "<input type=\"image\" src=\"/chileunido/img/cruz.png\" alt=\"Borrar\" title=\"Borrar\" onClick=\"return confirm('Desea realmente borrar este socio?')\">";
+echo '</form>';
+?>
+</td>
+
+
+
+<?php
+// fin foreach socio 
+} 
+?>
+</tbody>
+</table><br/>
+</div>
+ 
+ 
+                
+                
+                
+<?php echo $html->formTag('crear', 'post', array('class' => 'a_cuatrocincuenta_crear')) ?>
+<?php echo $html->submitTag('Crear Nuevo Socio') ?>
+<br><br><br>
+</form>
+</div>
+
+
+<?php
+if(count($socios)!=0)
+{
+	echo $html->formTag('excel');
+	$arreglo = serialize($socios);
+	echo $html->hidden('Excel/Hoja', array('value' => $arreglo));
+	
+	echo "<input type=\"image\" src=\"".$this->webroot."img/excel_icon.jpg\" alt=\"Exportar a Excel\" title=\"Exportar a Excel\" />";
+	echo "</form>";
+}
+?>

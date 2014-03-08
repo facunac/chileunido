@@ -1,0 +1,30 @@
+<div class="calendarios">
+
+<h2>Turnos de <?php echo $nom_voluntario; ?> (voluntario <?php echo (!$bit_clinico ? "no" : "") ?> clínico)</h2>
+
+<?php if (!$bit_nopsicologo) { ?>
+
+<?php if ($bit_clinico) { ?>
+<h3>Turnos Clínicos</h3>
+<div class="paginacion">
+<?php echo $matrix->render($calendario_clinico, $columnas_calendario, $filas_clinico, 'calendario2'); ?>
+</div>
+<?php } ?>
+
+<h3>Turnos Telefónicos</h3>
+<div class="paginacion">
+<?php echo $matrix->render($calendario_telefonico, $columnas_calendario, $filas_telefonico, 'calendario2'); ?>
+</div>
+
+<?php } else { ?>
+
+<?php if ($bit_nopsicologo) { ?>
+<h3>Otros Turnos</h3>
+<div class="paginacion">
+<?php echo $matrix->render($calendario_otros, $columnas_calendario, $filas_otros, 'calendario2'); ?>
+</div>
+<?php } ?>
+
+<?php } ?>
+
+</div>

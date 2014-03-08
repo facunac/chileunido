@@ -1,0 +1,131 @@
+
+<!--validaciones del socio-->
+<?php $jsvalid->setModel('Aviso'); ?>
+<?php $jsvalid->required();?>
+
+
+<script type="text/javascript">
+	//VALIDA SI ES CORRECTA LA FECHA
+	function isValidDate(day,month,year){
+		var dteDate;
+		dteDate=new Date(year,month -1,day);
+		return ((day==dteDate.getDate()) && (month- 1==dteDate.getMonth()) && (year==dteDate.getFullYear()));
+	}
+	//VALIDA LA BUSQUEDA
+	function validarBusqueda(){
+		var fecha_1 = document.getElementById("fecha_1").value
+		var fecha_2 = document.getElementById("fecha_2").value
+		var arrayFecha1 = fecha_1.split("-")
+		var arrayFecha2 = fecha_2.split("-")
+
+		var patron = /^\d{4}\-\d{1,2}\-\d{1,2}$/	//patron para fechas
+
+		//PRIMERO COMPRABAMOS SI LAS FECHAS ESTAN BIEN
+		if(fecha_1!=""){
+			if(patron.test(fecha_1))
+			{
+
+				if(!isValidDate(arrayFecha1[2],arrayFecha1[1],arrayFecha1[0])){
+					document.getElementById("feedbackBuscador").innerHTML = "Fecha 'desde' fuera de rangos";
+					return false;
+				}
+				else{
+					document.getElementById("feedbackBuscador").innerHTML = "";
+				}
+			}
+			else
+			{
+				document.getElementById("feedbackBuscador").innerHTML = "Formato de la fecha 'desde' incorrecto, yyyy-mm-dd";
+				return false;
+			}
+		}
+		if(fecha_2!=""){
+			if(patron.test(fecha_2))
+			{
+
+				if(!isValidDate(arrayFecha2[2],arrayFecha2[1],arrayFecha2[0])){
+					document.getElementById("feedbackBuscador").innerHTML = "Fecha 'hasta' fuera de rangos";
+
+					return false;
+				}
+				else{
+					document.getElementById("feedbackBuscador").innerHTML = "";
+
+				}
+			}
+			else
+			{
+				document.getElementById("feedbackBuscador").innerHTML = "Formato de la fecha 'hasta' incorrecto, yyyy-mm-dd";
+				return false;
+			}
+		}
+		//LUEGO VEMOS SI LA FECHA 1 ES MENOR QUE LA 2
+
+		var date1 = new Date(arrayFecha1[0],arrayFecha1[1],arrayFecha1[2]);
+		var date2 = new Date(arrayFecha2[0],arrayFecha2[1],arrayFecha2[2]);
+		if(date1 >= date2){
+			document.getElementById("feedbackBuscador").innerHTML = "La fecha 'desde' tiene que ser menor que la fecha 'hasta'";
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<!--este comando escribe el javascript de validacion-->
+<?php
+echo $jsvalid->returnScript();
+$pagination->setPaging($paging); // Initialize the pagination variables
+$th = array (
+            $pagination->sortBy('cod_aviso'),
+            $pagination->sortBy('fecha_creacion'),
+            $pagination->sortBy('fecha_caducacion')
+); // Generate the pagination sort links
+?>
+
+<div class="contenedor">
+    <div>
+        <?php echo $html->formTag('filtrar',"post",array('onSubmit'=>"return validarBusqueda()",'name'=>"FormFiltar")) ?>
+        <fieldset>
+            <br/>Filtrar por fecha de creación:<br/><br/>
+            <div class="required">
+					 Desde: <?php echo $html->input('FormFiltrar/fecha_inicial', array('size' => '15','id'=>'fecha_1' ,'class' => 'format-y-m-d divider-dash highlight-days-67 no-transparency'));?> <em>(formato : AAAA-MM-DD)</em>
+            </div>
+            <div class="required">
+                                         Hasta: <?php echo $html->input('FormFiltrar/fecha_final', array('size' => '15', 'id'=>'fecha_2','class' => 'format-y-m-d divider-dash highlight-days-67 no-transparency'));?> <em>(formato : AAAA-MM-DD)</em>
+            </div>
+            <div id="feedbackBuscador" style="color: red;text-align: right;"></div>
+            <div class="submit">
+                <?php echo $html->submit ('Filtrar'); ?>
+            </div>
+        </fieldset>
+       </form>
+
+
+    </div>
+    <div class="contenedor_listas">
+        <p class="class_titulo">Avisos</p>
+        <div id="feedbackBuscador" style="color: red;text-align: right;"></div>
+        <?php foreach ($avisos as $aviso): ?>
+            <p>
+            <?php echo $aviso['Aviso']['cod_aviso']; ?>) <b><?php echo $aviso['Aviso']['titulo']; ?></b> (<small>Publicado por
+                  <?php echo $aviso['Persona']['nom_nombre']." ".$aviso['Persona']['nom_appat']." ".$aviso['Persona']['nom_apmat'][0].".";?>)
+                <br/>
+                <br/>Fecha Creacion:
+                <?php echo $aviso['Aviso']['fecha_creacion'];?>
+                <br/>Fecha Caducacion:
+                <?php echo $aviso['Aviso']['fecha_caducacion'];?>
+                <br/><b>Estado: </b><?php if($aviso['Aviso']['fecha_caducacion'] > $fechaactual){echo "Activo.";}
+                    else{{echo "Caducado.";} }?>
+                <br/><br/></small>
+            <?php echo $aviso['Aviso']['texto']; ?><br/>
+            </p>
+            <div style="text-align: right">
+                <?php echo $html->link("[Eliminar]","delete/".$aviso["Aviso"]["cod_aviso"],array("class"=>"linkEditar","onclick"=>"return confirm('Esta seguro de eliminar el aviso?');"));?>
+            </div>
+            <hr/>
+        <?php endforeach; ?>
+            <div align="center">
+         <?php echo $this->renderElement('pagination'); // Render the pagination element ?>
+                </div>
+    </div>
+</div>

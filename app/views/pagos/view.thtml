@@ -1,0 +1,66 @@
+<!-- 73646737828843 -->
+
+<div class="contenedor">
+	<form action="<?php echo $html->url('/pagos/agregar'); ?>" method="post">
+		<fieldset class="a_cuatrocincuenta">
+        <legend><span>Ver Pago</span></legend>
+                                                    
+		<ol>
+        <li>
+        	<label>C&oacute;digo Pago</label>
+        	<?php echo $html->input('Pago/cod_pago',array('size' => '20', 'readonly' => 'readonly', 'value' => $pago['Pago']['cod_pago']));?>
+        </li>
+        
+        <li>
+        	<label>C&oacute;digo Socio</label>
+        	<?php echo $html->input('Pago/cod_socio',array('size' => '20', 'readonly' => 'readonly', 'value' => $pago['Pago']['cod_socio']));?>
+        </li>
+        
+        <li>
+        	<label>Monto</label>
+        	<?php echo $html->input('Pago/num_monto',array('size' => '20', 'readonly' => 'readonly', 'value' => $pago['Pago']['num_monto']));?>
+        </li>
+
+        <li>
+        	<label>Medio de pago</label>
+        	<?php echo $html->input('Pago/nom_mediopago', array('size' => '20', 'readonly' => 'readonly', 'value' => $pago['Pago']['nom_mediopago']));?>
+        </li>
+        
+        <li>
+        	<label>Fecha creaci&oacute;n</label>
+        	<?php echo $html->input('Pago/fec_inicio', array('size' => '20', 'readonly' => 'readonly', 'value' => $pago['Pago']['fec_inicio']));?>
+        </li>
+        
+        <li>
+        	<label>Ajuste IPC</label>
+        	<? 
+        	if($pago['Pago']['bit_ajusteipc'] == 1)
+        		$tmp = "Si";
+        	else
+        		$tmp = "No";
+        	?>
+        	<?php echo $html->input('Pago/bit_ajusteipc', array('size' => '20', 'readonly' => 'readonly', 'value' => $tmp));?>
+        </li>
+
+        </ol>
+        </fieldset>
+	</form>
+</div>
+
+<ul class="actions">
+	<li><?php echo $html->link('Volver', '/pagos/index')?></li>
+</ul>
+
+
+
+
+
+<!-- 
+$pago['Pago']['cod_pago']
+$pago['Pago']['cod_socio']
+$pago['Pago']['num_monto']
+$pago['Pago']['nom_mediopago']
+$pago['Pago']['fec_inicio']
+$pago['Pago']['bit_ajusteipc']
+-->
+

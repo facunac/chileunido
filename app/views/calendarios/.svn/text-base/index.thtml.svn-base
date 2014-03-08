@@ -1,0 +1,214 @@
+<script language="JavaScript">
+function carga(){
+	document.getElementById('calid').style.display = "none";
+	document.getElementById('loadid').style.display = "";
+}
+</script>
+
+
+<div class="calendarios">
+
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt
+paginate-6 max-pages-7
+paginationcallback-callbackTest-calculateTotalRatingsortcompletecallback-callbackTest-calculateTotalRating">
+
+<thead>
+<tr>
+<br>
+
+<?php 
+
+//$rutahome = "http://especial4.ing.puc.cl/CU_replica/chileunido/";
+$rutahome = $html->url('/');
+
+foreach($voluntarios as $voluntario)
+	$monstaSelectVoluntarios .= '<option value="'.$voluntario['Voluntario']['cod_persona'].'">Voluntario: '.$voluntario['Voluntario']['nom_persona'].' </option>';
+	
+foreach($casos as $caso)
+	$monstaSelectCasos .= '<option value="'.$caso['Caso']['cod_caso'].'">(Caso #'.$caso['Caso']['cod_caso'].') '.$caso['Caso']['nom_beneficiario'].'  </option>';
+?>	
+
+<form name="calendario">
+<?php 
+
+echo "Calendario: <select name=\"nombre\" onChange=\"carga(); document.location='".$rutahome."calendarios/index/'+calendario.nombre.value+'/".$fecha[0]."';\">"; 
+
+foreach( $calendariosnombre as $nombre)
+{
+	if( $nombre['Box']['cod_box'] == $cod_calendario )
+		echo "<option selected value=\"".$nombre['Box']['cod_box']."\">".$nombre['Box']['nom_box']."</option>";
+	else
+		echo "<option value=\"".$nombre['Box']['cod_box']."\">".$nombre['Box']['nom_box']."</option>";
+}
+
+
+?>
+</select>
+</form>
+<br><br><br>
+
+
+<form name="fecha_referencia">
+<?php 
+
+
+$ante_semana = date('Y-m-d', mktime(0,0,0,substr($fecha[0],5,2),substr($fecha[0],8,2)-7,substr($fecha[0],0,4))); 
+$prox_semana = date('Y-m-d', mktime(0,0,0,substr($fecha[0],5,2),substr($fecha[0],8,2)+7,substr($fecha[0],0,4)));
+
+echo "<center><img src=\"".$rutahome."img/flecha-izquierda.gif\" style=\"height:22px; border:0px\" alt=\"Atras\" title=\"Atras\" onClick=\"carga();document.location='".$rutahome."calendarios/index/".$cod_calendario."/".$ante_semana."' ;\">  <img src=\"".$rutahome."img/flecha-derecha.gif\" style=\"height:22px; border:0px\" alt=\"Adelante\" title=\"Adelante\" onClick=\"carga();document.location='".$rutahome."calendarios/index/".$cod_calendario."/".$prox_semana."' ;\"></center>";
+
+echo "<center><input type=\"text\" value=\"".$fecha[0]."\" readonly=\"readonly\"  name=\"fecha_ref\" size=\"10\" style=\"font-size:9px\" class=\"w8em format-y-m-d divider-dash highlight-days-12 no-transparency\" onChange=\"carga(); document.location='".$rutahome."calendarios/index/".$cod_calendario."/'+document.fecha_referencia.fecha_ref.value;\"></center>"; 
+
+
+if( strcmp( substr($fecha[0],5,2), '01') == 0 )
+	$mesano = "Enero";
+if( strcmp( substr($fecha[0],5,2), '02') == 0 )
+	$mesano = "Febrero";
+if( strcmp( substr($fecha[0],5,2), '03') == 0 )
+	$mesano = "Marzo";
+if( strcmp( substr($fecha[0],5,2), '04') == 0 )
+	$mesano = "Abril";
+if( strcmp( substr($fecha[0],5,2), '05') == 0 )
+	$mesano = "Mayo";
+if( strcmp( substr($fecha[0],5,2), '06') == 0 )
+	$mesano = "Junio";
+if( strcmp( substr($fecha[0],5,2), '07') == 0 )
+	$mesano = "Julio";
+if( strcmp( substr($fecha[0],5,2), '08') == 0 )
+	$mesano = "Agosto";
+if( strcmp( substr($fecha[0],5,2), '09') == 0 )
+	$mesano = "Septiembre";
+if( strcmp( substr($fecha[0],5,2), '10') == 0 )
+	$mesano = "Octubre";
+if( strcmp( substr($fecha[0],5,2), '11') == 0 )
+	$mesano = "Noviembre";
+if( strcmp( substr($fecha[0],5,2), '12') == 0 )
+	$mesano = "Diciembre";
+
+$mesano .= " - ".substr($fecha[0],0,4);
+
+echo "<h1>".$mesano."</h1>";
+
+?>
+</form>
+
+<?php
+
+$arreglo = array(array(),array(),array(),array(),array());
+
+if($num_modulos == 2)
+	$columna = array( 'Ma&ntilde;ana', 'Tarde');
+else
+	$columna = array( '9:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00');
+
+
+for($n=0; $n<count($columna); $n++)
+	$columna[$n] = '<span style="font-size: x-small">'.$columna[$n].'</span>';
+
+for($dia=0; $dia<5; $dia++)
+	for($modulo=0; $modulo<$num_modulos; $modulo++)
+   		$arreglo[$dia][$modulo] = " ";
+            
+foreach( $registros as $registro )
+{
+
+	$botonBorrar 		= "<img src=\"".$rutahome."img/cruz.png\" style=\"height:7px; border:0px\" alt=\"Borrar\" title=\"Borrar\" onClick=\"carga(); document.location='".$rutahome."calendarios/borrar/".$registro['Calendario']['cod_id']."/".$cod_calendario."';\">";
+
+	$dia = (int)$registro['Calendario']['cod_dia'];
+	
+	$modulohorario = (int)$registro['Calendario']['cod_modulohorario'];
+	
+	if( $num_modulos == 2 )
+	{
+		if( $modulohorario < 4 )
+			$modulohorario = 0;
+		else
+			$modulohorario = 1;
+	}
+
+	if( $num_modulos == 2 || $registro['Calendario']['cod_caso']<1 )
+		$arreglo[$dia][$modulohorario] .= ' '.$botonBorrar.' '. $registro['Calendario']['nom_persona'].' <br> ';
+	else
+		$arreglo[$dia][$modulohorario] .= ' '.$botonBorrar.' '. $registro['Calendario']['nom_persona'].' (Caso #'.$registro['Calendario']['cod_caso'] .': '.$registro['Calendario']['nom_beneficiario'] .') <br> ';
+}
+	
+for($dia=0; $dia<5; $dia++)
+{
+	for($modulo=0; $modulo<$num_modulos; $modulo++)
+	{
+		// En caso de calendarios telefï¿½nicos, corregimos valor para que se agregue en la tarde
+		if( $num_modulos == 2 && $modulo == 1 )
+			$form = $cod_calendario.'_'.substr($fecha[$dia],0,4).substr($fecha[$dia],5,2).substr($fecha[$dia],8,2).'_4'; 
+		else
+			$form = $cod_calendario.'_'.substr($fecha[$dia],0,4).substr($fecha[$dia],5,2).substr($fecha[$dia],8,2).'_'.$modulo;
+
+		$monstaSelect = "<form name=\"form_".$form."\" action=\"".$rutahome."calendarios/agregar\" method=\"post\">";
+		$monstaSelect .= '<input type="hidden" name="form_code" value="'.$form.'">';
+		
+		// Lista de voluntarios
+		
+		$monstaSelect .= '<select name="select_'.$form.'" style="width:19px; height:15px; font-size: 10px">';	
+		$monstaSelect .= $monstaSelectVoluntarios;
+		$monstaSelect .= '</select>';
+		
+		if($num_modulos != 2)
+		{
+			// Lista de casos
+			$monstaSelect .= '&nbsp;<select name="select2_'.$form.'" style="width:19px; height:15px; font-size: 10px">';
+			$monstaSelect .= $monstaSelectCasos;
+			$monstaSelect .= '</select>';	
+		}	
+		$monstaSelect .= " <img src=\"".$rutahome."img/agregar.gif\" style=\"height:12px; border:0px\" alt=\"Agregar\" title=\"Agregar\" onClick=\"carga(); form_".$form.".submit();\">";
+		$monstaSelect .= '</form>';
+		$arreglo[$dia][$modulo] .= $monstaSelect;
+	}
+}
+
+
+echo "<center><img id=\"loadid\" src=\"".$rutahome."img/loading.gif\"></center>";
+echo $matrix->render($arreglo,$dias,$columna,'calendario2',"",false,"calid","display:none");
+
+?>
+
+<script language="JavaScript">
+document.getElementById('loadid').style.display = "none";
+document.getElementById('calid').style.display = "";
+</script>
+
+<div>
+<?php echo $anotacion->anotacionesCalendario($fecha[0], $fecha[4]); ?>
+<b><?php echo $html->link('Administrar anotaciones', '/anotaciones'); ?></b>
+</div>
+
+<?php
+echo $html->formTag('replicar', 'post', array('class' => 'a_cuatrocincuenta_crear'));
+$form = $cod_calendario.'_'.substr($fecha[0],0,4).substr($fecha[0],5,2).substr($fecha[0],8,2);
+echo '<input type="hidden" name="form_code" value="'.$form.'">';
+echo "<input value=\"Completar de acuerdo a turnos\" type=\"submit\" >";
+echo '</form>';
+
+echo $html->formTag('limpiar', 'post', array('class' => 'a_cuatrocincuenta_crear'));
+$form = $cod_calendario.'_'.substr($fecha[0],0,4).substr($fecha[0],5,2).substr($fecha[0],8,2);
+echo '<input type="hidden" name="form_code" value="'.$form.'">';
+echo "<input value=\"Limpiar semana\" type=\"submit\" >";
+echo '</form>';
+
+?>
+
+<td>
+<br><br><br>
+
+
+</tr>
+</thead>
+
+
+<tfoot>
+</tfoot>
+
+<tbody>
+</tbody>
+</table><br/>
+</div>
+</div>

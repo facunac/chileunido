@@ -1,0 +1,109 @@
+<!-- 9157293871928792 -->
+
+<!--validaciones del socio-->
+<?php $jsvalid->setModel('Socio'); ?> 
+<?php $jsvalid->required();?>
+ 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+
+
+<div class="contenedor">
+		<?php echo $jsvalid->form('editar', '', 'post', 'a_cuatrocincuenta') ?>
+       
+                <fieldset class="a_cuatrocincuenta">
+                        <legend><span>Editar Socio</span></legend>
+                        <ol>
+                                <li>
+                                        <label>C&oacute;digo Socio</label>
+                                        <?php echo $html->input('Socio/cod_socio',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['cod_socio']));?>
+                                </li>
+                                <li>
+                                        <label>RUT</label>
+                                        <?php echo $html->input('Socio/nom_rut',array('size' => '10','maxlength'=>'10', 'value' => $socio['Socio']['nom_rut'])) ?>
+                                        
+                                </li>
+                                <li>
+                                        <label>Fecha Ingreso</label>
+                                        <?php echo $html->input('Socio/fec_ingreso',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['fec_ingreso']));?>
+                                </li>
+
+                                <li>
+                                        <label>Nombre</label>
+                                        <?php echo $html->input('Socio/nom_nombre', array('size' => '20', 'value' => $socio['Socio']['nom_nombre']));?>
+                                </li>
+                                <li>
+                                        <label>Apellido Paterno</label>
+                                        <?php echo $html->input('Socio/nom_appat', array('size' => '20', 'value' => $socio['Socio']['nom_appat']));?>
+                                </li>
+                                <li>
+                                        <label>Apellido Materno</label>
+                                        <?php echo $html->input('Socio/nom_apmat', array('size' => '20', 'value' => $socio['Socio']['nom_apmat']));?>
+                                </li>
+                                
+        						<li>
+        							<label>Sexo</label>
+        							<?php
+        							$tmp = '<select name="data[Socio][bit_genero]"  class="select_mediano" id="BitGenero" style="width: 120px">';
+       								if( $socio['Socio']['bit_genero'] == 0 )
+       									$tmp .= '<option value="0" selected="selected">Mujer</option><option value="1">Hombre</option>';
+       								else
+       									$tmp .= '<option value="0" >Mujer</option><option value="1" selected="selected">Hombre</option>';
+        							$tmp .= '</select>';
+        							echo $tmp;
+									?>	
+        						</li>
+                                
+                                                              
+                                <li>  
+           
+                                        <?php echo $jsvalid->input('Socio/fec_nacimiento', 'Fecha Nacimiento', array('size' => '15', 'class' => 'w8em format-y-m-d divider-dash highlight-days-12 no-transparency', 'value' => $socio['Socio']['fec_nacimiento'])); ?>
+                                </li>
+	                            <li>
+                                        <label>Direcci&oacute;n Particular</label>
+                                        <?php echo $html->input('Socio/nom_direccion', array('size' => '20', 'value' => $socio['Socio']['nom_direccion']));?>
+                                </li>
+                                <li>
+                                        <label>Comuna</label> 
+                              			<?php echo $html->selectTag('Socio/cod_comuna', $comunas, $socio['Socio']['cod_comuna'], array("size"=>"select_mediano"), null, false); ?>
+                                </li>
+	                            <li>
+                                        <label>Direcci&oacute;n Comercial</label>
+                                        <?php echo $html->input('Socio/nom_direccion2', array('size' => '20', 'value' => $socio['Socio']['nom_direccion2']));?>
+                                </li>
+                                <li>
+                                        <label>Comuna</label> 
+                              			<?php echo $html->selectTag('Socio/cod_comuna2', $comunas, $socio['Socio']['cod_comuna2'], array("size"=>"select_mediano"), null, false); ?>
+                                </li>
+                                <li>
+                                        <label>Tel&eacute;fono Particular</label>
+                                        <?php echo $html->input('Socio/num_telefono1', array('size' => '20', 'value' => $socio['Socio']['num_telefono1']));?>
+                                </li>
+                                <li>
+                                        <label>Tel&eacute;fono Comercial</label>
+                                        <?php echo $html->input('Socio/num_telefono2', array('size' => '20', 'value' => $socio['Socio']['num_telefono2']));?>
+                                </li>
+                                <li>
+                                        <label>Tel&eacute;fono Celular</label>
+                                        <?php echo $html->input('Socio/num_telefono3', array('size' => '20', 'value' => $socio['Socio']['num_telefono3']));?>
+                                </li>
+                                <li>
+                                        <label>E-mail</label>
+                                        <?php echo $html->input('Socio/nom_email', array('size' => '20', 'value' => $socio['Socio']['nom_email']));?>
+                                </li>
+                        </ol>
+                        <?php echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">"; ?>
+                </fieldset>
+                
+                <fieldset class="submit" style="left: 0px">
+                        <?php echo $html->submitTag('Guardar Cambios') ?>
+                </fieldset>
+
+        </form>
+</div>
+
+<ul class="actions">
+<li><?php echo $html->link('Volver', '/socios/index')?></li>
+</ul>
+                                

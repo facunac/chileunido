@@ -1,0 +1,69 @@
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<table class="table_tablagris">
+
+  <tr>
+    <th class="th_tablagris">Nombre</th>
+    <th class="th_tablagris">Direcci&oacute;n</th>
+	<th class="th_tablagris">Comuna</th>
+    <th class="th_tablagris">Tel&eacute;fonos</th>
+	<th class="th_tablagris">e-mail</th>
+	<th class="th_tablagris">Programa</th>
+	<th class="th_tablagris">Turno</th>
+	<th class="th_tablagris">Modificar</th>
+	<th class="th_tablagris">Ver Libro Asistencia</th>
+	</tr>
+	
+	<?php foreach($personas as $v){ ?>
+	<tr>
+		<td class="td_gris"><?php echo $v['Persona']['nom_nombre']." ".$v['Persona']['nom_appat']." ".$v['Persona']['nom_apmat'] ?></td>
+		<!--falta agregar la comuna despues de la direccion -->
+	    
+		<td class="td_gris"><?php echo $v['Persona']['nom_direccion'] ?></td>
+		<td class="td_gris">
+			<?php 
+				$codigo=$v['Persona']['cod_comuna'];
+				$i=0;
+				
+				while($i!=$codigo)
+				{
+					$i++;
+				}
+				
+				echo $comunas[$i];
+			?>
+			
+		</td>
+    	<td class="td_gris"><?php echo $v['Persona']['num_telefono1']." - ".$v['Persona']['num_telefono2'] ?></td>
+		<td class="td_gris"><?php echo $v['Persona']['nom_email'] ?></td>
+		<td class="td_gris"><?php echo $v['Programa']['nom_programa'] ?></td>
+		<td class="td_gris">
+		<?php foreach($v['Turno'] as $v2){ ?>
+			<div><?php echo $v2['nom_dia'].": de ".$v2['hor_inicio']." a ".$v2['hor_fin']; ?></div>
+		<?php } ?>
+		</td>
+		<td class="td_gris">
+		<?php
+			echo $html->formTag('modificar');
+			echo $html->hidden('Voluntario/cod_persona', array('value' => $v['Voluntario']['cod_persona']));
+			echo $html->submitTag('Modificar');
+		?>
+		</form>
+		</td>
+		<td class="td_gris">
+		<?php
+			echo $html->formTag('ver_libro');
+			echo $html->hidden('Voluntario/cod_persona', array('value' => $v['Voluntario']['cod_persona']));
+			echo $html->submitTag('Ver');
+		?>
+		</form>
+		</td>
+		</tr>
+	<?php } ?>
+	
+	</tr>
+</table>

@@ -1,0 +1,10 @@
+<div class="calendarios">
+
+<h2>Seleccione un turno para derivación</h2>
+<p>(Sólo se muestran turnos sin caso asignado)</p>
+
+<div class="paginacion">
+<?php echo $matrix->render($calendario_clinico, $columnas_calendario, $filas_clinico, 'calendario2'); ?>
+</div>
+
+</div>

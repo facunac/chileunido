@@ -1,0 +1,28 @@
+<h2>Edit Comentario</h2>
+<form action="<?php echo $html->url('/comentarios/edit/'.$html->tagValue('Comentario/cod_comentario')); ?>" method="post">
+<div class="optional"> 
+	<?php echo $form->labelTag('Comentario/nom_comentario', 'Nom Comentario');?>
+ 	<?php echo $html->input('Comentario/nom_comentario', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('Comentario/nom_comentario', 'Please enter the Nom Comentario.');?>
+</div>
+<div class="optional"> 
+	<?php echo $form->labelTag('Comentario/cod_persona', 'Cod Persona');?>
+ 	<?php echo $html->selectTag('Comentario/cod_persona', $personas, $html->tagValue('Comentario/cod_persona'), array(), array(), true);?>
+	<?php echo $html->tagErrorMsg('Comentario/cod_persona', 'Please select the Cod Persona.') ?>
+</div>
+<div class="optional"> 
+	<?php echo $form->labelTag('Comentario/cod_creador', 'Cod Creador');?>
+ 	<?php echo $html->input('Comentario/cod_creador', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('Comentario/cod_creador', 'Please enter the Cod Creador.');?>
+</div>
+<?php echo $html->hidden('Comentario/cod_comentario')?>
+<div class="submit">
+	<?php echo $html->submit('Save');?>
+</div>
+</form>
+<ul class="actions">
+<li><?php echo $html->link('Delete','/comentarios/delete/' . $html->tagValue('Comentario/cod_comentario'), null, 'Are you sure you want to delete: id ' . $html->tagValue('Comentario/cod_comentario'));?>
+<li><?php echo $html->link('List Comentarios', '/comentarios/index')?></li>
+<li><?php echo $html->link('View Personas', '/personas/index/');?></li>
+<li><?php echo $html->link('Add Personas', '/personas/add/');?></li>
+</ul>

@@ -1,0 +1,37 @@
+<div class="contenedor">
+<h2>Lista de Boxes</h2>
+
+<div class="paginacion">
+<table cellpadding="0" cellspacing="0">
+<tr>
+	<th class="sortable-text">Nom Box</th>
+	<th class="sortable-text">Tip Box</th>
+	<th class="sortable-text">Vigencia</th>
+	<th class="td_gris">Editar</th>
+	<th class="td_gris">Cambiar Vigencia</th>
+</tr>
+<?php foreach ($boxes as $box): ?>
+<tr>
+	<td class="td_gris_nombre"><?php echo $box['Box']['nom_box']; ?></td>
+	<td class="td_gris"><?php echo $box['Box']['tip_box']; ?></td>
+	<td class="td_gris"><?php if( $box['Box']['bit_vigente']) echo "Vigente"; else echo "No Vigente";?></td>
+	<td class="td_gris">
+		<?php echo $html->formTag('edit/'.$box['Box']['cod_box'],'post', array('style'=>'display:inline')); ?>
+		<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Modificar" title="Modificar" />
+		</form>
+	</td>
+	<td class="td_gris">
+		<?php echo $html->formTag('cambiar/'.$box['Box']['cod_box'],'post', array('style'=>'display:inline'));	?>
+		<input type="image" src="<?php echo $this->webroot.'img/reactivar.png'; ?>" alt="Cambiar Vigencia" title="Cambiar Vigencia" />
+		</form>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>
+
+<center><?php echo $html->formTag('add', 'post', array('class' => 'a_cuatrocincuenta_crear')) ?>
+        <?php echo $html->submitTag('Crear Nuevo Box') ?>
+</form></center>
+
+</div>

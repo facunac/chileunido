@@ -1,0 +1,17 @@
+<?php echo $jsvalid->form('reactivar_desde_derivacion2') ?>
+<?php echo $fichas->desplegarFormulario($cod_formulario, 'Respuestaficha'); ?>
+
+<fieldset class="a_cuatrocincuenta">
+		<ol>
+			<li>
+				<?php echo $html->hidden('Seguimiento/tip_actividad', array('value' => $tip_actividad)); ?>
+				<?php echo $html->hidden('Caso/cod_caso', array('value' => $cod_caso)); ?>
+				
+			</li>
+			<li>
+				<label for="login_button">&nbsp;</label>
+				<?php echo $html->submitTag('Cerrar Derivacion') ?>
+			</li>
+			
+		</ol>
+</fieldset>

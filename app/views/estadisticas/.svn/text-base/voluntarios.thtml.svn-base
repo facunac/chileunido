@@ -1,0 +1,78 @@
+<div class="paginacion">
+	<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+		  <?php
+				if(count($personas)==0)
+				{ ?>
+					<div class="errores" id="verde"><?php echo $mensaje; ?></div>
+					<div id="back"><a href="javascript:history.back()"><input type="image" src="<?php echo $this->webroot.'img/deshacer.png'; ?>" alt="" title="Volver" /></a></div>
+				<?php	
+				}
+				else
+				{ 
+			?>
+		<thead>
+			<tr>
+				<th class="sortable-text">Nombre</th>
+				<!--th class="sortable-text">Rol</th>
+				<th class="sortable-numeric">Tel&eacute;fonos</th>
+				<th class="sortable-text">e-mail</th>
+				<th class="sortable-text">Programa</th-->
+				<?php if($tipo == 2):?>
+				<th class="sortable-numeric">Aperturas dia</th>
+				<th class="sortable-numeric">Aperturas mes</th>
+				<th class="sortable-numeric">Aperturas aÑo</th>
+				<?php endif;?>
+				<?php if($tipo == 4):?>
+				<th class="sortable-numeric">Seguimientos dia</th>
+				<th class="sortable-numeric">Seguimientos mes</th>
+				<th class="sortable-numeric">Seguimientos aÑo</th>
+				<?php endif;?>
+				<?php if($tipo == 6):?>
+				<th class="sortable-numeric">fallidos  dia</th>
+				<th class="sortable-numeric">fallidos mes</th>
+				<th class="sortable-numeric">fallidos aÑo</th>
+				<?php endif;?>
+				<?php if($tipo == 8):?>
+				<th class="sortable-numeric">cierre dia</th>
+				<th class="sortable-numeric">cierre mes</th>
+				<th class="sortable-numeric">cierre aÑo</th>
+				<?php endif;?>
+				
+			</tr>
+			<?php }?>
+		</thead>	
+		<tbody>
+			<?php foreach($personas as $v){ ?>
+			<tr class ="odd">
+				<td class="td_gris"><?php echo $v['Persona']['nom_nombre']." ".$v['Persona']['nom_appat'] ?></td>
+				<!--td class="td_gris"><?php echo $v['Voluntario']['est_rol'] ?></td>
+				<td class="td_gris"><?php echo $v['Persona']['num_telefono1']."<br />".$v['Persona']['num_telefono2'] ?></td>
+				<td class="td_gris"><?php echo $v['Persona']['nom_email'] ?></td>
+				<td class="td_gris"><?php echo $v['Programa']['nom_programa'] ?></td-->
+				<td class="td_gris">
+				<?php echo $seguimiento->CuentaLlamadasUsuario($v['Voluntario']['cod_persona'],$tipo,1) ?>
+				</td>
+				<td class="td_gris">
+				<?php echo $seguimiento->CuentaLlamadasMesUsuario($v['Voluntario']['cod_persona'],$tipo) ?>
+				</td>
+				<td class="td_gris">
+				<?php echo $seguimiento->CuentaLlamadasAnualUsuario($v['Voluntario']['cod_persona'],$tipo) ?>
+				</td>
+				
+			</tr>
+			<?php } ?>
+		</tbody>		
+	</table>
+</div>
+	<?php
+		if(count($personas)!=0)
+		{
+			echo $html->formTag('excel_voluntarios');
+			$arreglo = serialize($personas);
+			echo $html->hidden('Excel/Hoja', array('value' => $arreglo));
+			echo $html->hidden('Excel/tipo', array('value' => $tipo));
+			
+	?>
+			<input type="image" src="<?php echo $this->webroot.'img/excel_icon.jpg'; ?>" alt="Exportar a Excel" title="Exportar a Excel" />
+		</form>
+	<?php }?>

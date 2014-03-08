@@ -1,0 +1,25 @@
+<div class="comentario">
+<h2>View Comentario</h2>
+
+<dl>
+	<dt>Cod Comentario</dt>
+	<dd>&nbsp;<?php echo $comentario['Comentario']['cod_comentario']?></dd>
+	<dt>Nom Comentario</dt>
+	<dd>&nbsp;<?php echo $comentario['Comentario']['nom_comentario']?></dd>
+	<dt>Fec Creado</dt>
+	<dd>&nbsp;<?php echo $comentario['Comentario']['fec_creado']?></dd>
+	<dt>Cod Persona</dt>
+	<dd>&nbsp;<?php echo $html->link($comentario['']['cod_persona'], '/personas/view/' .$comentario['']['cod_persona'])?></dd>
+	<dt>Cod Creador</dt>
+	<dd>&nbsp;<?php echo $comentario['Comentario']['cod_creador']?></dd>
+</dl>
+<ul class="actions">
+	<li><?php echo $html->link('Edit Comentario',   '/comentarios/edit/' . $comentario['Comentario']['cod_comentario']) ?> </li>
+	<li><?php echo $html->link('Delete Comentario', '/comentarios/delete/' . $comentario['Comentario']['cod_comentario'], null, 'Are you sure you want to delete: id ' . $comentario['Comentario']['cod_comentario'] . '?') ?> </li>
+	<li><?php echo $html->link('List Comentarios',   '/comentarios/index') ?> </li>
+	<li><?php echo $html->link('New Comentario',	'/comentarios/add') ?> </li>
+	<li><?php echo $html->link('List Persona', '/personas/index/')?> </li>
+	<li><?php echo $html->link('New Personas', '/personas/add/')?> </li>
+</ul>
+
+</div>

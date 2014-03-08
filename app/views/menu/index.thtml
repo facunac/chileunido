@@ -1,0 +1,40 @@
+<?php
+  /*
+   * Se divide el contenedor en 4 partes que aún no han sido editadas con el css para que
+   * esten presentables, pero por ahora esta divida en cuatro bloques que llaman a funciones
+   * en cada controlador.
+   */
+
+echo $html->css('menu')."\n";
+echo $html->css('noticias')."\n";
+?>
+<div id="indicadores">
+        <?php include 'indicadores.thtml';?>
+</div>
+<div id="contenedor">
+   
+    
+
+    <div id="noticias">
+        <?php echo $noticias;  ?>
+    </div>
+
+    <div id="avisos" >
+     hola   
+		<div id="encuestas">
+			<?php echo $encuestas; ?>
+		</div>
+
+		<?php echo $avisos; ?>
+	
+    </div>
+
+    <div id="foro">
+        <?php echo $foro;  ?>
+    </div>
+
+</div>
+
+
+
+

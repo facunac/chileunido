@@ -1,0 +1,56 @@
+<div class="contenedor">
+	<?php echo $html->formTag('crear', 'post', array('class' => 'a_cuatrocincuenta_crear')) ?>
+		<?php echo $html->submitTag('Crear Nueva Cuenta') ?>
+	</form>
+
+	<?php echo $html->formTag('buscar', 'post', array('class' => 'a_cuatrocincuenta')) ?>
+		<fieldset>
+			<legend><span>Buscar Cuenta</span></legend>
+			<ol>  
+				<li>
+					<label>RUT (ej:12345678-k)</label>
+					<?php echo $html->input('FormBuscar/nom_rut',array('size' => '10','maxlength'=>'10')) ?>
+					-
+					<?php echo $html->input('FormBuscar/num_rutcodver', array('size' => '2','maxlength'=>'1')); ?>
+				</li>
+				
+				<li>
+					<label>Nombre</label>
+					<?php echo $html->input('FormBuscar/nom_nombre', array('size' => '20','maxlength'=>'255')) ?>
+				</li>
+				
+				<li>
+					<label>Apellido Paterno</label>
+					<?php echo $html->input('FormBuscar/nom_appat', array('size' => '20','maxlength'=>'255')) ?>
+				</li>
+				
+				<li>
+					<label>Apellido Materno</label>
+					<?php echo $html->input('FormBuscar/nom_apmat', array('size' => '20','maxlength'=>'255')) ?>
+				</li>
+				
+				<li>
+					<label>Programa</label>
+					<?php echo $html->selectTag('FormBuscar/cod_programa', $programas); ?>
+				</li>
+				
+				<li>
+					<label>Estado</label>
+					<?php echo $html->selectTag('FormBuscar/est_voluntario', $estados, 'Activo'); ?>
+				</li>
+				
+				<li>
+					<label>Atenci&oacute;n cl&iacute;nica</label>
+					<?php echo $html->selectTag('FormBuscar/bit_clinico', $si_no); ?>
+				</li>
+				<li>
+					<label>Rol</label>
+					<?php echo $html->selectTag('FormBuscar/est_rol', $roles); ?>
+				</li>
+		</fieldset>
+		<fieldset class="submit">			
+			<?php echo $html->submitTag('Buscar') ?>
+		</fieldset>	
+		
+	</form>
+</div>

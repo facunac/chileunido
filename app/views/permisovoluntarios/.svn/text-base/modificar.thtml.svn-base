@@ -1,0 +1,18 @@
+<div class="contenedor">
+	<?php echo $html->formTag('modificar2', 'post', array('class' => 'a_cuatrocincuenta')) ?>
+		<fieldset class="a_enorme">
+			<legend><span>Modificar Permisos para <?php echo $nom_voluntario ?></span></legend>
+			<ol>
+			<?php foreach($permisos as $i => $v) { ?>
+				<li><label><?php echo $v ?></label>
+					<?php echo $html->selectTag("FormPermiso/".$i, $opc_permisos, $permisovoluntarios[$i],array(),null,false); ?>
+					<?php echo $html->selectTag("FormModifica/".$i, $opc_modifica, $bit_modifica[$i],array(),null,false); ?>
+				</li>
+			<?php } ?>
+		</fieldset>
+		<fieldset class="submit">
+			<?php echo $html->hidden('Voluntario/cod_persona', array('value' => $cod_persona)) ?>
+			<?php echo $html->submitTag('Modificar') ?>
+		</fieldset>
+	</form>
+</div>

@@ -1,0 +1,48 @@
+
+<!--validaciones de crear aviso-->
+<?php $jsvalid->setModel('Aviso'); ?>
+<?php $jsvalid->required(); ?>
+
+
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<div class="contenedor">
+
+        <?php echo $jsvalid->form('crear', 'crear', 'post', 'add_noticia') ?>
+                <fieldset class="add_noticia">
+                    <h2>Crear Aviso</h2>
+                        <table>
+                                <tr>
+                                    <td>
+                                        <div class="required">
+                                            <?php echo $jsvalid->input ('Aviso/titulo', 'Titulo', array ('size' => '30', 'maxlength' => '200')); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="required">
+                                            <?php echo $jsvalid->textarea ('Aviso/texto', 'Texto', array ('rows' => '5', 'cols' => '50')); ?>
+                                        </div>
+                                    </td>
+                                </tr>>
+                                <tr>
+                                    <td>
+                                        <div class="required">
+                                            <?php echo $jsvalid->input ('Aviso/fecha_caducacion', 'Fecha Caducacion', array('size' => '15', 'class' => 'w8em format-y-m-d divider-dash highlight-days-67 no-transparency')); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                        </table>
+                </fieldset>
+                <fieldset class="submit" >
+                        <?php echo $html->submit('Crear') ?>
+                </fieldset>
+
+        </form>
+</div>
+
+<ul class="actions">
+<li><?php echo $html->link('Volver', '/admins')?></li>
+</ul>

@@ -1,0 +1,47 @@
+<h3>NOTICIAS </h3>
+<?php if(count($noticias)==0):?>
+	<div style="text-align: left;margin: 5px; ">
+		No hay noticias
+	</div>
+<?php endif;?>
+    <?php if(isset($ultima_noticia)):?>
+    <div class="ultimaNoticia">
+        <div id="tituloNoticia" style=" margin :4px;">
+            <?php echo $html->link($ultima_noticia['Noticia']['titulo'], "/noticias/view/".$desde."/".$ultima_noticia['Noticia']['cod_noticia'],array("class"=>"tituloNoticia")); ?>
+       	</div>	<hr/>
+       	<div  class="bajadaNoticia">
+        	<?php echo $ultima_noticia['Noticia']['bajada']; ?></td>
+        </div>
+        <div style="text-align: right" class="creadaPor">Creada por: <?php echo $ultima_noticia['Voluntario']['Persona']['nom_nombre'].' '.$ultima_noticia['Voluntario']['Persona']['nom_appat'].' '.$ultima_noticia['Voluntario']['Persona']['nom_apmat']; ?></div>
+    	<div style="text-align: right" class="publicada">Publicada el
+	    	<?php
+	    		$arrayFecha1 = split(" ",$ultima_noticia['Noticia']['fecha_creacion']);
+	    		$arrayFecha2 = split("-",$arrayFecha1[0]);
+	    		echo $arrayFecha2[2]."-".$arrayFecha2[1]."-".$arrayFecha2[0];
+	    		echo " a las ".$arrayFecha1[1]." hrs.";
+	    	?>
+    	</div>
+    </div>
+    <br/>
+    <?php endif;?>
+    <?php if(isset($noticias_siguientes)):?>
+    <?php foreach ($noticias_siguientes as $noticia): ?>
+    <div class="noticiaSecundaria">
+        <div id="tituloNoticia" style=" margin :4px;">
+            <?php echo $html->link($noticia['Noticia']['titulo'], "/noticias/view/".$desde."/".$noticia['Noticia']['cod_noticia'],array("class"=>"tituloNoticia")); ?>
+       	</div>	<hr/>
+       	<div  class="bajadaNoticia">
+        	<?php echo $noticia['Noticia']['bajada']; ?></td>
+        </div>
+        <div style="text-align: right" class="creadaPor">Creada por: <?php echo $noticia['Voluntario']['Persona']['nom_nombre'].' '.$noticia['Voluntario']['Persona']['nom_appat'].' '.$noticia['Voluntario']['Persona']['nom_apmat']; ?></div>
+    	<div style="text-align: right" class="publicada">Publicada el
+	    	<?php
+	    		$arrayFecha1 = split(" ",$noticia['Noticia']['fecha_creacion']);
+	    		$arrayFecha2 = split("-",$arrayFecha1[0]);
+	    		echo $arrayFecha2[2]."-".$arrayFecha2[1]."-".$arrayFecha2[0];
+	    		echo " a las ".$arrayFecha1[1]." hrs.";
+	    	?>
+    	</div>
+    </div>
+    <?php endforeach; ?>
+    <?php endif;?>

@@ -1,0 +1,75 @@
+<!-- 87518243618768 -->
+
+
+<div class="contenedor">
+        <form action="<?php echo $html->url('/socios/agregar'); ?>" method="post">
+                <fieldset class="a_cuatrocincuenta">
+                        <legend><span>Ver Socio</span></legend>
+                        <ol>
+                                <li>
+                                        <label>C&oacute;digo Socio</label>
+                                        <?php echo $html->input('Socio/nom_rut',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['cod_socio']));?>
+                                </li>
+                                <li>
+                                        <label>RUT</label>
+                                        <?php echo $html->input('Socio/nom_rut',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_rut']));?>
+                                </li>
+                                <li>
+                                        <label>Fecha Ingreso</label>
+                                        <?php echo $html->input('Socio/fec_ingreso',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['fec_ingreso']));?>
+                                </li>
+
+                                <li>
+                                        <label>Nombre</label>
+                                        <?php echo $html->input('Socio/nom_nombre', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_nombre']));?>
+                                </li>
+                                <li>
+                                        <label>Apellido Paterno</label>
+                                        <?php echo $html->input('Socio/nom_appat', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_appat']));?>
+                                </li>
+                                <li>
+                                        <label>Apellido Materno</label>
+                                        <?php echo $html->input('Socio/nom_apmat', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_apmat']));?>
+                                </li>
+                                <li>
+                                        <label>Fecha Nacimiento</label>
+                                <!--         <?php echo $html->dateTimeOptionTag('Socio/fec_nacimiento', 'MDY' , 'NONE', $html->tagValue('Socio/fec_nacimiento'), array());?>
+                                -->
+                                			<?php echo $html->input('Socio/fec_nacimiento',array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['fec_nacimiento']));?>
+                                
+                                </li>
+	                            <li>
+                                        <label>Direcci&oacute;n</label>
+                                        <?php echo $html->input('Socio/nom_direccion', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_direccion']));?>
+                                </li>
+                                <li>
+                                        <label>Comuna</label>
+    <!--                                     <?php echo $html->input('Socio/cod_comuna', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['cod_comuna']));?>
+    -->         
+             								<?php echo $html->selectTag('Socio/cod_comuna', $comunas, $socio['Socio']['cod_comuna'], array('disabled' => 'disabled'), null, false); ?>
+                                </li>
+                                <li>
+                                        <label>Tel&eacute;fono 1</label>
+                                        <?php echo $html->input('Socio/num_telefono1', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['num_telefono1']));?>
+                                </li>
+                                <li>
+                                        <label>Tel&eacute;fono 2</label>
+                                        <?php echo $html->input('Socio/num_telefono2', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['num_telefono2']));?>
+                                </li>
+                                <li>
+                                        <label>E-mail</label>
+                                        <?php echo $html->input('Socio/nom_email', array('size' => '20', 'readonly' => 'readonly', 'value' => $socio['Socio']['nom_email']));?>
+                                </li>
+                        </ol>
+                </fieldset>
+                <fieldset class="submit_chico" style="left: 260px">
+<!--                        <?php echo $html->submitTag('Crear') ?>
+-->                </fieldset>
+
+        </form>
+</div>
+
+<ul class="actions">
+<li><?php echo $html->link('Volver', '/socios/index')?></li>
+</ul>
+                                

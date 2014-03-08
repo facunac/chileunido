@@ -1,0 +1,115 @@
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?> 
+<?php $jsvalid->setModel('Caso'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<br/>
+<br/>
+
+	
+		
+		<p>Ingrese datos del nuevo caso y beneficiario</p>
+		
+		<?php echo $jsvalid->form('ingresar_nuevo');
+		?> 
+		<fieldset>
+			<legend>Ingresar Datos B&aacute;sicos</legend>
+				
+			<p><!--label>Nombre</label-->
+				<?php echo $jsvalid->input('Persona/nom_nombre','Nombre', array('size' => '20','maxlength'=>'255','value'=>$nom_nombre)) ?>		</p>
+			
+			<p><!--label>Apellido Paterno</label-->
+				<?php echo $jsvalid->input('Persona/nom_appat','Apellido Paterno' ,array('size' => '20','maxlength'=>'255', 'value'=> $nom_appat)) ?></p>
+			
+			<p><!--label>Apellido Materno</label-->
+				<?php echo $jsvalid->input('Persona/nom_apmat', 'Apellido Materno',array('size' => '20','maxlength'=>'255', 'value'=>$nom_apmat)) ?></p>
+			
+			<p><label>Sexo</label>
+				<?php echo $html->selectTag('FormCrear/tip_sexo', array('Femenino' => 'Femenino', 'Masculino' => 'Masculino')); ?></p>
+			<p><label>Rol Familiar</label>
+				<?php echo $html->selectTag('FormCrear/tip_rolfamilia', $tip_rolfamilia); ?></p>
+						
+			<p><!--label>RUT</label-->
+				<?php echo $jsvalid->input('Persona/nom_rut', 'RUT',array('size' => '20','maxlength'=>'255', 'value' =>$nom_rut)) ?>
+				-
+				<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'255')); ?></p>
+			
+			<p>
+			
+						<?php echo $cupos;?>
+						
+						<?php 
+							echo $jsvalid->input('Persona/fec_nacimiento', 'Fecha Nacimiento',array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency'));
+							
+						?>
+			</p>
+			<p><!--label>Edad</label-->
+				<?php 
+				//echo $jsvalid->input('Persona/fec_nacimiento', 'Fecha Nacimiento',array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency'));
+				echo $html->input('Persona/ano_nacimiento', array('size' => '4','maxlength'=>'255', 'value'=>''));
+				?></p>
+		
+			<p><!--label>Direcci&oacute;n</label-->
+				<?php echo $jsvalid->input('Persona/nom_direccion', 'Direcci&oacute;n',array('size' => '20','maxlength'=>'255')) ?></p>
+		
+			<p><label>Comuna</label>
+				<?php echo $html->selectTag('FormCrear/cod_comuna', $comunas); ?></p>
+		
+			<p><!--label>Tel&eacute;fono</label-->
+				<?php echo $html->input('Persona/num_telcod1', array('size' => '2','maxlength'=>'255')); ?>
+				<?php echo $jsvalid->input('Persona/num_telefono1', 'Tel&eacute;fono',array('size' => '20','maxlength'=>'255')); ?></p>
+			
+			<p><label>Tel&eacute;fono 2</label>
+				
+				<?php echo $html->input('Persona/num_telcod2', array('size' => '2','maxlength'=>'255')); ?>
+				<?php echo $html->input('Persona/num_telefono2', array('size' => '20','maxlength'=>'255'));?></p>
+				
+			<p><label for="login_button">&nbsp;</label>
+			</fieldset>
+			
+			<fieldset>
+				<legend>Ingresar Datos del Caso</legend>
+			
+			<p><label>Tipo Ingreso</label>
+				<?php echo $html->selectTag('FormCrear/tip_ingreso', $ingresos); ?></p>
+			
+			<p><label>Prioridad</label>
+				<?php echo $html->selectTag('FormCrear/tip_prioridad', $prioridades); ?></p>
+			
+			
+			<p><label>Frecuencia</label>
+				
+				<?php echo $html->input('FormCrear/num_frecuencia', array('size' => '20','maxlength'=>'255', 'value'=>'30')); ?>
+			
+			</p>
+			<p><label>Pr&oacute;xima Revisi&oacute;n</label>
+				<?php echo $html->input('FormCrear/fec_proxrevision', array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency'));?></p>
+			
+			<p><label>Tipo Pr&oacute;xima Revisi&oacute;n</label>
+				<?php echo $html->selectTag('FormCrear/tip_proxrevision', $tip_proxrevision); ?></p>
+				
+			<p><label>Tipo Caso</label>
+				<?php echo $html->selectTag('FormCrear/cod_tipocaso', $tipos_casos); ?></p>	
+			
+			
+			<p><!--label>Comentario</label-->
+				<?php echo $jsvalid->textarea('Caso/nom_comentario','Comentario', array('size' => '20','maxlength'=>'255'));
+				//$html->input('FormCrear/nom_comentario', array('size' => '20','maxlength'=>'255')); ?></p>
+				
+			<p><label>S&oacute;lo Yo</label>
+				<?php echo $html->selectTag('FormCrear/cod_soloyo', $voluntarios,'0',null,null,false); ?></li>
+			</p>	
+			<!--p><label>Frecuencia</label>
+				
+				<?php echo $html->radio('FormCrear/num_frecuencia',array('1'=>'1 vez por semana', '2'=> '1 vez cada dos semanas', '3'=> '1 vez al mes', '4'=>''),null,array())  ?>
+			
+			</p-->
+			
+			</fieldset><br/>	
+				<?php echo $html->submitTag('Ingresar') ?></p>
+		
+		</form>
+	

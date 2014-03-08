@@ -1,0 +1,283 @@
+/*.calendario table {
+	border-collapse: collapse;
+	font-size: 12px;
+	width: 80%;
+	padding: 10px
+}
+
+.calendario td {
+	min-height: 3em;
+	height: 3em;
+	margin: 0;
+	padding: 0;
+}*/
+
+table.calendario2, table.calendario3 {
+	border-collapse: collapse;
+	font-size: 12px;
+	width: 95%;
+	padding: 10px
+}
+
+.cal_asignado, .cal_caso, .cal_mininuevo {
+	font-size: 9px;
+	overflow: auto;
+	margin: -1px
+}
+
+.cal_asignado {
+	border: 1px solid #454545;
+	background: #CCCCFF;
+	padding: 3px;
+}
+
+.cal_caso {
+	border: 1px solid #454545;
+	background: #FFCCCC;
+	padding: 3px;
+}
+
+.cal_mininuevo {
+	border-top: 1px solid #454545;
+	background: white;
+	text-align: center;
+	height: 9px
+}
+
+.cal_datos {
+	float: left;
+	overflow: auto;
+	width: auto
+}
+
+.cal_botones {
+	float: right;
+	text-align: right;
+	width: 34px;
+	padding-top: 7px;
+	padding-left: 2px
+}
+
+.cal_derivar {
+	float: right;
+	width: 18px;
+	padding-top: 7px;
+	padding-left: 4px
+}
+
+.cal_vacio {
+	background: white;
+	text-align: center;
+	margin: 0px;
+	overflow: auto
+}
+
+.cal_nuevoturno {
+	height: 14px
+}
+
+div.fila table.table_tablagris, #primerafila .calendario table{
+width:100%
+}
+
+.calendario caption {
+font:italic 14px "Trebuchet MS", Arial, Helvetica, sans-serif;
+text-align:right;
+padding:0 0 5px
+}
+
+.table_tablagris th,.th_tablagris, .calendario th {
+background:#a5a5a5;
+background-image:url(img/th_bg.jpg);
+border:1px solid #454545;
+text-transform:uppercase;
+text-align:center;
+color:#333;
+padding:7px 20px
+}
+
+.calendario ul.fdtablePaginater {display:inline-block;}
+.calendario ul.fdtablePaginater {display:inline;}
+.calendario ul.fdtablePaginater li {float:left;}
+.calendario ul.fdtablePaginater {text-align:center;}
+.calendario table { border-bottom:1px solid #454545; }
+
+
+.calendario ul.fdtablePaginater
+        {
+        display:table;
+        list-style:none;
+        padding:0;
+        margin:0 auto;
+        text-align:center;
+        height:2em;
+        width:auto;
+        margin-bottom:2em;
+        }
+.calendario ul.fdtablePaginater li
+        {
+        display:inline;
+        padding-right:4px;
+        color:#666;
+        list-style:none;
+        
+        -moz-user-select:none;
+        -khtml-user-select:none;
+        }
+.calendario ul.fdtablePaginater li a.currentPage
+        {
+        border-color:#000 !important;
+        color:#000;
+        }
+.calendario ul.fdtablePaginater li a:active
+        {
+        border-color:#222 !important;
+        color:#222;
+        }
+.calendario ul.fdtablePaginater li a,
+.calendario ul.fdtablePaginater li div
+        {
+        display:block;
+        width:2em;
+        font-size:1em;
+        color:#666;
+        padding:0;
+        margin:0;
+        text-decoration:none;
+        outline:none;
+        border:1px solid #ccc;
+        font-family:georgia, serif;
+        }
+.calendario ul.fdtablePaginater li div
+        {
+        cursor:normal;
+        opacity:.5;
+        filter:alpha(opacity=50);
+        }
+.calendario ul.fdtablePaginater li a span,
+.calendario ul.fdtablePaginater li div span
+        {
+        display:block;
+        line-height:2em;
+        border:1px solid #fff;
+        background:#fff;
+        }
+.calendario ul.fdtablePaginater li a
+        {
+        cursor:pointer;
+        }
+.calendario ul.fdtablePaginater li a:focus
+        {
+        color:#333;
+        text-decoration:none;
+        border-color:#aaa;
+        }
+.calendario .fdtablePaginaterWrap
+        {
+        text-align:center;
+        clear:both;
+        text-decoration:none;
+        }
+.calendario ul.fdtablePaginater li .next-page span,
+.calendario ul.fdtablePaginater li .previous-page span,
+.calendario ul.fdtablePaginater li .first-page span,
+.calendario ul.fdtablePaginater li .last-page span
+        {
+        font-weight:bold !important;
+        }
+		
+.calendario #visibleTotal
+        {
+        text-align:center;
+        letter-spacing:auto;
+        }
+* html .calendario ul.fdtablePaginater li div span,
+* html .calendario ul.fdtablePaginater li div span
+        {
+        background:#eee;
+        }
+.calendario tr.invisibleRow
+        {
+        display:none;
+        }
+
+.calendario th.sortable,
+.calendario th.sortable-text,
+.calendario th.sortable-date,
+.calendario th.sortable-keep,
+.calendario th.sortable-date-dmy,
+.calendario th.sortable-numeric,
+.calendario th.sortable-currency,
+.calendario th.sortable-sortByTwelveHourTimestamp,
+.calendario th.sortable-sortIPAddress,
+.calendario th.sortable-sortEnglishLonghandDateFormat,
+.calendario th.sortable-sortScientificNotation,
+.calendario th.sortable-sortImage,
+.calendario th.sortable-sortFileSize,
+.calendario th.sortable-sortAlphaNumeric,
+.calendario th.sortable-sortEnglishDateTime
+{
+background: #c7c7c7 url(img/th_bg.jpg);
+border:1px solid #454545;
+text-transform:uppercase;
+text-align:center;
+color:#333;
+width:100px;
+padding:7px 20px
+}
+.calendario th.forwardSort
+        {
+        background:#DADADA url(img/bg_header_down.jpg) no-repeat 0 0;
+        }
+.calendario th.reverseSort
+        {
+        background:#DADADA url(img/bg_header_up.jpg) no-repeat 0 0;
+        }
+.calendario table thead th.forwardSort a,
+.calendario table thead th.reverseSort a
+        {
+        color:#000;
+        text-decoration:none;
+        }
+		
+.calendario th a
+        {
+        text-decoration:none;
+        color: #000;
+        background:transparent;
+        }
+.calendario td a
+        {
+        text-decoration:none;
+        color:#239;
+        background:transparent;
+        }
+.calendario td img
+        {
+        margin:0 auto;
+        border:3px solid #ddd;
+        }
+.calendario td a:hover
+        {
+        color:#a84444;
+        border-bottom:1px dotted #a80000;
+        background:transparent;
+        }
+
+.calendario td.lft
+        {
+        text-align:left;
+        }
+		
+td[class~="alt"]
+        {
+        background: #f3f3f3 !important;
+        }
+
+tr.alt
+        {
+        background: #fff;
+        }
+        
+        
+       

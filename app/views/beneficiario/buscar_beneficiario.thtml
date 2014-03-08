@@ -1,0 +1,298 @@
+﻿<script type="text/javascript">
+
+function seg_visita(select_id){
+	if(select_id.value=='Visita'){
+		document.getElementById('ocultar_si_visita').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_visita').style.display = "block";
+	}
+}
+
+function paso_a_cierre(checkbox_id) {
+	if (checkbox_id.checked) {
+		document.getElementById('ocultar_si_cierre').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_cierre').style.display = "block";
+	}
+}
+
+function confirmar_crear() {
+	return confirm("¿Ingresar el nuevo beneficiario?");
+}
+
+</script>
+
+
+
+<br/>
+<br/>
+<?php
+	$j=0;
+	$k=0;
+	$l=0;
+	$m=0;
+
+	$j=count($array_pendiente);
+	$k=count($array_activo);
+	$l=count($array_retiro);
+	$m=count($array_derivacion);
+	
+		// Se muestran las coincidencias
+		
+	$index=1; ?>
+	
+	<?php 
+		if( isset($this->params['url']['mensaje']))
+			echo "<p>",$this->params['url']['mensaje'],"</p>";
+	 
+		if($k!=0)
+		{ 
+		?>
+			<h3>Beneficiarios con Caso Activo</h3>
+	
+			<div class="paginacion">
+
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+
+				<thead>
+					<tr>
+						<th class="sortable-text" width="123">Nombre</th>
+						<th class="sortable-numeric" width="100">Edad</th>
+						<th class="sortable-text" width="204">Rol Familiar</th>
+
+						<th class="sortable-text" width="116">Comuna</th>
+						<th class="sortable-numeric" width="122">Tel&eacute;fono</th>
+					    <th class="th_tablagris" width="100">Ver<br>
+				        
+					</tr>
+				</thead>	
+				<tfoot>
+				</tfoot>
+				<tbody>
+					
+					<?php
+				foreach($array_activo as $p)
+				{ ?>
+					
+					
+	            	<tr class ="odd">
+											
+					<td class="td_gris_nombre"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
+					<td class="td_gris"><?php echo $p['edad'] ?></td>
+					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+					<td class="td_gris"><?php
+								echo $html->formTag('ver');
+								echo $html->hidden('Persona/cod_persona', array('value' => $p['cod_persona']));
+								echo "<input type=\"image\" src=\"../img/ver.png\" alt=\"Ver\" title=\"Ver\">";
+								
+								echo '</form>';
+							?>
+					</td>
+				<?php } ?> 
+			  </tbody>		
+			</table><br/><br/>
+		</div>
+	
+	<?php
+		}
+		if($j!=0)
+		{
+		?>
+				<h3>Beneficiarios con Caso Pendiente de Derivación</h3>
+				<div class="paginacion">
+				
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+				
+				<thead>
+					<tr>
+						<th class="sortable-text" width="123" scope="col">Nombre</th>
+						<th class="sortable-numeric" width="100" scope="col">Edad</th>
+						<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
+
+						<th class="sortable-text" width="116" scope="col">Comuna</th>
+
+						<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+				        
+					</tr>
+				</thead>	
+				<tfoot>
+				</tfoot>
+				<tbody>
+				<?php
+				foreach($array_pendiente as $p)
+				{ ?>
+					<tr class ="odd">
+											
+					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td></td>
+					<td class="td_gris"><?php echo $p['edad'] ?></td>
+					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+					
+					</tr>
+				
+				
+				<?php 
+				}  ?> 
+				</tbody>		
+			</table><br/><br/>
+		
+				</div>
+			<?php 
+		}  					
+		if($m!=0)
+		{
+		?>
+				<h3>Beneficiarios con Caso Derivado</h3>
+				<div class="paginacion">
+				
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+				
+				<thead>
+					<tr>
+						<th class="sortable-text" width="123" scope="col">Nombre</th>
+						<th class="sortable-numeric" width="100" scope="col">Edad</th>
+						<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
+
+						<th class="sortable-text" width="116" scope="col">Comuna</th>
+
+						<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+					    <th class="th_tablagris" width="100" scope="col">Ver<br>
+				        
+					</tr>
+				</thead>	
+				<tfoot>
+				</tfoot>
+				<tbody>
+				<?php
+				foreach($array_derivacion as $p)
+				{ ?>
+					<tr class ="odd">
+											
+					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver3/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
+					<td class="td_gris"><?php echo $p['edad'] ?></td>
+					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+					
+					<td class="td_gris">
+						<?php
+							echo $html->formTag('ver3');
+							echo $html->hidden('Persona/cod_persona', array('value' => $p['cod_persona']));
+							echo "<input type=\"image\" src=\"../img/ver.png\" alt=\"Ver\" title=\"Ver\">";
+							echo '</form>';
+						?>
+					</td>
+					</tr>
+				
+				
+				<?php 
+				}  ?> 
+				</tbody>		
+			</table><br/><br/>
+		
+				</div>
+			<?php 
+				}  					
+	
+		if($l!=0)
+		{
+	?>
+			<h3>Beneficiarios con Caso Retirado</h3>
+			
+			<div class="paginacion">
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+			
+			<thead>
+				<tr>
+					<th class="sortable-text" width="123" scope="col">Nombre</th>
+					<th class="sortable-numeric" width="100" scope="col">Edad</th>
+					<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
+
+					<th class="sortable-text" width="116" scope="col">Comuna</th>
+
+					<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+				    <th class="th_tablagris" width="100" scope="col">Ver<br>
+			        
+				</tr>
+			</thead>	
+			<tfoot>
+			</tfoot>
+			<tbody>
+			<?php
+			foreach($array_retiro as $p)
+			{ ?>
+				<tr class ="odd">
+									
+				<td class="td_gris_nombre"><a href="ver2/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
+				<td class="td_gris"><?php echo $p['edad'] ?></td>
+				<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
+				<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+				<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+				
+				<td class="td_gris">
+					<?php
+						echo $html->formTag('ver2');
+						echo $html->hidden('Persona/cod_persona', array('value' => $p['cod_persona']));
+						echo "<input type=\"image\" src=\"../img/ver.png\" alt=\"Ver\" title=\"Ver\">";
+						echo '</form>';
+					?>
+				</td>
+				
+				</tr>
+			
+			
+			<?php 
+			} 
+			echo '</tbody>	</table> </div>';
+		}
+		
+		echo $html->formTag('excel');
+		
+		if($k!=0){
+			
+		$array = array();
+		foreach($array_activo as $a){
+		$b['cod_persona'] = $a['cod_persona'];
+		$array+= array_merge($array,array($b));
+		}
+		
+		$arreglo = serialize($array);
+		echo $html->hidden('Excel/Hoja1', array('value' => $arreglo));
+		}
+		
+		if($m!=0){
+		
+		$array = array();
+		foreach($array_derivacion as $a){
+		$b['cod_persona'] = $a['cod_persona'];
+		$array+= array_merge($array,array($b));
+		}
+		
+		$arreglo = serialize($array);
+		echo $html->hidden('Excel/Hoja2', array('value' => $arreglo));
+		}
+		
+		if($l!=0){
+			
+		$array = array();
+		foreach($array_retiro as $a){
+		$b['cod_persona'] = $a['cod_persona'];
+		$array+= array_merge($array,array($b));
+		}
+		
+		$arreglo = serialize($array);
+		echo $html->hidden('Excel/Hoja3', array('value' => $arreglo));
+		}
+		
+		//echo $html->submitTag('Exportar');
+		if($contador_resultados>0) {
+		?>
+			<input type="image" src="<?php echo $this->webroot.'img/excel_icon.jpg'; ?>" alt="Exportar a Excel" title="Exportar a Excel" />
+		<?php }?>
+		
+	</form>
+	<h2><a href="ingresar_nuevo0/">Ingresar Nuevo Beneficiario y Caso</a></h2>
+						

@@ -1,0 +1,168 @@
+<?php 
+$jsvalid->setModel('Donarstack'); 
+$jsvalid->required();
+echo $jsvalid->returnScript(); 
+?> 
+
+<?php
+// Mensaje en colores indicando resultados de editar, borrar, agregar.
+
+if( isset($_SESSION['success']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_verde">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+else
+if( isset($_SESSION['error']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_rojo">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+unset($_SESSION['msg']);
+
+?>
+
+<div class="contenedor">
+        <?php echo $jsvalid->form('add', '', 'post', 'a_cuatrocincuenta') ?>
+                <fieldset class="a_cuatrocincuenta">
+                        <legend><span>Crear Alta de Donacion</span></legend>
+                        <ol>
+                                <li>
+                                        <label>RUT</label>
+                                      
+                                        <?php echo $html->input('Donarstack/nom_rut',array('size' => '20','maxlength'=>'20')) ?>
+                                </li>
+                                <li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_nombre', 'Nombre', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                <li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_appa', 'Apellido Paterno', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                <li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_apma', 'Apellido Materno', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                <li>  
+                                        <?php echo $jsvalid->input('Donarstack/fec_nacimiento', 'Fecha Nacimiento', array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency')); ?>
+                                </li>
+                                <li>
+                                        <?php echo $jsvalid->textarea('Donarstack/nom_direccion', 'Direcci&oacute;n', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                       <!--
+                                <li>
+  										<label>Regi&oacute;n</label>
+                             			<?php // echo $html->selectTag('Donarstack/cod_region', $regiones, 13, array("onchange" => "cargar_ubicacion('comuna','".$html->url("/comunas/listacomunas/")."'+this.value);", "class"=>"select_mediano"), null, false); ?>
+                                        
+                                </li> -->
+                                <li id="comuna">
+                                        <label>Comuna</label>
+                                        <?php echo $html->selectTag('Donarstack/cod_comuna', $comunas, '', array("class"=>"select_mediano"), null, false);?>
+                                </li>
+                                <li>
+                                        <label>Telefono 1</label>
+                                        
+										<?php echo $html->input('Donarstack/num_telefono1', array('size' => '20','maxlength'=>'255'));?>
+                                </li>
+                                <li>
+                                        <label>Telefono 2</label>
+                                        
+										<?php echo $html->input('Donarstack/num_telefono2', array('size' => '20','maxlength'=>'255'));?>
+                                </li>
+                                <li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_mail', 'E-mail', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                
+        						<li>
+        								<label>Sexo</label>
+        								<!-- <?php echo $html->input('Donarstack/bit_genero', array('size' => '20', 'value' => $donarstack['Donarstack']['bit_genero']));?> -->
+        								<?php
+        								$tmp = '<select name="data[Donarstack][bit_genero]"  class="select_mediano" id="BitGenero" style="width: 120px">';
+       									$tmp .= '<option value="0">Mujer</option><option value="1">Hombre</option>';
+        								$tmp .= '</select>';
+        								echo $tmp;
+										?>	
+        						</li>                                
+
+								<li>
+                                        <?php echo $jsvalid->input('Donarstack/num_monto', 'Monto', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+								<!-- 
+								<li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_mediopago', 'Medio de Pago (Banco,TB,CMR,Presto)', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+                                -->
+                                
+        						<li>
+        							<label>Medio de pago</label>
+        							<!-- <?php echo $html->input('Donarstack/nom_mediopago', array('size' => '20', 'value' => $donarstack['Donarstack']['nom_mediopago']));?> -->
+        							<?php
+        							$tmp = '<select name="data[Donarstack][nom_mediopago]"  class="select_mediano" id="NomMediopago" style="width: 120px">';
+        							for($n=0; $n<count($mediosDePago); $n++)
+       									$tmp .= '<option value="'.$mediosDePago[$n].'" >'.$mediosDePago[$n].'</option>';
+        							$tmp .= '</select>';
+        							echo $tmp;
+									?>	
+        						</li>  
+                                
+                                
+								<li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_mediopagoaux1', 'Fecha Vencimiento', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+								
+									<li>
+					                                      <?php echo $jsvalid->input('Donarstack/nom_mediopagoaux2', 'Info adicional 2', array('size' => '20','maxlength'=>'255')) ?>
+					            	</li>
+				
+								<li>
+                                        <?php echo $jsvalid->input('Donarstack/nom_idpago', 'Numero de Medio de Pago', array('size' => '20','maxlength'=>'255')) ?>
+                                </li>
+
+						        <li>
+        							<label>Ajuste IPC</label>
+        							<!-- <?php echo $html->input('Donarstack/bit_ajusteipc', array('size' => '20', 'value' => $donarstack['Donarstack']['bit_ajusteipc']));?> -->
+        							<?php
+        							$tmp = '<select name="data[Donarstack][bit_ajusteipc]"  class="select_mediano" id="BitAjusteipc" style="width: 120px">';
+       								$tmp .= '<option value="0">No</option><option value="1">S&iacute;</option>';
+        							$tmp .= '</select>';
+        							echo $tmp;
+									?>	
+        						</li>                              
+								
+								<li>
+        							<label>Estado</label>
+        							<!-- <?php echo $html->input('Donarstack/bit_estado', array('size' => '20', 'value' => $donarstack['Donarstack']['bit_estado']));?> -->
+        							<?php
+        							$tmp = '<select name="data[Donarstack][bit_estado]"  class="select_mediano" id="BitEstado" style="width: 120px">';
+        							for($n=0; $n<count($estados); $n++)
+       									$tmp .= '<option value="'.$estados[$n].'" >'.$estados[$n].'</option>';
+        							$tmp .= '</select>';
+        							echo $tmp;
+									?>	
+        						</li> 
+
+                        </ol>
+                        <?php echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">"; ?>
+                        <?php echo "<input type=\"hidden\" name=\"agregar\" value=\"agregar\">"; ?>
+                </fieldset>
+                <fieldset class="submit" style="left: -50px">
+                        <?php echo $html->submitTag('Agregar') ?>
+                </fieldset>
+
+        </form>
+</div>
+
+
+
+
+
+</form>
+<ul class="actions">
+<li><?php echo $html->link('volver', '/donarstacks/index')?></li>
+</ul>

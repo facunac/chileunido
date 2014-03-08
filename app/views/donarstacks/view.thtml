@@ -1,0 +1,158 @@
+<!-- 934543234235332 -->
+
+<div class="contenedor">
+	<form action="<?php echo $html->url('/donarstacks/add'); ?>" method="post">
+		<fieldset class="a_cuatrocincuenta">
+        <legend><span>Ver Mandato</span></legend>
+                                                    
+		<ol>
+        <li>
+        	<label>C&oacute;digo en Pila</label>
+        	<?php echo $html->input('Donarstack/cod_donarstack',array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['cod_donarstack']));?>
+        </li>
+        
+        <li>
+        	<label>Nombre</label>
+        	<?php echo $html->input('Donarstack/nom_nombre',array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_nombre']));?>
+        </li>
+        
+        <li>
+        	<label>Apellido paterno</label>
+        	<?php echo $html->input('Donarstack/nom_appa',array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_appa']));?>
+        </li>
+
+        <li>
+        	<label>Apellido materno</label>
+        	<?php echo $html->input('Donarstack/nom_apma', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_apma']));?>
+        </li>
+               
+		<li>
+        	<label>RUT</label>
+        	<?php echo $html->input('Donarstack/nom_rut', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_rut']));?>
+        </li>
+        
+		<li>
+        	<label>Direcci&oacute;n</label>
+        	<?php echo $html->input('Donarstack/nom_direccion', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_direccion']));?>
+        </li>
+        
+		<li>
+        	<label>Comuna</label>
+        	<?php echo $html->input('Donarstack/cod_comuna', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['cod_comuna']));?>
+        </li>
+        
+        <li>
+        	<label>Tel&eacute;fono 1</label>
+        	<?php echo $html->input('Donarstack/num_telefono1', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['num_telefono1']));?>
+        </li>
+        
+        <li>
+        	<label>Tel&eacute;fono 2</label>
+        	<?php echo $html->input('Donarstack/num_telefono2', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['num_telefono2']));?>
+        </li>
+        
+        <li>
+        	<label>E-mail</label>
+        	<?php echo $html->input('Donarstack/nom_mail', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_mail']));?>
+        </li> 
+
+
+        <li>
+        	<label>Sexo</label>
+        	<? 
+        	if($donarstack['Donarstack']['bit_genero'] == 1)
+        		$tmp = "Hombre";
+        	else
+        		$tmp = "Mujer";
+        	
+        	?>
+        	<?php echo $html->input('Donarstack/bit_genero', array('size' => '20', 'readonly' => 'readonly', 'value' => $tmp));?>
+        </li>
+        
+        <li>
+        	<label>Medio de pago</label>
+        	<?php echo $html->input('Donarstack/nom_mediopago', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_mediopago']));?>
+        </li>
+        
+        <li>
+        	<label>Informaci&oacute;n adicional medio de pago 1</label>
+        	<?php echo $html->input('Donarstack/nom_mediopagoaux1', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_mediopagoaux1']));?>
+        </li>
+        
+        <li>
+        	<label>Informaci&oacute;n adicional medio de pago 2</label>
+        	<?php echo $html->input('Donarstack/nom_mediopagoaux2', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['nom_mediopagoaux2']));?>
+        </li>
+        
+        <li>
+        	<label>ID pago</label>
+        	<?php echo $html->input('Donarstack/num_idpago', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['num_idpago']));?>
+        </li>
+        
+        <li>
+        	<label>Monto donaci&oacute;n</label>
+        	<?php echo $html->input('Donarstack/num_monto', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['num_monto']));?>
+        </li>   
+        
+        
+        <li>
+        	<label>Fecha nacimiento</label>
+        	<?php echo $html->input('Donarstack/fec_nacimiento', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['fec_nacimiento']));?>
+        </li>
+        
+        <!-- 
+        <li>
+        	<label>Ajuste IPC</label>
+        	<?php echo $html->input('Donarstack/bit_ajusteipc', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['bit_ajusteipc']));?>
+        </li>
+        -->
+        
+        <li>
+        	<label>Ajuste IPC</label>
+        	<? 
+        	if($donarstack['Donarstack']['bit_ajusteipc'] == 1)
+        		$tmp = "Si";
+        	else
+        		$tmp = "No";
+        	?>
+        	<?php echo $html->input('Donarstack/bit_ajusteipc', array('size' => '20', 'readonly' => 'readonly', 'value' => $tmp));?>
+        </li>
+        
+        <li>
+        	<label>Estado mandato</label>
+        	<?php echo $html->input('Donarstack/bit_estado', array('size' => '20', 'readonly' => 'readonly', 'value' => $donarstack['Donarstack']['bit_estado']));?>
+        </li>
+
+        </ol>
+        </fieldset>
+	</form>
+</div>
+
+<ul class="actions">
+	<li><?php echo $html->link('Volver', '/donarstacks/index')?></li>
+</ul>
+
+
+
+
+<!-- 
+$donarstack['Donarstack']['cod_donarstack']
+$donarstack['Donarstack']['nom_nombre']
+$donarstack['Donarstack']['nom_appa']
+$donarstack['Donarstack']['nom_apma']
+$donarstack['Donarstack']['nom_rut']
+$donarstack['Donarstack']['fec_nacimiento']
+$donarstack['Donarstack']['nom_direccion']
+$donarstack['Donarstack']['cod_comuna']
+$donarstack['Donarstack']['num_telefono1']
+$donarstack['Donarstack']['num_telefono2']
+$donarstack['Donarstack']['nom_mail']
+$donarstack['Donarstack']['bit_genero']
+$donarstack['Donarstack']['num_monto']
+$donarstack['Donarstack']['nom_mediopago']
+$donarstack['Donarstack']['nom_mediopagoaux1']
+$donarstack['Donarstack']['nom_mediopagoaux2']
+$donarstack['Donarstack']['num_idpago']
+$donarstack['Donarstack']['bit_ajusteipc']
+$donarstack['Donarstack']['bit_estado']
+-->

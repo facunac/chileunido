@@ -1,0 +1,35 @@
+<table class="table_tablagris">
+	<tr>
+	<th class="th_tablagris" colspan="2">
+	<?php
+		echo $html->formTag("ver_libro/$mes_ant/$agno_ant"); 
+		echo $html->hidden('Voluntario/cod_persona', array('value' => $cod_persona));
+		echo $html->submitTag($nom_mes_ant);
+	?> </form>
+	</th>
+	<th class="th_tablagris" colspan="3"><?php echo $nom_mes; ?></th>
+	<th class="th_tablagris" colspan="2">
+	<?php
+		echo $html->formTag("ver_libro/$mes_sigte/$agno_sigte"); 
+		echo $html->hidden('Voluntario/cod_persona', array('value' => $cod_persona));
+		echo $html->submitTag($nom_mes_sigte);
+	?> </form>
+	</th>
+	</tr>
+	<tr>
+    	<th class="th_tablagris_dia">Lunes</th>
+		<th class="th_tablagris_dia">Martes</th>
+		<th class="th_tablagris_dia">Mi&eacute;rcoles</th>
+		<th class="th_tablagris_dia">Jueves</th>
+		<th class="th_tablagris_dia">Viernes</th>
+		<th class="th_tablagris_dia">S&aacute;bado</th>
+		<th class="th_tablagris_dia">Domingo</th>
+	</tr>
+	<?php for($i=0; $i<6; $i++){ ?>
+	<tr>
+		<?php for($j=0; $j<7; $j++){ ?>
+			<td class=<?php echo $colores[$i][$j];?>><?php echo "<div class=\"".$colores[$i][$j]."\">".$dia[$i][$j]."</div>"; ?><?php echo $calendario[$i][$j]; ?></td>
+		<?php } ?>
+	</tr>
+	<?php } ?>
+</table>

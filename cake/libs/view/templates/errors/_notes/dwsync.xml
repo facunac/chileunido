@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+	<file name="error404.thtml" local="128542156010781250"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_action.thtml" local="128542156010312500"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_component_class.thtml"
+		local="128542156010781250" remote="128547347620000000"
+		testing="128547347620000000" />
+	<file name="missing_component_file.thtml" local="128542156010156250"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_connection.thtml" local="128542156010000000"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_controller.thtml" local="128542156010625000"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_helper_class.thtml" local="128542156010156250"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_helper_file.thtml" local="128542156010468750"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_layout.thtml" local="128542156010312500"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_model.thtml" local="128542156010000000"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_scaffolddb.thtml" local="128542156010625000"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_table.thtml" local="128542156010625000"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="missing_view.thtml" local="128542156010312500"
+		remote="128547347620000000" testing="128547347620000000" />
+	<file name="private_action.thtml" local="128542156010468750"
+		remote="128547347630000000" testing="128547347630000000" />
+	<file name="scaffold_error.thtml" local="128542156010000000"
+		remote="128547347630000000" testing="128547347630000000" />
+</dwsync>

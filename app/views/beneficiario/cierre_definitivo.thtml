@@ -1,0 +1,22 @@
+<br/>
+<br/>
+
+<?php
+	echo $html->formTag('retirar1');
+	?>		
+		<div>
+			<h2>Retiro de Caso</h2>
+			<p>Al accionar el siguiente boton, el caso ser&aacute; cerrado y retirado.</p>
+			<p>Aprete cerrar caso solamente de estar segura de su acci&oacute;n</p>
+		</div>
+		
+		<?php //echo $fichas->desplegarFormulario($cod_formulario, "FormCrear"); ?>
+		
+		<fieldset class="submit">
+			<?php
+				echo $html->hidden('Caso/cod_caso', array('value' => $cod_caso));
+				echo $html->hidden('Seguimiento/cod_caso', array('value' => $cod_caso));
+				echo $html->submitTag('Cerrar Caso') ;
+			?>
+		</fieldset>
+	</form>

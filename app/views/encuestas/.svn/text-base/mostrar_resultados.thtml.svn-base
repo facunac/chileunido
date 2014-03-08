@@ -1,0 +1,135 @@
+<?php
+
+if($resultados){
+	$num_resultados = count($resultados);
+
+	if(isset($this->params['url']['excel'])){
+		require_once 'Spreadsheet/Excel/Writer.php';
+		$wb = new Spreadsheet_Excel_Writer();
+		$wb->send("Resumen encuesta.xls");
+
+		$wb->setCustomColor(35, 93, 157, 245);
+		$formato_encabezado =& $wb->addFormat(array('Bold' => '1',
+												'Size' => 12,
+												'Align' => 'justify',
+												'VAlign' => 'top',
+												'Color' => 'black'));
+		$formato_titulo =& $wb->addFormat(array('Size' => 12,
+												'Align' => 'center',
+												'Bold' => '1',
+												'FgColor' => '35',
+												'Border' => 1,
+												'Locked' => 1,
+												'Color' => 'black'));
+		$formato_celda =& $wb->addFormat(array('Size' => 12,
+												'VAlign' => 'top',
+												'Align' => 'justify',
+												'Border' => 1,
+												'Color' => 'black'));
+
+		$ws =& $wb->addWorksheet('Resumen');
+		$ws->setInputEncoding('utf-8');
+
+		$ws->write(1, 1, "Resumen encuesta ", $formato_encabezado);
+		$ws->write(3, 1, "Generado el:", $formato_encabezado);
+		$ws->write(3, 2, date("Y-m-d  h:i:s"), $formato_encabezado);
+
+		$filas = 6;
+		$ws->setColumn(1, 1, 20);
+		// imprimir encabezado
+		$j=0;
+		$resultado = reset($resultados);
+		foreach($resumen as $nombrePregunta => $opciones){
+			$ws->write($filas+$j++, 1, $nombrePregunta, $formato_titulo);
+		}
+
+		// Imprimir promedios o porcentajes
+		foreach($resumen as $nombrePregunta => $opciones){
+			$j=2;
+			foreach($opciones as $nombreOpcion => $num){
+				if($nombreOpcion == 'tipo_de_la_pregunta_42')
+					continue;
+				$ws->setColumn($j, $j, 20);
+				if($opciones['tipo_de_la_pregunta_42'] == 'ranking')
+					$ws->write($filas, $j++, "$nombreOpcion = " . $num/$num_resultados, $formato_celda);
+				else
+					$ws->write($filas, $j++, "$nombreOpcion = $num (" . (100*$num/$num_resultados) . "%)", $formato_celda);
+			}
+			$filas++;
+		}
+		// Imprimir detalle por usuario
+
+		$ws =& $wb->addWorksheet('Detalle');
+		$ws->setInputEncoding('utf-8');
+
+		$filas = 3;
+		$colUsuario = 1;
+		$colPregunta = 2;
+		$ws->setColumn($colUsuario, $colUsuario, 20);
+
+		// imprimir encabezado
+		$ws->write($filas, $colUsuario, "Usuario", $formato_titulo);
+		$j=0;
+		$resultado = reset($resultados);
+		foreach($resultado as $r){
+			$ws->setColumn($colPregunta+$j, $colPregunta+$j, 20);
+			$ws->write($filas, $colPregunta+($j++), $r[0], $formato_titulo);
+		}
+		++$filas;
+		// imprimir contenido
+		foreach($resultados as $nombreUsuario => $resultado){
+			$j=0;
+			$ws->write($filas, $colUsuario, $nombreUsuario, $formato_celda);
+			foreach($resultado as $r){
+				$respuesta = str_replace('<ol>', '', $r[1]);
+				$respuesta = str_replace('<li>', '', $respuesta);
+				$respuesta = str_replace('</ol>', '', $respuesta);
+				$respuesta = str_replace('<br />', "\n", $respuesta);
+				$respuesta = str_replace('</li>', "\n", $respuesta);
+				$ws->write($filas, $colPregunta+($j++), $respuesta, $formato_celda);
+			}
+			++$filas;
+		}
+
+		$wb->close();
+		exit;
+	}
+
+?>
+<p>Esta encuesta ha sido respondida por <?php echo $num_resultados; ?> persona<?php echo $num_resultados>1?'s':''; ?>.</p>
+
+<h2>Resumen de resultados</h2>
+<table border="1" cellpadding="10">
+<?php
+foreach($resumen as $nombrePregunta => $opciones){
+	echo "<tr><td><b>$nombrePregunta</b></td>";
+	foreach($opciones as $nombreOpcion => $num){
+		if($nombreOpcion == 'tipo_de_la_pregunta_42')
+			continue;
+		if($opciones['tipo_de_la_pregunta_42'] == 'ranking')
+			echo "<td>$nombreOpcion = " . ($num/$num_resultados) . "</td>";
+		else
+			echo "<td>$nombreOpcion = $num (" . (100*$num/$num_resultados) . "%)</td>";
+	}
+	echo "</tr>";
+}
+?>
+</table>
+<form action="mostrar_resultados?id_encuesta=<?php echo $this->params['url']['id_encuesta'];?>&excel=1" method="post" name="excel">
+	<?php echo $html->submit('Descargar excel'); ?>
+</form>
+
+<h2>Detalle de resultados por usuario</h2>
+<?php
+	foreach($resultados as $nombreUsuario => $resultado){
+		echo "<h3>$nombreUsuario</h3>\n";
+		echo "<table>\n";
+		foreach($resultado as $r){
+			echo '<tr><td><h4>'.$r[0].'</h4></td><td>'.$r[1]."</td></tr>\n";
+		}
+		echo "</table><br />\n";
+	}
+} else {
+	echo "<h2>No hay resultados que mostrar.</h2>\n";
+}
+?>

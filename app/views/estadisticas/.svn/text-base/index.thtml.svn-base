@@ -1,0 +1,172 @@
+
+<script type="text/javascript">
+
+	function opcion_tipo_periodo(valor){
+		cargar_ubicacion('opcion_periodo','<? echo $html->url("/estadisticas/opcion_periodo/") ?>'+document.getElementById('EstadisticasAgno').value+'/'+valor);
+		actualiza_annno();
+	}
+	
+	function opcion_tipo_periodo2(valor){
+		cargar_ubicacion('opcion_periodo2','<? echo $html->url("/estadisticas/opcion_periodo/") ?>'+document.getElementById('EstadisticasAgno').value+'/'+valor+'/'+2);
+		actualiza_annno2();
+	}
+	
+	function actualiza_annno(){
+		if( document.getElementById('EstadisticasTipoPeriodo').value == 't' )
+			document.getElementById('annno').style.display = "none";
+		else
+			document.getElementById('annno').style.display = "";
+	}
+	
+	function actualiza_annno2(){
+		if( document.getElementById('EstadisticasTipoPeriodo2').value == 't' )
+			document.getElementById('annno2').style.display = "none";
+		else
+			document.getElementById('annno2').style.display = "";
+	}
+	
+	function check_eleccion(){
+		if(document.getElementById('EstadisticasCodPrograma').value==""||document.getElementById('EstadisticasNumQuery').value==""){
+		} else {
+			cargar_ubicacion('grafico', '<?php echo $html->url("/estadisticas/grafico/"); ?>'+document.getElementById('EstadisticasCodPrograma').value+'/'+document.getElementById('EstadisticasCodConvenio').value+'/'+document.getElementById('EstadisticasNumQuery').value+'/'+document.getElementById('EstadisticasCriterioCasos').value+'/'+document.getElementById('EstadisticasAgno').value+'/'+document.getElementById('EstadisticasTipoPeriodo').value+'/'+document.getElementById('EstadisticasPeriodo').value+'/?'+Math.random());
+		}
+	}
+
+	function check_eleccion2(){
+		if(document.getElementById('EstadisticasNumQuery2').value==""){		
+		} else {
+			cargar_ubicacion('grafico', '<?php echo $html->url("/estadisticas/grafico/"); ?>'+document.getElementById('EstadisticasCodPrograma2').value+'/'+document.getElementById('EstadisticasCodConvenio2').value+'/'+document.getElementById('EstadisticasNumQuery2').value+'/'+document.getElementById('EstadisticasCriterioCasos2').value+'/'+document.getElementById('EstadisticasAgno2').value+'/'+document.getElementById('EstadisticasTipoPeriodo2').value+'/'+document.getElementById('EstadisticasPeriodo2').value+'/?'+Math.random());
+		}
+		
+	}
+	
+</script>
+
+<div class="contenedor">
+
+			<?php echo $html->formTag("#", 'post', array('class'=>'a_cuatrocincuenta')); ?>	
+				<fieldset class="a_cuatrocincuenta">
+					<legend><span>Estad&iacute;sticas de casos</span></legend>
+					<ol>
+						<li>
+							<label>Programa</label>
+							 <?php echo $html->selectTag("Estadisticas/cod_programa", $programas, "", array('onchange' => "cargar_ubicacion('opcion_consulta','".$html->url("/estadisticas/opcion_consulta/")."'+document.getElementById('EstadisticasCodPrograma').value);"), null, false); ?> 
+						</li>
+						<li id="opcion_consulta">
+							<?php echo $html->hidden("Estadisticas/num_query", ""); ?>
+						</li>
+						<li>
+							<label>Convenio</label>
+							<?php echo $html->selectTag("Estadisticas/cod_convenio", $convenios, "", array(), null, false); ?>
+						</li>
+						<li>
+							<label>Considerar casos</label>
+							 <?php echo $html->selectTag("Estadisticas/criterio_casos", $criterio_casos, "", array(), null, false); ?> 
+						</li>
+						<li>
+							<label>Per&iacute;odo</label>
+							<?php echo $html->selectTag("Estadisticas/tipo_periodo", $tipo_periodo, "", array('onchange' => "javascript:opcion_tipo_periodo(this.value);"), null, false); ?>
+						
+						</li>
+						<li id="annno" style="display:none;">
+							<label>A&ntilde;o</label>
+							<?php echo $html->selectTag("Estadisticas/agno", $agnos, "", array('onchange' => "cargar_ubicacion('opcion_periodo','".$html->url("/estadisticas/opcion_periodo/")."'+this.value+'/'+document.getElementById('EstadisticasTipoPeriodo').value);"), null, false); ?>
+						</li>
+						<li id="opcion_periodo">
+							<?php echo $html->hidden("Estadisticas/periodo", ""); ?>
+						</li>
+					</ol>
+				</fieldset>
+				<fieldset class="submit">
+					<input type="button" value="Generar" onclick="javascript:check_eleccion()" />
+				</fieldset>
+			</form>
+				
+				<?php echo $html->formTag("*", 'post', array('class'=>'a_cuatrocincuenta')); ?>	
+				<fieldset class="a_cuatrocincuenta">
+					<legend><span>Estad&iacute;sticas de atenciones cl&iacute;nicas</span></legend>
+					<ol>
+						<?php echo $html->hidden("Estadisticas/cod_programa2",   array('value'=> $programas2)); ?>
+						<?php echo $html->hidden("Estadisticas/cod_convenio2",   array('value'=> $convenios2)); ?>
+						<?php echo $html->hidden("Estadisticas/criterio_casos2", array('value'=> $criterio_casos2)); ?>
+						<li>
+							<label>Estadistica</label>
+							<?php echo $html->selectTag("Estadisticas/num_query2", $consultas2, "", array(), null, false); ?>
+						</li>
+						<li>
+							<label>Per&iacute;odo</label>
+							<?php echo $html->selectTag("Estadisticas/tipo_periodo2", $tipo_periodo, $selected_tipo_periodo, array('onchange' => "javascript:opcion_tipo_periodo2(this.value);"), null, false); ?>
+						
+						</li>
+						<li id="annno2" style="display:none;">
+							<label>A&ntilde;o</label>
+							<?php echo $html->selectTag("Estadisticas/agno2", $agnos, "", array('onchange' => "cargar_ubicacion('opcion_periodo2','".$html->url("/estadisticas/opcion_periodo/")."'+this.value+'/'+document.getElementById('EstadisticasTipoPeriodo2').value'+2);"), null, false); ?>
+						</li>
+						<li id="opcion_periodo2">
+							<?php echo $html->hidden("Estadisticas/periodo2", ""); ?>
+						</li>
+					</ol>
+				</fieldset>
+				<fieldset class="submit">
+					<input type="button" value="Generar" onclick="javascript:check_eleccion2()" />
+				</fieldset>
+			</form>
+	
+	<?php echo $html->formTag("voluntarios", 'post', array('class'=>'a_cuatrocincuenta')); ?>	
+				<fieldset>
+					<legend><span>Estad&iacute;sticas de voluntarios</span></legend>
+					<ol>
+						<li>
+							<label>Tipo:</label>
+							<?php echo $html->selectTag("FormBuscar/tipo",$tipos)?> 
+						</li>  
+						<li>
+							<label>RUT (ej:12345678-k)</label>
+							<?php echo $html->input('FormBuscar/nom_rut',array('size' => '10','maxlength'=>'10')) ?>
+							-
+							<?php echo $html->input('FormBuscar/num_rutcodver', array('size' => '2','maxlength'=>'1')); ?>
+						</li>
+						
+						<li>
+							<label>Nombre</label>
+							<?php echo $html->input('FormBuscar/nom_nombre', array('size' => '20','maxlength'=>'255')) ?>
+						</li>
+						
+						<li>
+							<label>Apellido Paterno</label>
+							<?php echo $html->input('FormBuscar/nom_appat', array('size' => '20','maxlength'=>'255')) ?>
+						</li>
+						
+						<li>
+							<label>Apellido Materno</label>
+							<?php echo $html->input('FormBuscar/nom_apmat', array('size' => '20','maxlength'=>'255')) ?>
+						</li>
+						
+						<li>
+							<label>Programa</label>
+							<?php echo $html->selectTag('FormBuscar/cod_programa', $programas); ?>
+						</li>
+						
+						<li>
+							<label>Estado</label>
+							<?php echo $html->selectTag('FormBuscar/est_voluntario', $estados, 'Activo'); ?>
+						</li>
+						
+						<li>
+							<label>Atenci&oacute;n cl&iacute;nica</label>
+							<?php echo $html->selectTag('FormBuscar/bit_clinico', $si_no); ?>
+						</li>
+						<li>
+							<label>Rol</label>
+							<?php echo $html->selectTag('FormBuscar/est_rol', $roles); ?>
+						</li>
+				</fieldset>
+				<fieldset class="submit">			
+					<?php echo $html->submitTag('Buscar') ?>
+				</fieldset>	
+				</form>
+	
+	<div id="grafico">
+	</div>
+	
+</div>

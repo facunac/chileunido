@@ -1,0 +1,7 @@
+<?php if(count($periodos)) { ?>
+	<label><?php echo $nom_periodo; ?></label>
+	<?php echo $html->selectTag("Estadisticas/periodo".$numero, $periodos, $selected, array(), null, false); ?>
+<?php } 
+else { ?>
+	<?php echo $html->hidden("Estadisticas/periodo".$numero, ""); ?>
+<?php } ?>

@@ -1,0 +1,30 @@
+<style type="text/css">
+div.pagination
+{
+	color: #555;
+	font-family: "Times New Roman", serif;
+	font-style: normal;
+}
+
+</style>
+
+<div class='pagination'>
+<?php
+    if($pagination->setPaging($paging)):
+//    $leftArrow = $html->image("nav/arrowleft.gif", Array('height'=>15));
+//    $rightArrow = $html->image("nav/arrowright.gif", Array('height'=>15));
+	$leftArrow = "<<";
+	$rightArrow = ">>";
+    $prev = $pagination->prevPage($leftArrow,false);
+    $prev = $prev?$prev:$leftArrow;
+    $next = $pagination->nextPage($rightArrow,false);
+    $next = $next?$next:$rightArrow;
+
+    $pages = $pagination->pageNumbers(" | ");
+
+    echo $pagination->result("Resultados: "," de ")."<br>";
+    echo $prev." ".$pages." ".$next."<br>";
+    echo $pagination->resultsPerPage("Resultados por p&aacute;gina:", ' ');
+    endif;
+?>
+</div>

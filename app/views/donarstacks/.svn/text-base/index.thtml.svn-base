@@ -1,0 +1,147 @@
+<div class="donarstacks">
+<?php
+// Mensaje en colores indicando resultados de editar, borrar, agregar.
+
+if( isset($_SESSION['success']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_verde">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+else
+if( isset($_SESSION['error']) )
+echo '
+<table class="table_tablagris">
+	<tr>
+	<td class="td_rojo">'.$_SESSION['msg'].'</th>
+	</tr>
+</table>
+';
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+unset($_SESSION['msg']);
+
+?>
+
+
+
+
+
+
+<h2>Propuestas de mandatos</h2>
+
+<div class="paginacion">
+<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+<tr>
+	<th class="sortable-text">Nombre </th>
+	<th class="sortable-text">Rut</th>
+	<th class="sortable-text">Monto</th>
+	<th class="sortable-text">Medio de Pago</th>
+	<th class="sortable-text">Estado</th>
+	<th class="th_tablagris" width="150">Ver</th>
+	<th class="th_tablagris" width="150">Editar</th>
+	<th class="th_tablagris" width="150">Borrar</th>
+	<th class="th_tablagris" width="150">Propuesta aceptada</th>
+	
+</tr>
+
+
+
+<?php foreach ($donarstacks as $donarstack): ?>
+<tr>
+	<td class="td_gris_nombre"><?php echo $donarstack['Donarstack']['nom_nombre']." ".$donarstack['Donarstack']['nom_appa']." ".$donarstack['Donarstack']['nom_apma']; ?></td>
+	<td class="td_gris" width="200"><?php echo $donarstack['Donarstack']['nom_rut']; ?></td>
+	<td class="td_gris"><?php echo $donarstack['Donarstack']['num_monto']; ?></td>
+	<td class="td_gris"><?php echo $donarstack['Donarstack']['nom_mediopago']; ?></td>
+	<td class="td_gris"><?php echo $donarstack['Donarstack']['bit_estado']; ?></td>
+
+<!-- 
+	<td class="td_gris"><?php echo $html->link('Ver','/donarstacks/view/' . $donarstack['Donarstack']['cod_donarstack'])?></td>
+	<td class="td_gris"><?php echo $html->link('Editar','/donarstacks/edit/' . $donarstack['Donarstack']['cod_donarstack'])?></td>
+	<td class="td_gris"><?php echo $html->link('Borrar','/donarstacks/delete/' . $donarstack['Donarstack']['cod_donarstack'])?></td>
+	<td class="td_gris"><?php echo $html->link('Propuesta aceptada','/donarstacks/index/' . $donarstack['Donarstack']['cod_donarstack'])?></td>
+-->
+
+
+	<td class="td_gris">
+	<?php 
+	echo $html->formTag('view');
+	echo $html->hidden('Donarstack/cod_donarstack', array('value' => $donarstack['Donarstack']['cod_donarstack']));
+	echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">";
+	echo "<input type=\"image\" src=\"../img/ver.png\" alt=\"Ver\" title=\"Ver\">";
+	echo '</form>';
+	?>
+	</td>
+	
+	<td class="td_gris">
+	<?php 
+	echo $html->formTag('edit');
+	echo $html->hidden('Donarstack/cod_donarstack', array('value' => $donarstack['Donarstack']['cod_donarstack']));
+	echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">";
+	echo "<input type=\"image\" src=\"../img/modificar.png\" alt=\"Editar\" title=\"Editar\">";
+	echo '</form>';
+	?>
+	</td>
+	
+	<td class="td_gris">
+	<?php 
+	echo $html->formTag('delete');
+	echo $html->hidden('Donarstack/cod_donarstack', array('value' => $donarstack['Donarstack']['cod_donarstack']));
+	echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">";
+	echo "<input type=\"image\" src=\"../img/cruz.png\" alt=\"Borrar\" title=\"Borrar\" onClick=\"return confirm('Desea realmente borrar este mandato?')\">";
+	echo '</form>';
+	?>
+	</td>
+	
+	<td class="td_gris">
+	<?php 
+	echo $html->formTag('agregar');
+	echo $html->hidden('Donarstack/cod_donarstack', array('value' => $donarstack['Donarstack']['cod_donarstack']));
+	echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">";
+	echo "<input type=\"image\" src=\"../img/ok2.png\" alt=\"Aceptada\" title=\"Aceptada\" onClick=\"return confirm('Desea realmente proseguir?')\">";
+	echo '</form>';
+	?>
+	</td>
+	
+	
+	
+
+
+
+<!-- 
+	<td class="td_gris">
+		<?php echo $html->link('View','/donarstacks/view/' . $donarstack['Donarstack']['cod_donarstack'])?>
+		<?php echo $html->link('Edit','/donarstacks/edit/' . $donarstack['Donarstack']['cod_donarstack'])?>
+		<?php echo $html->link('Delete','/donarstacks/delete/' . $donarstack['Donarstack']['cod_donarstack'], null, 'Esta seguro que desea borrar a: ' . $donarstack['Donarstack']['nom_nombre'] . $donarstack['Donarstack']['nom_appa'] . '?')?>
+		<?php echo $html->link('Mandato Agregado','/donarstacks/agregar/' . $donarstack['Donarstack']['cod_donarstack'], null, 'Esta seguro que desea incorporar como socio a: ' . $donarstack['Donarstack']['nom_nombre'] . $donarstack['Donarstack']['nom_appa'] . '?')?>
+	
+	</td>
+-->
+	
+	
+	
+</tr>
+<?php endforeach; ?>
+</table>
+
+<ul class="actions">
+	
+<?php echo $html->formTag('add', 'post', array('class' => 'a_cuatrocincuenta_crear')) ?>
+<?php echo $html->submitTag('Ingresar Mandato') ?>
+</form>
+</ul>
+</div>
+
+<?php
+if(count($donarstacks)!=0)
+{
+	echo $html->formTag('excel');
+	$arreglo = serialize($donarstacks);
+	echo $html->hidden('Excel/Hoja', array('value' => $arreglo));
+	
+	echo "<input type=\"image\" src=\"".$this->webroot."img/excel_icon.jpg\" alt=\"Exportar a Excel\" title=\"Exportar a Excel\" />";
+	echo "</form>";
+}
+?>

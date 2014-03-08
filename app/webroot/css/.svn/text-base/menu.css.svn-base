@@ -1,0 +1,67 @@
+/* 
+    Document   : menu
+    Created on : Nov 2, 2009, 1:28:50 AM
+    Author     : strigare
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+
+#contenedor {
+ position:relative;height:400px;width:100%;background-color:white;
+}
+#contenedor h3{
+ background-color:#023a8f;
+ color:white;
+}
+#indicadores {
+margin:5px;
+min-height: 40px;
+font-size: 1.3em;
+padding-top:5px;
+border-color: #023a8f;
+border-style:solid;
+
+}
+#indicadores b{
+color: #023a8f;
+}
+#foro , #avisos 
+{
+    width: 47%;
+    height:160px;
+    position:absolute;
+    background-color:white;
+    margin:5px;
+    padding:5px;
+    border-color: #cfd6e1;
+    border-style:solid;
+}
+#noticias
+{
+    width: 47%;
+    height:auto;
+    float:left;
+    background-color:white;
+    margin:5px;
+    padding:5px;
+    border-color: #cfd6e1;
+    border-style:solid;
+}
+#foro {
+    top:220px;
+    overflow: auto;   /* Esta linea pone las scrollbars */
+}
+#noticias, #avisos{ top:0px; }
+#avisos, #foro{ left:475px; }
+
+
+
+
+
+

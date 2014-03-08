@@ -1,0 +1,84 @@
+<div class="paginacion">
+	<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+		  <?php
+				if(count($personas)==0)
+				{ ?>
+					<div class="errores" id="verde"><?php echo $mensaje; ?></div>
+					<div id="back"><a href="javascript:history.back()"><input type="image" src="<?php echo $this->webroot.'img/deshacer.png'; ?>" alt="" title="Volver" /></a></div>
+				<?php	
+				}
+				else
+				{ 
+			?>
+		<thead>
+			<tr>
+				<th class="sortable-text">Nombre</th>
+				<th class="sortable-text">Rol</th>
+				<th class="sortable-numeric">Tel&eacute;fonos</th>
+				<th class="sortable-text">e-mail</th>
+				<th class="sortable-text">Programa</th>
+				<th class="th_tablagris">Ver Datos</th>
+				<th class="th_tablagris">Permisos</th>
+				<th class="th_tablagris">Turnos</th>
+				<th class="th_tablagris">Asistencia</th>
+			</tr>
+			<?php }?>
+		</thead>	
+		<tbody>
+			<?php foreach($personas as $v){ ?>
+			<tr class ="odd">
+				<td class="td_gris"><?php echo $v['Persona']['nom_nombre']." ".$v['Persona']['nom_appat'] ?></td>
+				<td class="td_gris"><?php echo $v['Voluntario']['est_rol'] ?></td>
+				<td class="td_gris"><?php echo $v['Persona']['num_telefono1']."<br />".$v['Persona']['num_telefono2'] ?></td>
+				<td class="td_gris"><?php echo $v['Persona']['nom_email'] ?></td>
+				<td class="td_gris"><?php echo $v['Programa']['nom_programa'] ?></td>
+				<td class="td_gris">
+				<?php
+					echo $html->formTag('ver/'.$v['Persona']['cod_persona'], 'post', array('style'=>'display:inline;'));
+				?>
+						<input type="image" src="../img/datos.png" alt="Ver Datos" title="Ver Datos">
+					</form>
+				</td>
+				<td class="td_gris">
+				<?php
+					echo $html->formTag('/permisovoluntarios', 'post', array('style'=>'display:inline;'));
+					echo $html->hidden('Voluntario/cod_persona', array('value' => $v['Voluntario']['cod_persona']));
+				?>
+						<input type="image" src="../img/permisos.png" alt="Editar" title="Editar">
+					</form>
+				</td>
+				<td class="td_gris">
+				<?php
+					echo $html->formTag('/turnos/ver', 'post', array('style'=>'display:inline;'));
+					echo $html->hidden('Voluntario/cod_persona', array('value' => $v['Voluntario']['cod_persona']));
+				?>
+						<input type="image" src="../img/turnos.png" alt="Editar" title="Editar">
+					</form>
+				</td>
+				<td class="td_gris">
+				<?php
+					$mes=date('m');
+					$agno=date('Y');
+					echo $html->formTag('ver_libro/'.$mes.'/'.$agno, 'post', array('style'=>'display:inline;'));
+					echo $html->hidden('Voluntario/cod_persona', array('value' => $v['Voluntario']['cod_persona']));
+				?>
+						<input type="image" src="../img/libroasistencia.png" alt="Ver Libro" title="Ver Libro">
+					</form>
+				</td>
+				
+			</tr>
+			<?php } ?>
+		</tbody>		
+	</table>
+</div>
+	<?php
+		if(count($personas)!=0)
+		{
+			echo $html->formTag('excel');
+			$arreglo = serialize($personas);
+			echo $html->hidden('Excel/Hoja', array('value' => $arreglo));
+	?>
+			<input type="image" src="<?php echo $this->webroot.'img/excel_icon.jpg'; ?>" alt="Exportar a Excel" title="Exportar a Excel" />
+		</form>
+	<?php }?>
+

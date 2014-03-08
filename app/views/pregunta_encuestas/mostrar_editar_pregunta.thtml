@@ -1,0 +1,74 @@
+<?php
+$html->css("encuestas");
+
+echo "<h1>".htmlentities($pregunta['Preguntaencuesta']["titulo"])."</h1> <br />";
+
+echo "<div class='divPregunta'>";
+echo "<div class='divOpciones'>";
+echo '<form action="'.$html->url('/preguntaencuestas/editarPregunta').'" class="editar_preguntaencuestas" method="post" name="edit">';
+echo "<p id='numPregunta'> Pregunta ".$pregunta['Preguntaencuesta']['numero']."</p> ";
+echo "Pregunta ".$html->input ('PreguntaEncuesta/titulo',  array ('size' => '30', 'maxlength' => '200', 'value' => $pregunta['Preguntaencuesta']['titulo']));
+echo "<br />";
+$i=1;
+
+    echo $html->input('PreguntaEncuesta/id', array('value'=>''.$pregunta['Preguntaencuesta']['id'], 'style'=>'visibility:hidden'));
+    echo $html->input('PreguntaEncuesta/tipo', array('value'=>''.$pregunta['Preguntaencuesta']['tipo'], 'style'=>'visibility:hidden'));
+    echo $html->input('PreguntaEncuesta/encuesta_id', array('value'=>''.$pregunta['Preguntaencuesta']['encuesta_id'], 'style'=>'visibility:hidden'));
+    if($pregunta['Preguntaencuesta']['tipo']==1 || $pregunta['Preguntaencuesta']['tipo']=='text') //tipo texto
+    {
+            echo '<textarea cols="35" rows="5"></textarea>';
+    }
+    elseif($pregunta['Preguntaencuesta']['tipo']==2 || $pregunta['Preguntaencuesta']['tipo']=='checkbox') // tipo checkbox
+    {
+
+            foreach($pregunta['Opcion'] as $opcion)
+            {
+                    if($opcion['titulo'][0]=="'")
+                            $opcion['titulo'] = substr($opcion['titulo'], 1);
+                    if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                            $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                    echo '<br /><input type="checkbox"></input>';
+                    echo '<input type="text" size="30" name="data[Opcion][opcion'.$i.'text]" value="'.$opcion['titulo'].'"></input>';
+                    echo $html->input('Opcion/id'.$i, array('value'=>''.$opcion['id'], 'style'=>'visibility:hidden'));
+                    $i++;
+            }
+    }
+    elseif($pregunta['Preguntaencuesta']['tipo']==3 || $pregunta['Preguntaencuesta']['tipo']=='radio') // tipo radio
+    {
+
+            foreach($pregunta['Opcion'] as $opcion)
+            {
+                    if($opcion['titulo'][0]=="'")
+                            $opcion['titulo'] = substr($opcion['titulo'], 1);
+                    if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                            $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                    echo '<br /><input type="radio"></input>';
+                    echo '<input type="text" size="30" name="data[Opcion][opcion'.$i.'text]" value="'.$opcion['titulo'].'"></input>';
+                    echo $html->input('Opcion/id'.$i, array('value'=>''.$opcion['id'], 'style'=>'visibility:hidden'));
+                    $i++;
+            }
+    }
+    elseif($pregunta['Preguntaencuesta']['tipo']==4 || $pregunta['Preguntaencuesta']['tipo']=='ranking') // tipo ranking
+    {
+
+        foreach($pregunta['Opcion'] as $opcion)
+        {
+                if($opcion['titulo'][0]=="'")
+                        $opcion['titulo'] = substr($opcion['titulo'], 1);
+                if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                        $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+
+                echo "<p>";
+                echo '<input type="text" size="30" name="data[Opcion][opcion'.$i.'text]" value="'.$opcion['titulo'].'"></input>';
+                echo '<input style="margin-left:5px" type="text" size="2" />';
+                echo $html->input('Opcion/id'.$i, array('value'=>''.$opcion['id'], 'style'=>'visibility:hidden'));
+                echo "</p>";
+                $i++;
+        }
+    }
+    echo "</div>"; //cierre de div de opciones
+echo "</div>"; //cierre de div completo
+echo $html->submit('Editar y Volver');
+echo "<br />";
+echo $html->link('Volver sin editar','/encuestas/editar?id='.$pregunta['Preguntaencuesta']['encuesta_id']);
+?>

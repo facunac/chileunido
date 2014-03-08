@@ -1,0 +1,116 @@
+<!--validaciones del Programa-->
+<?php $jsvalid->setModel('Seguimiento'); ?> 
+<?php $jsvalid->required();?>
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<script type="text/javascript">
+
+
+function seg_visita(select_id){
+	if(select_id.value=='Visita'){
+		document.getElementById('ocultar_si_visita').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_visita').style.display = "block";
+	}
+}
+
+function paso_a_cierre(checkbox_id) {
+	if (checkbox_id.checked) {
+		document.getElementById('ocultar_si_cierre').style.display = "none";
+		document.getElementById('ocultar_si_cerrar').style.display = "none";
+		document.getElementById('FormCrearBitNocerrar_').value = "-1";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_cierre').style.display = "block";
+		document.getElementById('ocultar_si_cerrar').style.display = "";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "";
+	}
+}
+
+function paso_a_derivar(checkbox_id) {
+	if (checkbox_id.checked) {
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "none";
+		document.getElementById('ocultar_si_derivar').style.display = "none";
+		document.getElementById('FormCrearTipProxrevision').value = "Visita";
+		document.getElementById('FormCrearBitDerivar_').value = "-1";
+		
+	} else {
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "";
+		document.getElementById('ocultar_si_derivar').style.display = "";
+		document.getElementById('FormCrearTipProxrevision').value = "Llamada";
+		
+	}
+}
+
+
+</script>
+
+
+
+
+<?php echo $jsvalid->form('ingresar_seguimiento2') ?>
+<?php echo $fichas->desplegarFormulario($cod_formulario, 'Respuestaficha'); ?>
+
+	<fieldset class="a_cuatrocincuenta">
+		<legend><span>Informaci&oacute;n Pr&oacute;ximo Seguimiento</span></legend>
+		<?php echo $html->hidden('Seguimiento/cod_caso', array('value' => $caso['Caso']['cod_caso'])); ?>
+		<ol>
+			<!-- li><?php //echo $jsvalid->textarea('Seguimiento/nom_comentario','Comentarios' ,array('size' => '20','maxlength'=>'255')) ?></li-->
+			
+			<span id="ocultar_si_visita">
+			
+			<li><label>Asignar a: <strong>(Solo Yo)</strong></label>
+					<?php echo $html->selectTag('Caso/cod_soloyo', $voluntarios,$caso['Caso']['cod_soloyo'],null,null,false); ?></li>
+			</li>
+			
+			</span>
+			
+			
+			<span id="ocultar_si_cierre">
+			
+			<span id="ocultar_si_derivar_cerrar">
+			<li id="fechas"><label>Fecha Seguimiento :</label>
+				<?php echo $html->input("Seguimiento/fec_proxrevision", array('class' => "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency", 'maxlength' => '255', 'readonly' => 'true', 'value' => $seguimiento)); ?>
+				</li>
+			
+			<?php echo $javascript->codeBlock("var fechas=new Array($script); disableDates(fechas)"); ?>
+			</span>
+			
+			
+			<!-- TODO:[Leonardo] Que pasa con esto????? -->
+			<!-- <li><label>Tipo Seguimiento</label> -->
+				<?php echo $html->selectTag('Seguimiento/tip_proxrevision',$tip_proxrevision,'Llamada',array('style' => 'display:none;', 'onChange'=>"javascript:seg_visita(this);"), null, false); ?>
+			<!--  </li> -->
+			</span>
+			<!-- [Diego Jorquera] Agregar JavaScript para ocultar campos de datos
+			de próximo seguimiento -->
+
+			
+			<?php if(!$canRenderCaseClosure){ $display = "display:none;"; } ?>
+			
+			
+			<span id="ocultar_si_cerrar" style="<?php echo $display; ?>">
+			<li><label>Derivar a la fundaci&oacute;n</label>
+
+				<?php echo $html->checkbox('Seguimiento/bit_derivar', "", array('value' => '0', 'checked' => '0', 'onChange' => 'javascript:paso_a_derivar(this);')); ?>
+			</li>
+			</span>
+			
+			<span id="ocultar_si_derivar" style="<?php echo $display; ?>">
+			<li><label>Cerrar Caso</label>
+				<?php echo $html->checkbox('Seguimiento/bit_nocerrar', "", array('value' => '0', 'checked' => '0', 'onChange' => 'javascript:paso_a_cierre(this);')); ?>
+			</li>
+			</span>
+			
+			<li>
+				<?php echo $html->hidden('Seguimiento/tip_actividad', array('value' => $tip_actividad)); ?>
+			</li>
+		</ol>
+	</fieldset>
+	<fieldset class="submit">
+		<?php echo $html->submitTag('Ingresar') ?>
+	</fieldset>
+	</form>
+
+<?php echo $javascript->codeBlock("datePickerController.addEvent(window, 'load', disableDates)"); ?> 

@@ -1,0 +1,217 @@
+<?php
+
+	echo $javascript->link('prototype');
+	echo $javascript->link('scriptaculous'); 
+	
+	echo $html->css('noticias')."\n"; 
+	
+?>
+
+<script type="text/javascript">
+	//VALIDA SI ES CORRECTA LA FECHA
+	function isValidDate(day,month,year){
+		var dteDate;
+		dteDate=new Date(year,month -1,day);
+		return ((day==dteDate.getDate()) && (month- 1==dteDate.getMonth()) && (year==dteDate.getFullYear()));
+	}
+	//VALIDA LA BUSQUEDA
+	function validarBusqueda(){
+		var fecha_1 = document.getElementById("fecha_1").value
+		var fecha_2 = document.getElementById("fecha_2").value
+		var arrayFecha1 = fecha_1.split("-")
+		var arrayFecha2 = fecha_2.split("-")
+		
+		var patron = /^\d{1,2}\-\d{1,2}\-\d{4}$/	//patron para fechas
+		
+		//PRIMERO COMPRABAMOS SI LAS FECHAS ESTAN BIEN 
+		if(fecha_1!=""){
+			if(patron.test(fecha_1))
+			{
+				
+				if(!isValidDate(arrayFecha1[0],arrayFecha1[1],arrayFecha1[2])){
+					document.getElementById("feedbackBuscador").innerHTML = "Fecha 'desde' fuera de rangos";
+					return false;
+				}
+				else{
+					document.getElementById("feedbackBuscador").innerHTML = "";
+				}
+			}
+			else
+			{
+				document.getElementById("feedbackBuscador").innerHTML = "Formatado de la fecha 'desde' incorrecto, dd-mm-yyyy";
+				return false;
+			}
+		}
+		if(fecha_2!=""){
+			if(patron.test(fecha_2))
+			{
+				
+				if(!isValidDate(arrayFecha2[0],arrayFecha2[1],arrayFecha2[2])){
+					document.getElementById("feedbackBuscador").innerHTML = "Fecha 'hasta' fuera de rangos";
+					
+					return false;
+				}
+				else{
+					document.getElementById("feedbackBuscador").innerHTML = "";
+					
+				}
+			}
+			else
+			{
+				document.getElementById("feedbackBuscador").innerHTML = "Formatado de la fecha 'hasta' incorrecto, dd-mm-yyyy";
+				return false;
+			}
+		}
+		//LUEGO VEMOS SI LA FECHA 1 ES MENOR QUE LA 2
+		
+		var date1 = new Date(arrayFecha1[2],arrayFecha1[1],arrayFecha1[0]);
+		var date2 = new Date(arrayFecha2[2],arrayFecha2[1],arrayFecha2[0]);
+		if(date1 >= date2){
+			document.getElementById("feedbackBuscador").innerHTML = "La fecha 'desde' tiene que ser menor que la fecha 'hasta'";
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<?php
+	echo $jsvalid->returnScript ();
+	$pagination->setPaging($paging);// Initialize the pagination variables
+?>
+					
+<table width="100%" align="left" border="0">
+	<tr >
+		<td align="left" valign="top">
+		&nbsp;
+		</td>
+		<td  width="300">
+			<?php echo $html->formTag('search',"post",array('onSubmit'=>"return validarBusqueda()",'name'=>"formularioBusqueda")) ?>			
+			<table >
+				<tr>
+					<td width="300">
+					<div  class="tituloBuscador">Buscador</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><div class="labelBusqueda">Texto:</div></td>
+								<td>
+									<?php
+								   		echo $ajax->autoComplete('Buscador/search_text', '/noticias/autoComplete',array("size"=>"50")) ;
+								    ?>
+									</td>
+							</tr>
+							<tr>
+								<td><div class="labelBusqueda">Desde:</div></td>
+								<td>
+									<?php echo $jsvalid->input ('Buscador/fecha_1', '', array ('size' => '15','id'=>'fecha_1', 'class' => 'format-d-m-y divider-dash highlight-days-67 no-transparency')); ?>
+								</td>
+							</tr>
+							<tr>
+								<td><div class="labelBusqueda">Hasta:</div></td>
+								<td>
+									<?php echo $jsvalid->input ('Buscador/fecha_2', '', array ('size' => '15','id'=>'fecha_2', 'class' => 'format-d-m-y divider-dash highlight-days-67 no-transparency')); ?>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div style="text-align: right">
+							<?php echo $html->submit("Buscar")?>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div id="feedbackBuscador" style="color: red;text-align: right;">
+		
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<div style="text-align: right">
+			<?php 
+				if($permitir_agregar == true)
+					echo $html->link("Agregar Noticia","add",array("class"=>"linkAgregarNoticia"));
+			
+			?>
+		<hr class="hrBuscador"/>
+		</div>
+		</td>
+	</tr>
+</table>
+
+	
+	<?php if(count($noticias)==0):?>
+		<?php if(isset($search_text)){?>
+		<div style="text-align: left;margin: 5px; ">
+			Su b&uacute;squeda <?php if($search_text!=""):?> <span style="font-weight: bold;">- <?php echo $text->truncate($search_text,80,"..."); ?> - </span> <?php endif;?>  no produjo ning&uacute;n resultado.
+			<br/>
+			Sugerencias
+			<ul>
+			
+			<?php if($search_text!=""):?><li> Aseg&uacute;rese de que todas las palabras est&eacute;n escritas correctamente. </li><?php endif;?>
+			<?php if($search_text!=""):?><li> Intente usar otras palabras.</li><?php endif;?>
+			<?php if($search_text!=""):?><li> Intente usar palabras m&aacute;s generales. </li><?php endif;?>
+			<?php if($search_text!=""):?><li> Intente usar menos palabras. </li><?php endif;?>
+			<?php if($fecha1!="" || $fecha2!="" ):?><li> Intente otro rango de fechas. </li><?php endif;?>
+			<?php if($fecha1!=""):?><li> Intente una fecha 'desde' anterior a la explicitada. </li><?php endif;?>
+			<?php if($fecha2!=""):?><li> Intente una fecha 'hasta' posterior a la explicitada. </li><?php endif;?>
+			
+			</ul>
+		</div>
+		<?php }else{?>
+		<h3>No existen noticias.</h3>
+		<?php }?>
+	<?php endif;?>
+	
+	<?php if(isset($noticias)):?>
+    <?php foreach ($noticias as $noticia): ?>
+    <div style="text-align: left">
+        <div id="tituloNoticia" style=" margin :4px;">
+            <?php echo $html->link($noticia['Noticia']['titulo'], "/noticias/view/".$desde."/".$noticia['Noticia']['cod_noticia'],array("class"=>"tituloNoticia")); ?>
+       	</div>	<hr/>
+       	<div  class="bajadaNoticia">
+        	<?php echo $text->truncate($noticia['Noticia']['bajada'],300,"..."); ?></td>
+        </div>
+        <div style="text-align: right" class="creadaPor">Creada por: <?php echo $noticia['Voluntario']['Persona']['nom_nombre'].' '.$noticia['Voluntario']['Persona']['nom_appat'].' '.$noticia['Voluntario']['Persona']['nom_apmat']; ?></div>
+    	<div style="text-align: right" class="publicada">Publicada el 
+	    	<?php 
+	    		$arrayFecha1 = split(" ",$noticia['Noticia']['fecha_creacion']);
+	    		$arrayFecha2 = split("-",$arrayFecha1[0]);
+	    		echo $arrayFecha2[2]."-".$arrayFecha2[1]."-".$arrayFecha2[0];
+	    		echo " a las ".$arrayFecha1[1]." hrs.";
+	    	?>
+    	</div>
+    	<div style="text-align: right">
+    	<?php
+    		if(isset($permitir_editar)){
+	    		if($permitir_editar){
+	    			echo $html->link("Editar","edit/".$noticia["Noticia"]["cod_noticia"],array("class"=>"linkEditar"));
+	    		}
+    		}
+    	?>
+    	-
+    	<?php
+    		if(isset($permitir_eliminar)){
+	    		if($permitir_eliminar){
+	    			echo $html->link("Eliminar","delete/".$noticia["Noticia"]["cod_noticia"],array("class"=>"linkEditar","onclick"=>"return confirm('Esta seguro de eliminar la noticia?');"));
+	    		}
+    		}
+    	?>
+    	</div>
+    </div>
+    <br/><br/><br/>
+    <hr class="hrBuscador"/>
+    <?php endforeach; ?>
+    <?php endif;?>
+<?php 
+$pagination->result("Resultados: "," de ");
+
+echo $this->renderElement('pagination'); 
+
+// Render the pagination element ?> 

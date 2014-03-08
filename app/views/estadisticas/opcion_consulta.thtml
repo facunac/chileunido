@@ -1,0 +1,7 @@
+<?php if(count($consultas)) { ?>
+	<label><?php echo 'Estadistica' ?></label>
+	<?php echo $html->selectTag("Estadisticas/num_query", $consultas, $selected, array(), null, false); ?>
+<?php } 
+else { ?>
+	<?php echo $html->hidden("Estadisticas/num_query", ""); ?>
+<?php } ?>

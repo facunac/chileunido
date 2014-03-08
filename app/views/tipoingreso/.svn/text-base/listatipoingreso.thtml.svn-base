@@ -1,0 +1,3 @@
+		<label>Cu&aacute;l</label>
+			<?php echo $html->selectTag('Caso/cod_tipoingreso', $tipoingreso, $seleccionado_tipoingreso, array(), null, false); ?>
+				

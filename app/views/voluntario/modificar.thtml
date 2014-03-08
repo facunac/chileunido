@@ -1,0 +1,85 @@
+<?php echo $html->formTag('resultado_modificar') ?>
+<fieldset>
+	<legend>Modificar Voluntario</legend>
+	
+	<p><label>RUT</label>
+		<?php echo $html->input('Voluntario/nom_rut',array('value' =>$persona['Persona']['nom_rut'],'disabled' =>'disabled', 'size' => '20','maxlength'=>'255')) ?></p>
+		
+	<p><label>Nombre</label>
+		<?php echo $html->input('Voluntario/nom_nombre', array('value' =>$persona['Persona']['nom_nombre'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Paterno</label>
+		<?php echo $html->input('Voluntario/nom_appat', array('value' =>$persona['Persona']['nom_appat'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Materno</label>
+		<?php echo $html->input('Voluntario/nom_apmat', array('value' =>$persona['Persona']['nom_apmat'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Direccion</label>
+		<?php echo $html->input('Voluntario/nom_direccion', array('value' =>$persona['Persona']['nom_direccion'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Comuna</label>
+		<?php 
+				$codigo=$persona['Persona']['cod_comuna'];
+				$i=0;
+				
+				while($i!=$codigo)
+				{
+					$i++;
+				}
+				
+				$comuna= $comunas[$i];
+				
+			echo $html->input('Voluntario/nom_comuna', array('value' =>$comuna,'disabled' =>'disabled','size' => '20','maxlength'=>'255')) 
+		?>
+	</p>
+	
+	<p><label>Telefono</label>
+		<?php echo $html->input('Voluntario/num_telefono1', array('value' =>$persona['Persona']['num_telefono1'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Login</label>
+		<?php echo $html->input('Voluntario/nom_login', array('value' =>$persona['Voluntario']['nom_login'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Programa</label>
+		<?php echo $html->input('Voluntario/nom_programa', array('value' =>$persona['Programa']['nom_programa'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Rol</label><?php echo $html->selectTag('Voluntario/rol',$roles,$persona['Voluntario']['est_rol']); ?></p>
+	
+	<p><label>Turnos</label>
+	<?php
+		$i=1; 
+		foreach($persona['Turno'] as $v2){ 
+			
+			$turno_dia= $v2['nom_dia'];
+			$turno_inicio= $v2['hor_inicio'];
+			$turno_fin= $v2['hor_fin'];
+			$cod_turno=$v2['cod_turno'];
+			
+			//echo $html->input('Voluntario/nom_turno_1', array('value' =>$turno_dia,'size' => '10','maxlength'=>'255'));
+			echo $html->selectTag('Voluntario/nom_turno_dia_'.$i, $turnos_dias); 
+			echo "<br/>";
+			echo $html->input('Voluntario/nom_turno_inicio_'.$i, array('value' =>$turno_inicio,'size' => '10','maxlength'=>'255'));
+			echo "<br/>";
+			echo $html->input('Voluntario/nom_turno_fin_'.$i, array('value' =>$turno_fin,'size' => '10','maxlength'=>'255'));
+			echo $html->hidden('Voluntario/cod_turno_'.$i, array('value' => $cod_turno));	
+			echo "<br/><br/>";
+			$i++;
+		} 
+		
+			echo "<p><a href=href=javascript:onclick(mifuncion());>Ingresar Nuevo Turno</a></p>"; 
+		
+	?></p>
+		
+		
+	<p><label>Estado</label>
+		<?php echo $html->input('Voluntario/est_voluntario', array('value' =>$persona['Voluntario']['est_voluntario'],'disabled' =>'disabled','size' => '20','maxlength'=>'255')) ?></p>
+
+	<?php 
+		echo $html->hidden('Voluntario/cod_persona', array('value' => $persona['Persona']['cod_persona']));
+		echo $html->hidden('Voluntario/num_turnos', array('value' => $i-1));
+	?>
+
+	
+	<p><label for="login_button">&nbsp;</label>
+		<?php echo $html->submitTag('Modificar') ?></p>
+</fieldset>
+</form>

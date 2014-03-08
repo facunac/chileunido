@@ -1,0 +1,62 @@
+
+<div class="contenedor">
+
+	<?php echo $html->image('tit_login.png', array('alt'=>"Sistema de Gestiï¿½n de Programas ChileUnido", 'class'=>'imagen_centrada')); ?>
+    
+	<?php 
+
+		// evalï¿½o mensajes al usuario segï¿½n lo que pase a travï¿½s del redirect:
+		$inicio_formato = "<p class=\"advertencia_login\">";
+		$fin_formato = "</p>";
+		
+		if( isset($this->params['url']['logout']) && $this->params['url']['logout']==1)
+			echo $inicio_formato."Ud. se ha desconectado satisfactoriamente. Hasta Luego.".$fin_formato; 
+		
+		if( isset($this->params['url']['inc_user']) && $this->params['url']['inc_user']==1)
+			echo $inicio_formato."Error: nombre de usuario o contrase&ntilde;a incorrectos.".$fin_formato; 
+		
+		if( isset($this->params['url']['non_fill']) && $this->params['url']['non_fill']==1)
+			echo $inicio_formato."Debe ingresar un nombre de usuario y contrase&ntilde;a.".$fin_formato; 
+			
+		if( isset($this->params['url']['sess_err']) && $this->params['url']['sess_err']==1)
+			echo $inicio_formato."Error: datos de sesi&oacute;n no coinciden con los registros. Debe ingresar nuevamente".$fin_formato;
+			
+		if( isset($this->params['url']['inact']) && $this->params['url']['inact']==1)
+			echo $inicio_formato."Error: su cuenta de usuario no est&aacute; activa. Comun&iacute;quese con el administrador del sistema.".$fin_formato;		
+	?>
+	    
+	<?php 
+		 
+		if($_SERVER['SERVER_ADDR'] == '146.155.13.124')
+		{
+			
+			if(!strpos($_SERVER['SCRIPT_NAME'],"CU_replica"))
+			{
+				
+				echo '<div style="margin: 1px auto; text-align:center"><h1>Atencion: este es ESPECIAL4, Servidor de pruebas</h1>';
+				echo '<p>El servidor oficial esta en <a href="http://www.sgb.cl/chileunido/">http://www.sgb.cl/chileunido/</a></p>';
+				echo '<p>Esto va en especial para Carolina Rodriguez, Ursula Eitel y Maria Isabel Barriga :)</p></div>';
+			}
+		}
+	?>    
+	<?php echo $html->formTag('/menu/login', 'post', array('id'=>'login')) ?> 
+		<fieldset class="a_cuatrocincuenta">
+                    <legend>
+			<ol>  
+				<li>
+					<label for="email_address">Usuario:</label> 
+					<?php echo $html->inputTag('FormLogin/nom_login', array('size' => '40','maxlength'=>'255')) ?>
+					<?php echo $html->tagErrorMsg('FormLogin/nom_login', 'Error: se requiere un nombre de usuario') ?>
+				</li>
+				<li>
+					<label for="password_field">Contrase&ntilde;a:</label> 
+					<?php echo $html->passwordTag('FormLogin/pas_voluntario', array('size' => '20', 'maxlength'=>'255')) ?>
+					<?php echo $html->tagErrorMsg('FormLogin/pas_voluntario', 'Error: se requiere un password') ?> 
+				</li>
+			</ol></legend>
+		</fieldset>
+		<fieldset class="submit">
+                    <legend><?php echo $html->submitTag('Entrar') ?></legend>
+		</fieldset>
+	</form>  
+</div>

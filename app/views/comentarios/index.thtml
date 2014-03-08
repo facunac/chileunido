@@ -1,0 +1,32 @@
+<div class="comentarios">
+<h2>List Comentarios</h2>
+
+<table cellpadding="0" cellspacing="0">
+<tr>
+	<th>Cod Comentario</th>
+	<th>Nom Comentario</th>
+	<th>Fec Creado</th>
+	<th>Cod Persona</th>
+	<th>Cod Creador</th>
+	<th>Actions</th>
+</tr>
+<?php foreach ($comentarios as $comentario): ?>
+<tr>
+	<td><?php echo $comentario['Comentario']['cod_comentario']; ?></td>
+	<td><?php echo $comentario['Comentario']['nom_comentario']; ?></td>
+	<td><?php echo $comentario['Comentario']['fec_creado']; ?></td>
+	<td>&nbsp;<?php echo $html->link($comentario['']['cod_persona'], '/personas/view/' .$comentario['']['cod_persona'])?></td>
+	<td><?php echo $comentario['Comentario']['cod_creador']; ?></td>
+	<td class="actions">
+		<?php echo $html->link('View','/comentarios/view/' . $comentario['Comentario']['cod_comentario'])?>
+		<?php echo $html->link('Edit','/comentarios/edit/' . $comentario['Comentario']['cod_comentario'])?>
+		<?php echo $html->link('Delete','/comentarios/delete/' . $comentario['Comentario']['cod_comentario'], null, 'Are you sure you want to delete id ' . $comentario['Comentario']['cod_comentario'])?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<ul class="actions">
+	<li><?php echo $html->link('New Comentario', '/comentarios/add'); ?></li>
+</ul>
+</div>

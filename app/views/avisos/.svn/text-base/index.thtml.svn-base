@@ -1,0 +1,13 @@
+<div class="contenedor">
+
+<?php foreach ($avisos as $aviso): ?>
+    <p>
+    <b><?php echo $aviso['Aviso']['titulo']; ?></b> (<small>Publicado por
+        <?php echo $aviso['Persona']['nom_nombre']." ".$aviso['Persona']['nom_appat']." ".$aviso['Persona']['nom_apmat'][0].".";?>)
+        <br/></small>
+    <?php echo $aviso['Aviso']['texto']; ?><br/>
+    </p>
+<?php endforeach; ?>
+
+
+</div>

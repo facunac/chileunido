@@ -1,0 +1,51 @@
+<div class="convenio">
+<h2>View Convenio</h2>
+
+<table cellpadding="5" cellspacing="5" border="1">
+	<tr><th>Nombre Convenio</th>
+	<td>&nbsp;<?php echo $convenio['Convenio']['nom_convenio']?>
+	<tr><th>Fecha Inicio</th>
+	<td>&nbsp;<?php echo $convenio['Convenio']['fec_inicio']?></td></tr>
+	<tr><th>Vigencia</th>
+	<td>&nbsp;<?php if( $convenio['Convenio']['bit_vigente']) echo "Vigente"; else echo "No Vigente";?></td></tr>
+	<tr><th>Nombre Responsable</th>
+	<td>&nbsp;<?php echo $convenio['Convenio']['nom_responsable']?></td></tr>
+	<tr><th>Numero Contacto</th>
+	<td>&nbsp;<?php echo $convenio['Convenio']['num_contacto']?></td></tr>
+</table>
+<ul class="actions">
+	<li><?php echo $html->link('Editar Convenio',   '/convenios/edit/' . $convenio['Convenio']['cod_convenio']) ?> </li>
+	<li><?php echo $html->link('Borrar Convenio', '/convenios/delete/' . $convenio['Convenio']['cod_convenio'], null, 'Are you sure you want to delete: id ' . $convenio['Convenio']['cod_convenio'] . '?') ?> </li>
+	<li><?php echo $html->link('Lista de Convenios',   '/convenios/index') ?> </li>	
+</ul>
+
+</div>
+<div class="related">
+<h3>Beneficiarios relacionados</h3>
+<?php if (!empty($convenio['Beneficiario'])):?>
+<table cellpadding="5" cellspacing="5" border="1">
+<tr>
+<?php foreach ($convenio['Beneficiario']['0'] as $column => $value): ?>
+<th><?php echo $column?></th>
+<?php endforeach; ?>
+<th>Actions</th>
+</tr>
+<?php foreach ($convenio['Beneficiario'] as $beneficiario):?>
+<tr>
+	<?php foreach ($beneficiario as $column => $value):?>
+		<td><?php echo $value;?></td>
+	<?php endforeach;?>
+	<td class="actions">
+		<?php echo $html->link('Ver', '/beneficiarios/view/' . $beneficiario['cod_persona']);?>
+		<?php echo $html->link('Editar', '/beneficiarios/edit/' . $beneficiario['cod_persona']);?>
+		<?php echo $html->link('Borrar', '/beneficiarios/delete/' . $beneficiario['cod_persona'], null, 'Are you sure you want to delete: id ' . $beneficiario['cod_persona'] . '?');?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php endif; ?>
+
+<ul class="actions">
+	<li><?php echo $html->link('Nuevo Beneficiario', '/beneficiarios/add/');?> </li>
+</ul>
+</div>

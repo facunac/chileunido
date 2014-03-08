@@ -1,0 +1,22 @@
+<div class="contenedor">
+	<?php echo $html->formTag('modificar', 'post', array('class' => 'a_cuatrocincuenta')) ?>
+		<fieldset class="a_cuatrocincuenta">
+			<legend><span>Permisos para <?php echo $nom_voluntario ?></span></legend>
+			<table class="resultados">
+			<?php foreach($permisos as $i => $v) { ?>
+				<tr>
+					<td class="id" rowspan="2"><?php echo $v ?>:</td>
+					<td class="result"><?php echo $opc_permisos[$permisovoluntarios[$i]]; ?></td>
+				</tr>
+				<tr>
+					<td class="result"><?php echo $opc_modifica[$bit_modifica[$i]]; ?></td>
+				</tr>
+			<?php } ?>
+			<?php echo $html->hidden('Voluntario/cod_persona', array('value' => $cod_persona)) ?>
+			</table>
+		</fieldset>
+		<fieldset class="submit">
+			<?php echo $html->submitTag('Modificar') ?>
+		</fieldset>
+	</form>
+</div>

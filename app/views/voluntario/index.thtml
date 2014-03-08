@@ -1,0 +1,37 @@
+<?php echo $html->formTag('buscar') ?>
+
+<fieldset>
+	<legend>Buscar Voluntario</legend>
+	
+	<p><label>Nombre</label>
+		<?php echo $html->inputTag('Voluntario/nom_nombre', array('size' => '40','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Paterno</label>
+		<?php echo $html->inputTag('Voluntario/nom_appat', array('size' => '40','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Materno</label>
+		<?php echo $html->inputTag('Voluntario/nom_apmat', array('size' => '40','maxlength'=>'255')) ?></p>
+	
+	<p><label>Telefono</label>
+		<?php echo $html->inputTag('Voluntario/num_telefono1', array('size' => '40','maxlength'=>'255')) ?></p>
+	
+	<p><label>Comuna</label>
+		<?php echo $html->selectTag('Voluntario/cod_comuna', $comunas); ?></p>
+		
+	<p><label>Login</label>
+		<?php echo $html->inputTag('Voluntario/nom_login', array('size' => '40','maxlength'=>'255')) ?></p>
+			
+	<p><label>Programa</label>
+		<?php echo $html->selectTag('Voluntario/cod_programa', $programas); ?></p>
+		
+	<p><label>Estado</label>
+		<?php echo $html->selectTag('Voluntario/est_voluntario', $estados); ?></p>
+
+	
+
+	
+	
+	<p><label for="login_button">&nbsp;</label>
+		<?php echo $html->submitTag('Buscar') ?></p>
+</fieldset>
+</form>

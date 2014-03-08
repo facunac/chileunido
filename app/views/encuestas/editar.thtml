@@ -1,0 +1,92 @@
+<?php
+$html->css("encuestas");
+
+echo "<a href=".$html->url('/encuestas/index').">Volver a Encuestas</a>";
+
+echo "<h1>".htmlentities($encuesta["Encuesta"]["titulo"])."</h1> <br />";
+
+foreach($encuesta["PreguntaEncuesta"] as $pregunta)
+{
+	echo "<div class='divPregunta'>";
+            echo "<div class='divOpciones'>";
+            echo "<p id='numPregunta'> Pregunta ".$pregunta['numero'];
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<a href=".$html->url('/preguntaencuestas/eliminarPregunta?idPregunta='.$pregunta['id']).">".$html->image('Borrar.png')."</a>";
+            echo "</p>";
+            echo "<p id='tituloPregunta'>".htmlentities($pregunta['titulo'])."</p> ";
+
+
+            if($pregunta['tipo']==1 || $pregunta['tipo']=='text') //tipo texto
+            {
+                    echo '<textarea cols="35" rows="5"></textarea>';
+            }
+            elseif($pregunta['tipo']==2 || $pregunta['tipo']=='checkbox') // tipo checkbox
+            {
+                    foreach($pregunta['Opcion'] as $opcion)
+                    {
+                            if($opcion['titulo'][0]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 1);
+                            if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                            echo '<input type="checkbox">'.htmlentities($opcion['titulo'])."</input>";
+                            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                            echo "<a href=".$html->url('/preguntaencuestas/eliminarOpcion?idOpcion='.$opcion['id'].'&idEncuesta='.$pregunta['encuesta_id']).">Eliminar</a>";
+                            echo "<br />";
+                    }
+            }
+            elseif($pregunta['tipo']==3 || $pregunta['tipo']=='radio') // tipo radio
+            {
+                    foreach($pregunta['Opcion'] as $opcion)
+                    {
+                            if($opcion['titulo'][0]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 1);
+                            if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                            echo '<input type="radio">'.htmlentities($opcion['titulo'])."</input>";
+                            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                            echo "<a href=".$html->url('/preguntaencuestas/eliminarOpcion?idOpcion='.$opcion['id'].'&idEncuesta='.$pregunta['encuesta_id']).">Eliminar</a>";
+                            echo "<br />";
+
+                    }
+            }
+            elseif($pregunta['tipo']==4 || $pregunta['tipo']=='ranking') // tipo ranking
+            {
+                    foreach($pregunta['Opcion'] as $opcion)
+                    {
+                            if($opcion['titulo'][0]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 1);
+                            if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+
+                           echo "<p>";
+                           echo htmlentities($opcion['titulo']);
+                           echo '<input style="margin-left:5px" type="text" size="2" />';
+                           echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                           echo "<a href=".$html->url('/preguntaencuestas/eliminarOpcion?idOpcion='.$opcion['id'].'&idEncuesta='.$pregunta['encuesta_id']).">Eliminar</a>";
+                           echo "</p>";
+
+
+                    }
+
+
+            }
+            echo "<br /><br /> <a href=".$html->url('/preguntaencuestas/mostrarEditarPregunta?idPregunta='.$pregunta['id']).">Editar Pregunta</a>";
+            echo "</div>"; //cierre de div de opciones
+
+            echo "<div class='divEditarEncuesta'>";
+                //echo "<a href=".$html->url('/preguntaencuestas/habilitar?idEncuesta='.$encuesta['Encuesta']['id']).">Borrar Pregunta</a>";
+                if($pregunta['numero'] < count($encuesta["PreguntaEncuesta"]))
+                    echo "<a href=".$html->url('/preguntaencuestas/bajarPregunta?idPregunta='.$pregunta['id']).">".$html->image('arrowDown.png')."</a>";
+                if($pregunta['numero']!=1)
+                    echo "<a href=".$html->url('/preguntaencuestas/subirPregunta?idPregunta='.$pregunta['id']).">".$html->image('arrowUp.png')."</a>";
+
+            echo "</div>"; //Cierre de div con herramientas de edicion
+	echo "</div>"; //cierre de div completo
+
+	$numPreguntas = count($encuesta["PreguntaEncuesta"]);
+	$numPreguntas++;
+
+}
+echo "<a href=".$html->url('/preguntaencuestas/addedit?id_encuesta='.$pregunta['encuesta_id'].'&n='.$numPreguntas).">Agregar Pregunta</a>";
+
+?>

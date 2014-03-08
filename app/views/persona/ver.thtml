@@ -1,0 +1,115 @@
+<div class="contenedor">	
+	<p class="advertencia"><?php echo $msg ?></p>
+	<?php echo $html->formTag('modificar', 'post', array('class' => 'a_cuatrocincuenta')) ?>
+	<?php echo $html->hidden('Persona/cod_persona', array('value' => $persona['Persona']['cod_persona'])); ?>
+	
+	<fieldset class="a_cuatrocincuenta">
+		<legend><span>Datos de la cuenta</span></legend>
+		
+		<table class="resultados">
+			<tr>
+				<td class="id"><label>RUT</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_rut']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Nombre</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_nombre']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Apellido Paterno</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_appat']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Apellido Materno</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_apmat']; ?></td>
+				</tr>
+			<tr>
+				<td class="id"><label>Fecha de Nacimiento</label></td>
+				<td class="result"><?php echo $persona['Persona']['fec_nacimiento'];?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Direcci&oacute;n</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_direccion']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Comuna</label></td>
+				<td class="result"><?php echo $persona['Comuna']['nom_comuna']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Tel&eacute;fono fijo</label></td>
+				<td class="result"><?php echo $persona['Persona']['num_telefono1']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Tel&eacute;fono m&oacute;vil</label></td>
+				<td class="result"><?php echo $persona['Persona']['num_telefono2']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>E-mail</label></td>
+				<td class="result"><?php echo $persona['Persona']['nom_email']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Usuario</label></td>
+				<td class="result"><?php echo $persona['Voluntario']['nom_login']; ?></td>
+			</tr>
+			<!-- tr>
+				<td class="id"><label>Estado</label></td>
+				<td class="result"><?php //echo $persona['Voluntario']['est_voluntario']; ?></td>
+			</tr -->
+			<tr>
+				<td class="id"><label>Programa</label></td>
+				<td class="result"><?php echo $voluntario['Programa']['nom_programa']; ?></td>
+			</tr>
+			<tr>
+				<td class="id"><label>Atenci&oacute;n cl&iacute;nica</label></td>
+				<td class="result"><?php echo $si_no[$voluntario['Voluntario']['bit_clinico']]; ?>
+			</tr>
+			
+			<tr>
+				<td class="id"><label>Rol</label></td>
+				<td class="result"><?php echo $voluntario['Voluntario']['est_rol']; ?></td>
+			</tr>
+				<?php if($permisoschecker->allowed('personas','modificar')){ ?>
+				<tr>
+					<td class="id"><label>Opciones</label></td>
+					<td class="result">
+
+					<?php 
+						if($persona['Voluntario']['est_voluntario'] == 'Activo')
+						{
+								echo '<a href="' . $html->url('/voluntarios/confirmar_baja/') . $persona['Voluntario']['cod_persona'] . '">Desactivar Voluntario</a>';
+						}
+						else
+						{
+								echo '<a href="' . $html->url('/voluntarios/confirmar_alta/') . $persona['Voluntario']['cod_persona'] . '">Activar Voluntario</a>';							
+						}
+					?>
+					</td>
+				</tr>
+				<?php if(!$permisoschecker->itsMe($persona['Persona']['cod_persona'])){ ?>
+				<tr>
+					<td class="id"><label>Comentarios</label></td>
+					<td class="result"><?php echo $persona['Voluntario']['nom_comentario']; ?></td>
+				</tr>
+				<?php } ?>
+				
+			<?php } ?>
+		</table>
+		
+	</fieldset>	
+	<fieldset class="submit">	
+		<?php if($permisoschecker->allowed('personas','modificar') || $permisoschecker->itsMe($persona['Persona']['cod_persona'])){ ?>
+			<?php echo $html->submitTag('Modificar') ?></p>
+		<?php } ?>
+	</fieldset>
+	</form>
+	<br>
+	<fieldset class="a_cuatrocincuenta">
+		<h2>Historial</h2>
+		<table class="resultados">
+		<tr><td>
+		<?php echo $comentario->desplegarComentarios($persona['Persona']['cod_persona']); ?>
+		</td></tr>
+		</table>
+	</fieldset>
+
+</div>

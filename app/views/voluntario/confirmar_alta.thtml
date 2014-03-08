@@ -1,0 +1,20 @@
+<?php echo $html->formTag('/Voluntarios/subir') ?>
+
+<fieldset class="a_cuatrocincuenta">
+	<legend><span>Reingresar usuario</span></legend>
+	<div><br/><br/>
+	<p>Est&aacute; seguro que quiere reintegrar a <?php echo $nombreVoluntario; ?> ?</p>
+	<p>
+		Raz&oacute;n del reintegro: <?php echo $html->input('Alta/comentario',array('maxlength'=>'50','width'=>'30')); ?>
+	</p>
+	<p>
+			<?php echo $html->hidden('Voluntario/cod_persona',array('value'=>$persona['cod_persona'])); ?>
+			<?php echo $html->submitTag('Si, reintegrar') ?>
+			<a href="<?php echo $html->url('/personas/ver/'.$persona['cod_persona']); ?>">Cancelar</a>
+	</p>
+	</div>
+</fieldset>
+</form>
+
+
+	

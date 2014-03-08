@@ -1,0 +1,71 @@
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?>
+
+<!--validaciones del beneficiario-->
+<?php $jsvalid->setModel('Beneficiario'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<?php echo $jsvalid->form('modificar2') ?>
+
+
+	<fieldset class="a_cuatrocincuenta">
+		<legend><span>Modificar Beneficiario</span></legend>
+			<ol>
+				<?php echo $html->hidden('Persona/cod_persona', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['cod_persona'])) ?>
+				
+				<!-- [Diego Jorquera] Agregada posibilidad de modificar RUT -->
+				<li><label>RUT</label>
+					<?php echo $html->input('Persona/nom_rut',array('size' => '10','maxlength'=>'10','value' => $persona['Persona']['nom_rut'])) ?>
+					-
+					<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'1','value' => $persona['Persona']['num_rutcodver'])); ?>
+				</li>
+								
+				<li><?php echo $jsvalid->input('Persona/nom_nombre', 'Nombre', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_nombre'])) ?></li>
+					
+				<li><?php echo $jsvalid->input('Persona/nom_appat', 'Apellido Paterno', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_appat'])) ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/nom_apmat', 'Apellido Materno', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['nom_apmat'])) ?></li>
+				
+				<li><?php echo $jsvalid->input('Persona/num_edad', 'Edad', array('size' => '20', 'maxlength' => '3', 'value' => (date('Y') - $persona['Persona']['ano_nacimiento']))) ?></li>
+				
+				<li><label>Rol Familiar</label><?php echo $html->selectTag('Beneficiario/tip_rolfamilia', $tip_rolfamilia, $persona['Beneficiario']['tip_rolfamilia'], array(), null, false); 
+					
+					?></li>
+				
+				<li><label>Tel&eacute;fono 1</label>
+				<input name="data[Persona][num_telefono1_pre]"  size="2" maxlength="255"  type="text" id="PersonaNumTelefono1Pre" value="<?php echo $persona['Persona']['num_telefono1_pre']; ?>" /> <input name="data[Persona][num_telefono1_post]"  size="20" maxlength="255" value="<?php echo $persona['Persona']['num_telefono1']; ?>" type="text" id="PersonaNumTelefono1Post" /></li>
+			
+				<li><label>Tel&eacute;fono 2</label>
+				
+				<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255','value' => $persona['Persona']['num_telefono2_pre'])); ?>
+				<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['num_telefono2']));?></li>
+				
+				<li><label>Comuna</label>
+					<?php echo $html->selectTag('Persona/cod_comuna', $comunas, $persona['Persona']['cod_comuna'], array(), null, false); ?></li>
+				
+				<li><?php echo $jsvalid->textarea('Beneficiario/nom_comentario', 'Comentario', array('size' => '20','maxlength'=>'255','value' => $persona['Beneficiario']['nom_comentario'])) ?></li>
+				
+				<?php echo $html->hidden('Seguimiento/cod_caso', array('size' => '20','maxlength'=>'255','value' => $ultimo['Seguimiento']['cod_caso'])) ?>
+				
+				<?php echo $html->hidden('Seguimiento/num_evento', array('size' => '20','maxlength'=>'255','value' => $ultimo['Seguimiento']['num_evento'])) ?>
+				
+				<li>
+					<label>Fecha Ingreso al Sistema: </label>
+					<?php echo $html->input("Beneficiario/fec_ingreso",array('class' => "format-d-m-y divider-dash disable-days-67 no-transparency",'readonly'=>'readonly','value' => $fingreso)); ?>
+				</li>
+					
+				<li>
+					<label>Fecha de Proxima revisi&oacute;n: </label>
+					<?php echo $html->input("Seguimiento/fec_proxrevision", array('class' => "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency",'readonly'=>'readonly', 'value' => $fecha)); ?>
+				</li>
+					
+					<?php echo $javascript->codeBlock("var fechas=new Array($script); disableDates(fechas)"); ?>
+			</ol>
+	</fieldset>
+	<fieldset class="submit">	
+			<?php echo $html->submitTag('Modificar') ?></p>
+	</fieldset>
+</form>

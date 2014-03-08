@@ -1,0 +1,50 @@
+<?php echo $html->formTag('/' . $params['url']['url'], 'post', array('enctype' => 'multipart/form-data')); ?>
+
+<table class="chiletable">
+    <tr>
+        <th colspan="2">
+            Subir archivo
+        </th>
+    </tr>
+    <tr>
+        <td colspan="2">
+
+            Si no ingresa un nombre, el nombre sera el nombre del archivo.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Nombre:
+        </td>
+        <td>
+            <?php echo $html->input('Link/nombre')?>
+            <?php echo $html->tagErrorMsg('Link/nombre', 'Nombre del archivo.') ?>
+        </td>
+    </tr>
+    <tr>
+        <td>            
+            Descripcion:
+        </td>
+        <td>
+            <?php echo $html->textarea('Link/descripcion') ?>
+            <?php echo $html->tagErrorMsg('Link/descripcion', 'Agregar Una descripcion') ?>
+
+
+        </td>
+    </tr>
+    <tr>
+        <td  colspan="2">
+            Seleccione el archivo que desea subir
+            <?php echo $html->file('File/image'); ?>
+            <?php echo $errorArchivo;?>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <?php echo $html->submit('Subir'); ?>
+        </td>
+    </tr>
+</table>
+
+

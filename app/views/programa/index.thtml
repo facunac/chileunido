@@ -1,0 +1,144 @@
+<!--validaciones del Programa-->
+<?php $jsvalid->setModel('Programa'); ?> 
+<?php $jsvalid->required();?>
+
+
+<script type="text/javascript">
+
+
+function fill_div(select_id,select2_id,div){
+
+   var id = "form_agregar";
+   if(document.getElementById(select2_id).options[document.getElementById(select2_id).selectedIndex].value==1){
+   document.getElementById(select_id).disabled=true;
+   document.getElementById(div).innerHTML = document.getElementById(id).innerHTML;
+   }
+   if(document.getElementById(select2_id).options[document.getElementById(select2_id).selectedIndex].value==2){
+	document.getElementById(select_id).disabled=false;
+    var excel = document.getElementById(select_id).options[document.getElementById(select_id).selectedIndex].value + '_excel';
+   	document.getElementById(div).innerHTML = document.getElementById(excel).innerHTML;
+   }
+    if(document.getElementById(select2_id).options[document.getElementById(select2_id).selectedIndex].value==3){
+	document.getElementById(select_id).disabled=false;
+    var modificar = document.getElementById(select_id).options[document.getElementById(select_id).selectedIndex].value + '_modificar';
+   	document.getElementById(div).innerHTML = document.getElementById(modificar).innerHTML;
+   }
+
+}
+</script>
+
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+
+<div>
+<form name ='opciones'>
+<fieldset class="a_cuatrocincuenta">
+	<legend><span>Opciones</span></legend>
+		<ol>
+			<li>
+			<label>Seleccione Alternativa</label>
+			<select name="acciones" id='acc_id' onChange="javascript:fill_div('prog_id','acc_id','div1');">
+			<option value = 1>Agregar Programa</option>
+			<option value = 2>Exportar Beneficiarios</option>
+			<option value = 3>Modificar Programa</option>
+			</select>
+			</li>
+			<li>
+			<label>Seleccione Programa</label>
+			<select id='prog_id' name="programas" disabled="disabled" onChange="javascript:fill_div('prog_id','acc_id','div1');">
+			<?php foreach($programas as $p){ 			
+   			  		echo "<option value='".$p['Programa']['nom_programa']."'>".$p['Programa']['nom_programa']."</option>";
+			}
+			?>
+			</select>
+			</li>
+		</ol>
+</fieldset>
+</form>
+</div>
+<div id="div1"></div>			
+<?php foreach($programas as $p){ ?>	
+	<?php echo "<div style='display: none;' id= '".$p['Programa']['nom_programa']."_modificar'>"; ?>
+	<?php echo $jsvalid->form('modificar') ?>
+	<fieldset class="a_cuatrocincuenta">
+	<legend><span><?php echo "Modificar Programa ".$p['Programa']['nom_programa']?></span></legend>
+		<ol>
+			<li>
+				<?php echo $jsvalid->input('Programa/num_frecuencia','Frecuencia de Llamadas',array('value' =>$p['Programa']['num_frecuencia'])) ?>
+			</li>
+			<li>
+				<label>&nbsp;</label>
+				<?php echo $html->selectTag('Opcion/unidad', $opciones, null, array(),null,false,false) ?>
+		    </li>
+		    <li>
+				<?php echo $jsvalid->input('Programa/num_maxllamadas','M&aacute;ximo de Llamadas Diarias',array('value' =>$p['Programa']['num_maxllamadas'])) ?>
+			</li>
+			
+			<li>
+				<?php echo $jsvalid->input('Programa/num_maxvisitas','M&aacute;ximo de Atenciones en Fundaci&oacute;n Semanales',array('value' =>$p['Programa']['num_maxvisitas'])) ?>
+			</li>
+			
+			<?php 
+				echo $html->hidden('Programa/cod_programa', array('value' => $p['Programa']['cod_programa']));
+				echo $html->hidden('Programa/nom_programa', array('value' => $p['Programa']['nom_programa']));
+			?>
+			</li>
+		</ol>
+	</fieldset>
+	<fieldset class="submit">
+		<?php echo $html->submitTag('Modificar') ?>
+		</fieldset>
+		</form>
+	</div>
+	<?php echo "<div style='display: none;' id= '".$p['Programa']['nom_programa']."_excel'>"; ?>
+	<?php echo $jsvalid->form('excel'); ?>
+	<fieldset class="a_cuatrocincuenta">
+	<legend><span><?php echo "Exportar Beneficiarios ".$p['Programa']['nom_programa']?></span></legend>
+		<ol>
+			<li>
+				<label>Seleccione Periodo de Ingreso del Beneficiario</label>
+				<?php echo $html->selectTag('Opcion/mes', $meses, null, array(),null,false,false) ?>
+		
+				<label>&nbsp;</label><?php echo $html->selectTag('Opcion/periodo', $years, null, array(),null,false,false) ?>
+				
+			</li>
+		</ol>
+	</fieldset>
+	<fieldset class="submit">
+			<?php echo $html->hidden('Programa/cod_programa', array('value' => $p['Programa']['cod_programa']));?>
+			<?php echo $html->submitTag('Exportar') ?>
+	</fieldset>
+	</form>
+	</div>
+			
+<?php } ?>
+<div  style="display: none;" id="form_agregar">
+	<?php echo $jsvalid->form('agregar') ?>
+		<fieldset class="a_cuatrocincuenta">
+			<legend><span>Agregar Programa</span></legend>
+			<ol>
+				<li>
+					<?php echo $jsvalid->input('Programa/nom_programa','Nombre Programa') ?>
+				</li>
+				<li>
+					<?php echo $jsvalid->input('Programa/num_frecuencia','Frecuencia de Llamadas'); ?>
+				</li>
+				<li>
+					<label>&nbsp;</label>
+					<?php echo $html->selectTag('Opcion/unidad', $opciones, null, array(),null,false,false); ?>
+				</li>
+				<li>
+					<?php echo $jsvalid->input('Programa/num_maxllamadas','M&aacute;ximo de Llamadas Diarias'); ?></li>
+				</li>
+				<li>
+					<?php echo $jsvalid->input('Programa/num_maxvisitas','M&aacute;ximo de Atenciones en Fundaci&oacute;n Semanales') ?>
+				</li>
+			</ol>
+		</fieldset>
+		<fieldset class="submit">
+			<?php echo $html->submitTag('Agregar') ?>
+		</fieldset>
+	</form>
+
+</div>	

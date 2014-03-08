@@ -1,0 +1,100 @@
+<?php
+	vendor( 'jpgraph/jpgraph' ); 
+	vendor( 'jpgraph/jpgraph_bar' ); //set this to your chart type 
+
+	if(count($valores)){
+		$graph = new Graph(550, 400, "auto");
+		$graph->SetScale("textlin");
+		$graph->img->SetMargin(60, 20, 80, 100); //($aLeft,$aRight,$aTop,$aBottom)
+		$graph->SetMarginColor("white");
+		
+		$graph->title->Set($titulo);
+		$graph->title->SetMargin(20);
+		$graph->title->SetFont(FF_ARIAL,FS_NORMAL,14);
+		
+		$graph->subtitle->Set("Programa ".$nom_programa.", Convenio ".$nom_convenio.", ".$nom_criterio.", ".$nom_periodo);
+		$graph->subtitle->SetFont(FF_ARIAL,FS_NORMAL,10);
+	
+		$graph->yaxis->title->Set("Número de casos");
+		$graph->yaxis->title->SetFont(FF_ARIAL,FS_NORMAL,8);
+		
+		$graph->xaxis->title->Set($xlabel,'center');
+		$graph->xaxis->title->SetFont(FF_ARIAL,FS_NORMAL,8);
+		$graph->xaxis->title->SetMargin(60);
+		
+		$graph->xaxis->SetTickLabels($labels);
+		$graph->xaxis->SetFont(FF_ARIAL,FS_NORMAL);
+		$graph->xaxis->SetLabelAngle(45);
+		
+		$barplot =new BarPlot($valores);
+		$barplot->value->SetFormat("%d");
+		$barplot->value->Show();
+		$barplot->value->SetFont(FF_ARIAL,FS_NORMAL,8);
+		$barplot->value->SetColor("white");
+		$barplot->SetValuePos("center");
+		$barplot->SetColor("dodgerblue4@0.3");
+		$barplot->SetFillColor("dodgerblue4@0.3");
+		
+		$graph->Add($barplot);
+	}
+?>
+<div class="contenedor">
+	<div id="layout">
+		<div class="fila_est">
+			<div class="colu">
+				<?php if(count($valores)){ ?>
+					<table class="table_tablagris">
+						<caption>
+							<?php 
+							//echo $celdas["titulo"]; 
+							echo $graph->title->t;
+							echo ", ";		
+							echo $graph->subtitle->t;
+							?>
+							
+						</caption>
+						<tr>
+							<th class="th_tablagris"><?php echo $celdas["xlabel"]; ?></th>
+							<th class="th_tablagris">Frecuencia</th>
+							<th class="th_tablagris">Porcentaje</th>
+						</tr>
+						<?php foreach($celdas["dataset"] as $data) { ?>
+							<tr>
+								<td class="td_gris"><?php echo $data["COLUMNA"]; ?></td>
+								<td class="td_gris"><?php echo $data["DATO"]; ?></td>
+								<td class="td_gris"><?php echo number_format($data["DATO"]/$total*100,1,",",""); ?>%</td>
+							</tr>
+						<?php } ?>
+						<tr>
+							<td class="td_gris"><?php echo "Total"; ?></td>
+							<td class="td_gris"><?php echo $total; ?></td>
+							<td class="td_gris"><?php echo number_format(100,1,",",""); ?>%</td>
+						</tr>
+						
+						
+					</table>
+					<?php
+						echo $html->formTag('excel');
+						$celdas["Total"]=$total;
+						$arreglo = serialize($celdas);
+						echo $html->hidden('Excel/Hoja', array('value' => $arreglo));				
+					?>
+					<?php $graph->Stroke("img/jpgraph/grafico.jpg"); ?>
+					<div id="excel"><input type="image" src="<?php echo $this->webroot.'img/excel_icon.jpg'; ?>" alt="Exportar a Excel" title="Exportar a Excel" /></div>
+					</form>
+				<?php } 
+				else { ?>
+					<p class="advertencia">No hay datos para generar la tabla</p>
+				<?php } ?>
+			</div>
+			<div class="colu2">
+				<?php if(count($valores)){ ?>
+					<img src="<?php echo $html->url("/img/jpgraph/grafico.jpg?".rand()); ?>" alt="" />
+				<?php } 
+				else { ?>
+					<p class="advertencia">No hay datos para generar el gr&aacute;fico</p>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+</div>

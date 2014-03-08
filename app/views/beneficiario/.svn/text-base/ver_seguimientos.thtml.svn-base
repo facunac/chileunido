@@ -1,0 +1,83 @@
+<div class="contenedor">
+	
+
+	<div>
+		
+			<h3>    Historia del Beneficiario: <?php echo $beneficiario['Persona']['nom_nombre']." ". $beneficiario['Persona']['nom_appat']; ?></h3> 
+		<div class="paginacion">
+				<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-6 max-pages-7 paginationcallback-callbackTest-calculateTotalRating sortcompletecallback-callbackTest-calculateTotalRating">
+				<thead>
+					
+			
+			<tr>
+
+		
+				<th class="sortable-numeric">Fecha</th>
+				<th class="sortable-text">Descripcion</th>
+				<th class="sortable-text">Tipo</th>
+				<th class="sortable-text">Voluntario</th>
+				<th class="th_tablagris">Ver</th>
+
+			</tr>
+			</thead>	
+			<tfoot>
+			</tfoot>
+			<tbody>
+			
+			<?php $i=1; ?>
+			
+
+		
+	<?php foreach($seguimientos as $v){ ?>
+		<tr class ="odd">
+		
+	
+			<td class="td_gris"><?php echo  $v['Seguimiento']['fec_ejecucion'] ?> </td>
+			<td class="td_gris"><?php  echo  $v['DescripcionSeguimiento']['nom_respuesta'] ?> </td>
+				<td class="td_gris"><?php echo $v['Actividad']['tip_actividad']?> </td>
+			<td class="td_gris"><?php echo  $v['Persona']['nom_nombre']." ". $v['Persona']['nom_appat']  ?> </td>
+			<td class="td_gris">
+				<?php
+					echo $html->formTag('ver_fichaseguimiento');
+					echo $html->hidden('Seguimiento/cod_actividad', array('value' => $v['Seguimiento']['cod_actividad']));
+					echo $html->hidden('Seguimiento/num_evento', array('value' => $v['Seguimiento']['num_evento']));
+					echo $html->hidden('Beneficiario/cod_persona', array('value' => $v['Caso']['cod_beneficiario']));
+			?>
+			
+			<input type="image" src="../img/datos.png" alt="Ver" />
+				</form>
+			</td>
+		
+		<?php $i=$i+1; ?>
+		</tr>
+		
+
+		<?php } ?>
+		</tbody>		
+			</table><br/><br/>
+	
+	</div>
+		
+		
+		
+		<?php echo '</form>'; ?>
+		
+		
+		<div class="clear"></div>
+
+		<div id="opciones_ver">
+		<?php
+						echo $html->formTag('reactivar3','post',array('class' => 'form_anormal'));
+						echo $html->hidden('Caso/cod_caso',array('value' => $caso_retiro['Caso']['cod_caso']));
+						echo $html->hidden('Seguimiento/cod_caso', array('value' => $caso_retiro['Caso']['cod_caso']));
+						echo $html->submitTag('Reactivar');
+						echo '</form>';
+						?>
+							</div>
+	
+	</div>
+</div>
+	
+</div>
+<div class="clear"></div>
+</div>

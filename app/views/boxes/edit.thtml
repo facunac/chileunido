@@ -1,0 +1,31 @@
+<?php 
+$jsvalid->setModel('Box'); 
+$jsvalid->required();
+echo $jsvalid->returnScript(); 
+?>
+<?php echo $jsvalid->form('edit', '', 'post', 'a_cuatrocincuenta') ?>
+
+<div class="contenedor">
+
+<fieldset class="a_cuatrocincuenta">
+<legend><span>Modificar Box</span></legend>
+
+<ol>
+<li><label>Nombre</label>
+	<?php echo $html->input('Box/nom_box', array('size' => '30','maxlength'=>'255')) ?>
+	<?php echo $html->tagErrorMsg('Box/nom_box', 'Por favor ingrese un nombre para el box.') ?>
+</li>
+</ol>
+
+</fieldset>
+
+<fieldset class="submit">
+	<?php echo $html->hidden('Box/cod_box')?>
+	<?php echo $html->submitTag('Guardar');?>
+</fieldset>
+</form>
+</div>
+
+<!-- <ul class="actions">
+<li><?php echo $html->link('Lista Boxes', '/boxes/index')?></li>
+</ul> -->

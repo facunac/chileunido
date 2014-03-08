@@ -1,0 +1,59 @@
+<?php
+$html->css("encuestas");
+
+echo "<a href=".$html->url('/encuestas/index').">Volver a Encuestas</a>";
+echo "<h1>".htmlentities($encuesta["Encuesta"]["titulo"])."</h1> <br />";
+
+foreach($encuesta["PreguntaEncuesta"] as $pregunta)
+{
+	echo "<div class='divPregunta'>";
+            echo "<div class='divOpciones'>";
+            echo "<p id='numPregunta'> Pregunta ".$pregunta['numero']."</p> ";
+            echo "<p id='tituloPregunta'>".htmlentities($pregunta['titulo'])."</p> ";
+
+            if($pregunta['tipo']==1 || $pregunta['tipo']=='text') //tipo texto
+            {
+                    echo '<textarea cols="35" rows="5"></textarea>';
+            }
+            elseif($pregunta['tipo']==2 || $pregunta['tipo']=='checkbox') // tipo checkbox
+            {
+                    foreach($pregunta['Opcion'] as $opcion)
+                    {
+                            if($opcion['titulo'][0]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 1);
+                            if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                            echo '<input type="checkbox">'.htmlentities($opcion['titulo'])."</input> <br />";
+                    }
+            }
+            elseif($pregunta['tipo']==3 || $pregunta['tipo']=='radio') // tipo radio
+            {
+                    foreach($pregunta['Opcion'] as $opcion)
+                    {
+                            if($opcion['titulo'][0]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 1);
+                            if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                    $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+                            echo '<input type="radio">'.htmlentities($opcion['titulo'])."</input> <br />";
+                    }
+            }
+            elseif($pregunta['tipo']==4 || $pregunta['tipo']=='ranking') // tipo ranking
+            {
+                foreach($pregunta['Opcion'] as $opcion)
+                {
+                        if($opcion['titulo'][0]=="'")
+                                $opcion['titulo'] = substr($opcion['titulo'], 1);
+                        if($opcion['titulo'][strlen($opcion['titulo'])-1]=="'")
+                                $opcion['titulo'] = substr($opcion['titulo'], 0, -1);
+
+                        echo "<p>";
+                        echo htmlentities($opcion['titulo']);
+                        echo '<input style="margin-left:5px" type="text" size="2" />';
+                        echo "</p>";
+                }
+            }
+            echo "</div>"; //cierre de div de opciones
+	echo "</div>"; //cierre de div completo
+}
+
+?>

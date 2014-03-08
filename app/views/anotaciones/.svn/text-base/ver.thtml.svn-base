@@ -1,0 +1,10 @@
+
+
+<div class="errores" id="verde">Busqueda existosa</div>
+
+
+
+<ul class="actions"> 
+	<h3><?php echo $html->link('Gestion de Anotaciones', '/anotaciones/ingresar'); ?></h3>
+</ul>
+<br/>

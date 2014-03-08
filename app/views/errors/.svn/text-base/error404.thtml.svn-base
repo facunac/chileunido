@@ -1,0 +1,7 @@
+<div class="contenedor">
+	<div id="error">
+				<h2>Error 404</h2>
+					Lamentablemente, la p&aacute;gina a la que quiere acceder no existe.
+	</div>
+		<div class="clear"></div>
+</div>

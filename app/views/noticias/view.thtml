@@ -1,0 +1,39 @@
+<?php 
+	echo $html->css('noticias')."\n"; 
+?>
+
+<div class="tituloNoticia">
+<?php echo $noticia["Noticia"]["titulo"]; ?>
+</div>
+<div class="bajadaNoticia">
+<?php echo $noticia["Noticia"]["bajada"]; ?>
+</div>
+
+<div class="contenidoNoticia">
+<?php echo $noticia["Noticia"]["contenido"]; ?>
+</div>
+
+<?php
+
+if($desde == "home")
+	echo $html->link("Volver","/menu");
+else
+	echo $html->link("Volver",$desde);
+?>
+<div style="text-align: right">
+<?php
+	if(isset($permitir_editar)){
+		if($permitir_editar){
+			echo $html->link("Editar","edit/".$noticia["Noticia"]["cod_noticia"],array("class"=>"linkEditar"));
+		}
+	}
+?>
+-
+<?php
+	if(isset($permitir_eliminar)){
+		if($permitir_eliminar){
+			echo $html->link("Eliminar","delete/".$noticia["Noticia"]["cod_noticia"],array("class"=>"linkEditar","onclick"=>"return confirm('Esta seguro de eliminar la noticia?');"));
+		}
+	}
+?>
+</div>

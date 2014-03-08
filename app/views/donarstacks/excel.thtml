@@ -1,0 +1,92 @@
+<?php 
+
+$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+$sheet1->setColumn(0, 4, 20);
+$sheet1->freezePanes(array(1, 0));
+
+/*
+$donarstack['Donarstack']['cod_donarstack']
+$donarstack['Donarstack']['nom_nombre']
+$donarstack['Donarstack']['nom_appa']
+$donarstack['Donarstack']['nom_apma']
+$donarstack['Donarstack']['nom_rut']
+
+$donarstack['Donarstack']['fec_nacimiento']
+$donarstack['Donarstack']['nom_direccion']
+$donarstack['Donarstack']['cod_comuna']
+$donarstack['Donarstack']['num_telefono1']
+$donarstack['Donarstack']['num_telefono2']
+
+$donarstack['Donarstack']['nom_mail']
+$donarstack['Donarstack']['bit_genero']
+$donarstack['Donarstack']['num_monto']
+$donarstack['Donarstack']['nom_mediopago']
+$donarstack['Donarstack']['nom_mediopagoaux1']
+
+$donarstack['Donarstack']['nom_mediopagoaux2']
+$donarstack['Donarstack']['num_idpago']
+$donarstack['Donarstack']['bit_ajusteipc']
+$donarstack['Donarstack']['bit_estado']
+*/
+
+$excel->write($sheet1, 0, 0, 'cod_donarstack',$heading_format);
+$excel->write($sheet1, 0, 1, 'nom_nombre',$heading_format);
+$excel->write($sheet1, 0, 2, 'nom_appa',$heading_format);
+$excel->write($sheet1, 0, 3, 'nom_apma',$heading_format);
+$excel->write($sheet1, 0, 4, 'nom_rut',$heading_format);
+
+$excel->write($sheet1, 0, 5, 'fec_nacimiento',$heading_format);
+$excel->write($sheet1, 0, 6, 'nom_direccion',$heading_format);
+$excel->write($sheet1, 0, 7, 'cod_comuna',$heading_format);
+$excel->write($sheet1, 0, 8, 'num_telefono1',$heading_format);
+$excel->write($sheet1, 0, 9, 'num_telefono2',$heading_format);
+
+$excel->write($sheet1, 0, 10, 'nom_mail',$heading_format);
+$excel->write($sheet1, 0, 11, 'bit_genero',$heading_format);
+$excel->write($sheet1, 0, 12, 'num_monto',$heading_format);
+$excel->write($sheet1, 0, 13, 'nom_mediopago',$heading_format);
+$excel->write($sheet1, 0, 14, 'nom_mediopagoaux1',$heading_format);
+
+$excel->write($sheet1, 0, 15, 'nom_mediopagoaux2',$heading_format);
+$excel->write($sheet1, 0, 16, 'num_idpago',$heading_format);
+$excel->write($sheet1, 0, 17, 'bit_ajusteipc',$heading_format);
+$excel->write($sheet1, 0, 18, 'bit_estado',$heading_format);
+
+
+foreach($registros as $key => $registro){
+	$excel->write($sheet1, $key+1,0,$registro['Donarstack']['cod_donarstack']);
+	$excel->write($sheet1, $key+1,1,$registro['Donarstack']['nom_nombre']);
+	$excel->write($sheet1, $key+1,2,$registro['Donarstack']['nom_appa']);
+	$excel->write($sheet1, $key+1,3,$registro['Donarstack']['nom_apma']);
+	$excel->write($sheet1, $key+1,4,$registro['Donarstack']['nom_rut']);
+	
+	$excel->write($sheet1, $key+1,5,$registro['Donarstack']['fec_nacimiento']);
+	$excel->write($sheet1, $key+1,6,$registro['Donarstack']['nom_direccion']);
+	$excel->write($sheet1, $key+1,7,$registro['Donarstack']['cod_comuna']);
+	$excel->write($sheet1, $key+1,8,$registro['Donarstack']['num_telefono1']);
+	$excel->write($sheet1, $key+1,9,$registro['Donarstack']['num_telefono2']);
+	
+	$excel->write($sheet1, $key+1,10,$registro['Donarstack']['nom_mail']);
+	$excel->write($sheet1, $key+1,11,$registro['Donarstack']['bit_genero']);
+	$excel->write($sheet1, $key+1,12,$registro['Donarstack']['num_monto']);
+	$excel->write($sheet1, $key+1,13,$registro['Donarstack']['nom_mediopago']);
+	$excel->write($sheet1, $key+1,14,$registro['Donarstack']['nom_mediopagoaux1']);
+	
+	$excel->write($sheet1, $key+1,15,$registro['Donarstack']['nom_mediopagoaux2']);
+	$excel->write($sheet1, $key+1,16,$registro['Donarstack']['num_idpago']);
+	$excel->write($sheet1, $key+1,17,$registro['Donarstack']['bit_ajusteipc']);
+	$excel->write($sheet1, $key+1,18,$registro['Donarstack']['bit_estado']);
+
+}
+
+$excel->OutputFile();
+
+
+?> 

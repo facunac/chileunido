@@ -1,0 +1,96 @@
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<?php
+	$j=0;
+	foreach($personas as $v)
+		$j++;
+		
+	if($j==0)
+	{
+		// No hubo coincidencias en la búsqueda, por lo cual se ingresa un nuevo beneficiario
+		echo '<p>No se encontraron coincidencias</p>
+		<p>Ingrese datos del nuevo caso y beneficiario</p>';
+		
+		echo $html->formTag('ingresar_caso2');
+		?> 
+		<fieldset>
+			<legend>Ingresar Datos B&acute;sicos</legend>
+				
+			<p><label>Nombre</label>
+				<?php echo $html->input('FormBuscar/nom_nombre', array('size' => '20','maxlength'=>'255')) ?></p>
+			
+			<p><label>Apellido Paterno</label>
+				<?php echo $html->input('FormBuscar/nom_appat', array('size' => '20','maxlength'=>'255')) ?></p>
+			
+			<p><label>Apellido Materno</label>
+				<?php echo $html->input('FormBuscar/nom_apmat', array('size' => '20','maxlength'=>'255')) ?></p>
+			
+			<p><label>RUT</label>
+				<?php echo $html->input('FormBuscar/nom_rut', array('size' => '20','maxlength'=>'255')) ?></p>
+		
+			
+			<p><label for="login_button">&nbsp;</label>
+				<?php echo $html->submitTag('Buscar') ?></p>
+		</fieldset>
+		</form>
+	<?php
+	}
+	else
+	{
+		// Se muestran las coincidencias
+		?>
+		<table class="table_tablagris">
+		  <tr>
+			<th class="th_tablagris">Nombre</th>
+			<th class="th_tablagris">Direcci&oacute;n</th>
+			<th class="th_tablagris">Tel&eacute;fonos</th>
+			<th class="th_tablagris">e-mail</th>
+			<th class="th_tablagris">Programa</th>
+			<th class="th_tablagris">Ver</th>
+			
+		</tr>
+
+	<?php foreach($personas as $v)
+	{ 
+		?>
+		<tr>
+			
+			<td class="td_gris"><?php echo $v['Persona']['nom_nombre']." ".$v['Persona']['nom_appat'] ?></td>
+			<td class="td_gris"><?php echo $v['Persona']['nom_direccion'] ?>, 
+				<?php 
+					$codigo=$v['Persona']['cod_comuna'];
+					$i=0;
+					while($i!=$codigo)	$i++;
+					echo $comunas[$i];
+				?>
+			</td>
+			<td class="td_gris"><?php echo $v['Persona']['num_telefono1']." - ".$v['Persona']['num_telefono2'] ?></td>
+			<td class="td_gris"><?php echo $v['Persona']['nom_email'] ?></td>
+			<td class="td_gris"><?php echo $v['Programa']['nom_programa'] ?></td>
+			
+			<td class="td_gris">
+			<?php
+				echo $html->formTag('ver');
+				echo $html->hidden('Persona/cod_persona', array('value' => $v['Persona']['cod_persona']));
+				echo $html->submitTag('Ver');
+				echo '</form>';
+				
+			?>
+			
+			
+			</td>
+		
+		
+		</tr>
+	<?php 
+	} 
+	echo'</table>';
+}?>
+
+
+
+

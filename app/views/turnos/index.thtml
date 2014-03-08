@@ -1,0 +1,49 @@
+<script type="text/javascript">
+function categoria(select_id) {
+	var els = document.getElementsByTagName("option");
+	var els_len = els.length;
+	for (i = 0; i < els_len; i++) {
+		if (select_id.value == els[i].value) {
+			document.getElementById('cat_' + els[i].value).style.display = "block";
+		} else {
+			document.getElementById('cat_' + els[i].value).style.display = "none";
+		}
+	}
+}
+</script>
+
+<p>Ver turnos: 
+<?php
+
+$cats = array('clinicos' => 'Clínicos');
+
+foreach ($programas as $programa) {
+	$cats += array('telefonicos_' . $programa['Programa']['cod_programa']
+						=> 'Telefónicos (' . $programa['Programa']['nom_programa'] . ')');
+}
+
+$cats += array('otros' => 'No psicológicos');
+
+echo $html->selectTag('Extra/categorias', $cats, 'clinicos', array('length' => '16', 'style' => 'width: 16em',
+						'onChange'=>'javascript:categoria(this);'), null, false, false);
+
+?></p>
+
+<div class="calendarios">
+
+
+<div class="paginacion" id="cat_clinicos">
+<?php echo $matrix->render($calendario_clinico, $columnas_calendario, $filas_clinico, 'calendario3'); ?>
+</div>
+
+<?php foreach ($programas as $programa) { ?>
+<div class="paginacion" id="cat_telefonicos_<?php echo $programa['Programa']['cod_programa'] ?>" style="display: none">
+<?php echo $matrix->render($calendarios_telefonicos[$programa['Programa']['cod_programa']], $columnas_calendario, $filas_telefonico, 'calendario3'); ?>
+</div>
+<?php } ?>
+
+<div class="paginacion" id="cat_otros" style="display: none">
+<?php echo $matrix->render($calendario_otros, $columnas_calendario, $filas_telefonico, 'calendario3'); ?>
+</div>
+
+</div>

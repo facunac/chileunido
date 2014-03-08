@@ -1,0 +1,9 @@
+
+<p class="advertencia"> 
+<?php echo $mensaje; ?>
+</p>
+
+<?php echo $html->formTag('ingresar_seguimiento1') ?>
+
+
+		<?php echo $html->submitTag('Volver') ?></p>

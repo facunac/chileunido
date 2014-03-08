@@ -1,0 +1,3 @@
+		<label>Comuna</label>
+			<?php echo $html->selectTag('Persona/cod_comuna', $comunas, null, array("class"=>"select_grande"), null, false); ?>
+				

@@ -1,0 +1,1 @@
+<p class="advertencia"><?php echo $mensaje." \n".$mensaje2  ?></p>

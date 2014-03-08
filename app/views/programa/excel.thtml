@@ -1,0 +1,349 @@
+<?php 
+	set_time_limit(0);
+	
+	//refisar en estadisticas para como 5 consultas. $this->Respuestaficha->query("SELECT `Respuestaficha`.`cod_respuesta`, `Respuestaficha`.`cod_subpregunta`, `Respuestaficha`.`nom_respuesta`, `Subpregunta`.`cod_dimension`, `Subpregunta`.`nom_subpregunta`  FROM `respuestafichas` AS `Respuestaficha` LEFT JOIN `subpreguntas` AS `Subpregunta` ON (`Respuestaficha`.`cod_subpregunta` = `Subpregunta`.`cod_subpregunta`)  WHERE `Respuestaficha`.`num_evento` = ".$seguimientoinicial['Seguimiento']['num_evento']);
+	
+	$xls->setHeader('beneficiarios.xls'); 
+	$xls->BOF(); 
+	
+	switch ($opcion){
+		
+		//Programa Acoge
+		case '1':{
+		
+			//DATOS DEL BENEFICIARIO
+			$xls->writeLabel( 0,  0, 'DATOS DEL BENEFICIARIO');
+					
+				$xls->writeLabel( 1,  0, 'NOMBRE');
+				$xls->writeLabel( 1,  1, 'EDAD');
+				
+				$xls->writeLabel( 1,  2, 'TELEFONO1');
+				$xls->writeLabel( 1,  3, 'TELEFONO2');
+				$xls->writeLabel( 1,  4, 'COMUNA');
+				$xls->writeLabel( 1,  5, 'NSE DE COMUNA');
+				
+				$xls->writeLabel( 1,  6, 'TIPO DE FAMILIA');
+				$xls->writeLabel( 1,  7, 'ROL FAMILIAR');
+				$xls->writeLabel( 1,  8, 'ESTADO CIVIL');
+				$xls->writeLabel( 1,  9, mb_convert_encoding('NUMERO DE HIJOS','UTF-8','ASCII'));		
+				$xls->writeLabel( 1, 10, 'NIVEL EDUCACIONAL');
+				$xls->writeLabel( 1, 11, 'TRABAJO');
+				
+				$xls->writeLabel( 1, 12, 'PADRE DE LA GUAGUA');
+				$xls->writeLabel( 1, 13, 'MESES DE EMBARAZO');
+				$xls->writeLabel( 1, 14, 'METODO DE PREVENCION');
+				
+			//DATOS DE LLEGADA
+			$xls->writeLabel( 0, 15, 'DATOS DE LLEGADA');
+		
+				$xls->writeLabel( 1, 15, 'POR QUIEN LLAMA');
+				$xls->writeLabel( 1, 16, 'MOTIVO DE LLAMADA');
+				
+				$xls->writeLabel( 1, 17, 'FECHA INGRESO BEFICIARIO');
+				$xls->writeLabel( 1, 18, 'FECHA INGRESO CASO');
+				
+				$xls->writeLabel( 1, 19, mb_convert_encoding('TIPO INGRESO'	,'UTF-8','ASCII'));
+				$xls->writeLabel( 1, 20, mb_convert_encoding('SUB-INGRESO'	,'UTF-8','ASCII'));
+				
+				$xls->writeLabel( 1, 21, 'VOLUNTARIO INGRESO CASO');
+				$xls->writeLabel( 1, 22, 'SOLO YO');
+		
+			//DATOS DEL CASO
+			$xls->writeLabel( 0,  23, 'DATOS DEL CASO');
+				
+				$xls->writeLabel( 1, 23, 'DERIVACION');	
+				$xls->writeLabel( 1, 24, 'ESTADO');
+				$xls->writeLabel( 1, 25, 'TOTAL MESES ACTIVOS');
+			
+			//DATOS DE CASOS CERRADOS
+			$xls->writeLabel( 0,  26, 'DATOS DE CASOS CERRADOS');
+				
+				$xls->writeLabel( 1, 26, 'FECHA DE CIERRE');		
+				$xls->writeLabel( 1, 27, 'RESULTADO'); 			//(ficha cierre embarazo acoge)				
+				$xls->writeLabel( 1, 28, 'NOMBRE BEBE'); 		//nombre guagua   (ficha cierre embarazo acoge)
+				$xls->writeLabel( 1, 29, 'FECHA DE NACIMIENTO');//fecha nacimiento
+			
+			//DATOS DE ATENCION CLINICA
+			$xls->writeLabel( 0,  30, 'DATOS DE ATENCION CLINICA');	
+				
+				$xls->writeLabel( 1, 30, 'VOLUNTARIO PAPV');			//DERIVACION INTERNA SI O NO, QUE VOLUNTARIO ESTA ACARGO
+				$xls->writeLabel( 1, 31, 'CIERRE CLINICO');				//INTERRUPCION ALTA O DESERCION CLINICA
+				$xls->writeLabel( 1, 32, 'ASISTENCIAS CLINICAS');		//NUMEROS
+				$xls->writeLabel( 1, 33, 'INASISTENCIAS CLINICAS');		//NUMEROS
+				
+				
+			foreach($casos as $key => $caso){ 
+	
+				//DATOS DEL BENEFICIARIO
+						
+					$xls->writeLabel(  $key+2,  0, $caso['nombre']);
+					if($caso['edad'])	$xls->writeNumber( $key+2,  1, $caso['edad']);
+					
+					$xls->writeLabel(  $key+2,  2, $caso['telefono1']);
+					$xls->writeLabel(  $key+2,  3, $caso['telefono2']);
+					$xls->writeLabel(  $key+2,  4, $caso['nom_comuna']);
+					$xls->writeLabel(  $key+2,  5, $caso['nse_comuna']);
+					
+					$xls->writeLabel(  $key+2,  6, $caso['tipo_flia']);
+					$xls->writeLabel(  $key+2,  7, $caso['rol_familiar']);
+					$xls->writeLabel(  $key+2,  8, $caso['estado_civil']);
+					
+					$xls->writeNumber( $key+2,  9, $caso['num_hijos']);
+					$xls->writeLabel(  $key+2, 10, $caso['nivel_educ']);
+					$xls->writeLabel(  $key+2, 11, $caso['trabajo']);
+					
+					$xls->writeLabel(  $key+2, 12, $caso['padre']);
+					$xls->writeLabel(  $key+2, 13, $caso['meses']);
+					$xls->writeLabel(  $key+2, 14, $caso['metodo']);
+		
+				//DATOS DE LLEGADA
+					
+					$xls->writeLabel(  $key+2, 15, $caso['por_quien_llama']);
+					$xls->writeLabel(  $key+2, 16, $caso['motivo']);
+					
+					$xls->writeLabel(  $key+2, 17, $caso['fecha_inicial_bene']);
+					$xls->writeLabel(  $key+2, 18, $caso['fecha_inicial_caso']);
+					
+					$xls->writeLabel(  $key+2, 19, $caso['tipo_ingreso']);
+					$xls->writeLabel(  $key+2, 20, $caso['medio_ingreso']);
+					
+					$xls->writeLabel(  $key+2, 21, $caso['voluntario_ingreso']);
+					$xls->writeLabel(  $key+2, 22, $caso['solo_yo']);
+		
+				//DATOS DEL CASO
+					
+					$xls->writeLabel(  $key+2, 23, $caso['derivacion']);
+					$xls->writeLabel(  $key+2, 24, $caso['estado']);
+					if($caso['meses_activo'])	$xls->writeNumber( $key+2, 25, $caso['meses_activo']);
+				
+				//DATOS DE CASOS CERRADOS
+					$xls->writeLabel(  $key+2, 26, $caso['fecha_cierre']);	
+					$xls->writeLabel(  $key+2, 27, $caso['resultado']);	
+					$xls->writeLabel(  $key+2, 28, $caso['nombre_guagua']);	
+					$xls->writeLabel(  $key+2, 29, $caso['fecha_nacimiento']);	
+				
+				//DATOS DE ATENCION CLINICA
+					$xls->writeLabel(  $key+2, 30, $caso['vol_papv']);			
+					$xls->writeLabel(  $key+2, 31, $caso['cierre_clinico']);
+					if($caso['asistencias']) 	$xls->writeNumber(  $key+2, 32, $caso['asistencias']);
+					if($caso['inasistencias'])	$xls->writeNumber(  $key+2, 33, $caso['inasistencias']);
+				
+			}//end foreach caso
+				
+		} break;
+		
+		//Programa Comunicate
+		case '2':{
+
+			//DATOS DEL BENEFICIARIO
+			$xls->writeLabel( 0,  0, 'DATOS DEL BENEFICIARIO');
+				
+				$xls->writeLabel( 1,  0, 'NOMBRE');
+				$xls->writeLabel( 1,  1, 'EDAD');
+				
+				$xls->writeLabel( 1,  2, 'TELEFONO1');
+				$xls->writeLabel( 1,  3, 'TELEFONO2');
+				$xls->writeLabel( 1,  4, 'COMUNA');
+				$xls->writeLabel( 1,  5, 'NSE DE COMUNA');
+				
+				$xls->writeLabel( 1,  6, 'TIPO FAMILIA');
+				$xls->writeLabel( 1,  7, 'ROL FAMILIAR');
+				$xls->writeLabel( 1,  8, 'ESTADO CIVIL');
+				$xls->writeLabel( 1,  9, 'ANOS ESTADO CIVIL');
+				
+				$xls->writeLabel( 1, 10, 'EDUCACION PADRE');
+				$xls->writeLabel( 1, 11, 'TRABAJO PADRE');
+				$xls->writeLabel( 1, 12, 'EDUCACION MADRE');
+				$xls->writeLabel( 1, 13, 'TRABAJO MADRE');  			//SACAR ACENTO ESPORáDICO
+			
+			//DATOS DE LLEGADA
+			$xls->writeLabel( 0, 14, 'DATOS DE LLEGADA');
+				
+				$xls->writeLabel( 1, 14, 'POR QUIEN LLAMA');
+				$xls->writeLabel( 1, 15, 'MOTIVO DE LLAMADA');
+				
+				$xls->writeLabel( 1, 16, 'FECHA INGRESO BENEFICIARIO');
+				$xls->writeLabel( 1, 17, 'FECHA INGRESO CASO');
+				
+				$xls->writeLabel( 1, 18, mb_convert_encoding('TIPO INGRESO'	,'UTF-8','ASCII'));
+				$xls->writeLabel( 1, 19, mb_convert_encoding('SUB-INGRESO'	,'UTF-8','ASCII'));
+				$xls->writeLabel( 1, 20, mb_convert_encoding('CONVENIO'		,'UTF-8','ASCII'));
+			
+				$xls->writeLabel( 1, 21, 'VOLUNTARIO INGRESO CASO');
+				$xls->writeLabel( 1, 22, 'SOLO YO');
+				
+			//DATOS DEL CASO
+			$xls->writeLabel( 0,  23, 'DATOS DEL CASO');
+					
+				$xls->writeLabel( 1, 23, 'DERIVACION EXTERNA');
+				$xls->writeLabel( 1, 24, 'TIPO DE DERIVACION');			//sacar acento fisico
+				$xls->writeLabel( 1, 25, 'DERIVADO A DONDE');
+				
+				$xls->writeLabel( 1, 26, 'ESTADO');
+				$xls->writeLabel( 1, 27, 'TOTAL MESES ACTIVOS');		//meses activos
+				
+			//DATOS DE CASOS CERRADOS
+			$xls->writeLabel( 0,  28, 'DATOS DE CASOS CERRADOS');
+				
+				$xls->writeLabel( 1, 28, 'FECHA DE CIERRE');			//REVISAR, Y QUISAS ES CALCULO DE SEGUIMIENTO FINAL
+				$xls->writeLabel( 1, 29, 'RESULTADO');					//MEJOR PEOR SIN CAMBIOO ETC...
+				$xls->writeLabel( 1, 30, 'ASISTIO A RED EXTERNA');		//Si asistio a red externa
+				
+			//DATOS DE ATENCION CLINICA
+			$xls->writeLabel( 0,  31, 'DATOS DE ATENCION CLINICA');	
+				
+				$xls->writeLabel( 1, 31, 'VOLUNTARIO PAPV');			//DERIVACION INTERNA SI O NO, QUE VOLUNTARIO ESTA ACARGO
+				$xls->writeLabel( 1, 32, 'CIERRE CLINICO');				//INTERRUPCION ALTA O DESERCION CLINICA
+				$xls->writeLabel( 1, 33, 'ASISTENCIAS CLINICAS');		//NUMEROS
+				$xls->writeLabel( 1, 34, 'INASISTENCIAS CLINICAS');		//NUMEROS
+			
+			foreach($casos as $key => $caso){ 
+			
+				//DATOS DEL BENEFICIARIO
+					
+					$xls->writeLabel(  $key+2,  0, $caso['nombre']);
+					if($caso['edad'])	$xls->writeNumber( $key+2,  1, $caso['edad']);
+					
+					$xls->writeLabel(  $key+2,  2, $caso['telefono1']);
+					$xls->writeLabel(  $key+2,  3, $caso['telefono2']);
+					$xls->writeLabel(  $key+2,  4, $caso['nom_comuna']);
+					$xls->writeLabel(  $key+2,  5, $caso['nse_comuna']);
+					
+					$xls->writeLabel(  $key+2,  6, $caso['tipo_flia']);
+					$xls->writeLabel(  $key+2,  7, $caso['rol_familiar']);
+					$xls->writeLabel(  $key+2,  8, $caso['estado_civil']);
+					$xls->writeLabel(  $key+2,  9, $caso['anos_estado_civil']);
+					
+					$xls->writeLabel(  $key+2, 10, $caso['educ_padre']);
+					$xls->writeLabel(  $key+2, 11, $caso['trabajo_padre']);
+					$xls->writeLabel(  $key+2, 12, $caso['educ_madre']);
+					$xls->writeLabel(  $key+2, 13, $caso['trabajo_madre']);
+					
+				//DATOS DE LLEGADA
+		
+					$xls->writeLabel(  $key+2, 14, $caso['por_quien_llama']);
+					$xls->writeLabel(  $key+2, 15, $caso['motivo']);
+					
+					$xls->writeLabel(  $key+2, 16, $caso['fecha_inicial_bene']);
+					$xls->writeLabel(  $key+2, 17, $caso['fecha_inicial_caso']);
+				
+					$xls->writeLabel(  $key+2, 18, $caso['tipo_ingreso']);
+					$xls->writeLabel(  $key+2, 19, $caso['medio_ingreso']);
+					$xls->writeLabel(  $key+2, 20, $caso['convenio']);
+					
+					$xls->writeLabel(  $key+2, 21, $caso['voluntario_ingreso']);
+					$xls->writeLabel(  $key+2, 22, $caso['solo_yo']);
+					
+				//DATOS DE CASO	
+					
+					$xls->writeLabel(  $key+2, 23, $caso['derivado_si_no']);
+					$xls->writeLabel(  $key+2, 24, $caso['derivado_tipo']);		
+					$xls->writeLabel(  $key+2, 25, $caso['derivado_donde']);
+				
+					$xls->writeLabel(  $key+2, 26, $caso['estado']);
+					if($caso['meses_activo'])	$xls->writeNumber( $key+2, 27, $caso['meses_activo']);
+			
+				//DATOS DE CASOS CERRADOS
+				
+					$xls->writeLabel(  $key+2, 28, $caso['fecha_cierre']);
+					$xls->writeLabel(  $key+2, 29, $caso['resultado']);
+					$xls->writeLabel(  $key+2, 30, $caso['asistencia_derivacion']);
+					
+				//DATOS DE ATENCION CLINICA
+					
+					$xls->writeLabel(  $key+2, 31, $caso['vol_papv']);			
+					$xls->writeLabel(  $key+2, 32, $caso['cierre_clinico']);
+					if($caso['asistencias']) 	$xls->writeNumber(  $key+2, 33, $caso['asistencias']);
+					if($caso['inasistencias'])	$xls->writeNumber(  $key+2, 34, $caso['inasistencias']);
+					
+					
+					
+					$xls->writeLabel(  $key+2, 35, $caso['fecha_inicial_ben']);
+				
+			}//end foreach caso			
+					
+		} break;
+		
+		default:{
+			
+			//DATOS DEL BENEFICIARIO
+				
+				$xls->writeLabel( 0,  0, 'NOMBRE');
+				$xls->writeLabel( 0,  1, 'EDAD');
+				$xls->writeLabel( 0,  2, 'ROL FAMILIAR');
+				
+				$xls->writeLabel( 0,  3, 'TELEFONO1');
+				$xls->writeLabel( 0,  4, 'TELEFONO2');
+				$xls->writeLabel( 0,  5, 'COMUNA');
+				$xls->writeLabel( 0,  6, 'NSE DE COMUNA');
+				
+			//DATOS DE LLEGADA
+				
+				$xls->writeLabel( 0,  7, 'POR QUIEN LLAMA');
+				$xls->writeLabel( 0,  8, 'MOTIVO DE LLAMADA');
+				
+				$xls->writeLabel( 0,  9, 'FECHA INGRESO BENEFICIARIO');
+				$xls->writeLabel( 0,  10, 'FECHA INGRESO CASO');
+				
+				$xls->writeLabel( 0, 11, mb_convert_encoding('TIPO INGRESO'	,'UTF-8','ASCII'));
+				$xls->writeLabel( 0, 12, mb_convert_encoding('SUB-INGRESO'	,'UTF-8','ASCII'));
+				
+				$xls->writeLabel( 0, 13, 'VOLUNTARIO INGRESO CASO');
+				$xls->writeLabel( 0, 14, 'SOLO YO');
+			
+			//DATOS DEL CASO
+				
+				$xls->writeLabel( 0, 15, 'ESTADO');
+				
+				
+			foreach($casos as $key => $caso){ 
+				
+				//DATOS DEL BENEFICIARIO
+				
+					$xls->writeLabel(  $key+1,  0, $caso['nombre']);
+					if($caso['edad'])	$xls->writeNumber( $key+1,  1, $caso['edad']);
+					$xls->writeLabel(  $key+1,  2, $caso['rol_familiar']);
+					
+					$xls->writeLabel(  $key+1,  3, $caso['telefono1']);
+					$xls->writeLabel(  $key+1,  4, $caso['telefono2']);
+					$xls->writeLabel(  $key+1,  5, $caso['nom_comuna']);
+					$xls->writeLabel(  $key+1,  6, $caso['nse_comuna']);
+					
+				//DATOS DE LLEGADA
+					
+					$xls->writeLabel(  $key+1,  7, $caso['por_quien_llama']);
+					$xls->writeLabel(  $key+1,  8, $caso['motivo']);
+					
+					$xls->writeLabel(  $key+1,  9, $caso['fecha_inicial_bena']);
+					$xls->writeLabel(  $key+1, 10, $caso['fecha_inicial_caso']);
+					
+					$xls->writeLabel(  $key+1, 11, $caso['tipo_ingreso']);
+					$xls->writeLabel(  $key+1, 12, $caso['medio_ingreso']);
+					
+					$xls->writeLabel(  $key+1, 13, $caso['voluntario_ingreso']);
+					$xls->writeLabel(  $key+1, 14, $caso['solo_yo']);
+		
+				//DATOS DEL CASO
+					
+					$xls->writeLabel(  $key+1, 15, $caso["Estado"]);	
+					
+			
+			}//end foreach caso
+		
+		} break;
+	
+	}//end switch opcion programa
+	
+	$xls->EOF();
+	
+
+/*
+
+*/
+
+	
+
+	
+
+	
+?> 

@@ -1,0 +1,161 @@
+
+
+
+<script type="text/javascript">
+
+function check_fechas_validas() {
+	
+	var mensaje = 'La fecha de inicio debe ser anterior o igual a la fecha de termino.';
+	
+	var fec_inicial = document.getElementById('FormBuscarFecInicioPeriodo').value;
+	var fec_termino = document.getElementById('FormBuscarFecTerminoPeriodo').value;
+	
+	var fec_inicial_split_result = fec_inicial.split("-");
+	var fec_termino_split_result = fec_termino.split("-");	
+		
+	if(fec_inicial_split_result[0]!=fec_termino_split_result[0]){
+			
+		if(fec_inicial_split_result[0]<fec_termino_split_result[0]){
+			return true;
+			exit();
+		}
+		alert(mensaje);
+		return false;
+		exit();		
+	
+	} else {
+		
+		if(fec_inicial_split_result[1]!=fec_termino_split_result[1]){
+			
+			if(fec_inicial_split_result[1]<fec_termino_split_result[1]){
+				return true;
+				exit();
+			}
+			alert(mensaje);
+			return false;
+			exit();		
+	
+		} else {
+		
+			if(fec_inicial_split_result[2]<=fec_termino_split_result[2]){
+				return true;
+				exit();
+			}
+			alert(mensaje);
+			return false;
+			exit();
+		}	
+	}
+	alert('error de procesamiento');
+	return false;
+	exit();
+}
+</script>
+
+
+
+
+<div class="paginacion">
+	<table class="sortable-onload-0 no-arrow rowstyle-alt colstyle-alt paginate-10 max-pages-7
+paginationcallback-callbackTest-calculateTotalRatingsortcompletecallback-callbackTest-calculateTotalRating">
+
+		<thead>
+			<tr>
+				<th class="sortable-text" width="204">Fecha Creada</th>
+				<th class="sortable-text" width="204">Fecha Inicio</th>
+				<th class="sortable-text" width="204">Fecha Termino</th>
+				<th class="sortable-text" width="404">Comentario</th>
+				<th class="th_tablagris" width="204">Acciones</th>
+			</tr>
+		</thead>
+		<tfoot>
+		</tfoot>
+		
+		<tbody>
+		<?php foreach ($anotaciones as $anotacione)
+		{ ?>
+
+			<tr class ="odd">
+				<td class="td_gris"><?php echo $anotacione['Anotacione']['fecha_creada'] ?></td>
+				<td class="td_gris"><?php echo $anotacione['Anotacione']['fecha_inicio'] ?></td>
+				<td class="td_gris"><?php echo $anotacione['Anotacione']['fecha_termino'] ?></td>
+				<td class="td_gris"><div style="overlow:auto">
+					<?php echo $anotacione['Anotacione']['Comentario'] ?>
+				</div></td>
+				<td class="td_gris">
+					<?php echo $html->formTag('modificar/'.$anotacione['Anotacione']['cod_anotacion'],'post', array('style'=>'display:inline'));?>
+					<input type="image" src="<?php echo $this->webroot.'img/modificar.png'; ?>" alt="Modificar" title="Modificar anotacion" />
+					</form>							
+					<?php echo $html->formTag('eliminar/'.$anotacione['Anotacione']['cod_anotacion'],'post', array('style'=>'display:inline'));?>
+					<input type="image" src="<?php echo $this->webroot.'img/cruz.png'; ?>" alt="Eliminar" title="Eliminar anotacion" onClick="return confirm('¿Esta seguro que desea eliminar esta anotacion?')"/>
+					</form>
+				</td>
+			</tr>
+		<?php } ?>
+    	</tbody>
+	</table>
+	<br/>
+</div>
+
+
+<ul class="actions"> 
+	<h3><?php echo $html->link('Click aqui para ingresar nueva anotación', '/anotaciones/ingresar'); ?></h3>
+</ul>
+<br/>
+
+<div class="a_cuatrocincuenta">
+	<?php echo $html->formTag('index','post'); ?>     
+		<fieldset>
+			<legend><span>Buscar anotaciones activas en periodo</span></legend>
+			<ol>  
+				<li>
+					<label>Fecha Inicio</label>
+	        		<?php echo $html->input('FormBuscar/fec_inicio_periodo',array('class' => "format-y-m-d divider-dash no-transparency", 'maxlength' => '255')) ;?>	
+	        	</li>
+				<li>
+					<label>Fecha Termino</label>
+	        		<?php echo $html->input('FormBuscar/fec_termino_periodo',array('class' => "format-y-m-d divider-dash no-transparency", 'maxlength' => '255')) ;?>	
+	        	</li>
+				
+				<?php echo $html->hidden('FormBuscar/tipo_busqueda', array('value' => "fecha"));?>
+			</ol>
+		</fieldset>
+		<fieldset class="submit">  
+				<?php echo $html->submitTag('Buscar por periodo', array('onclick'=>'return check_fechas_validas()')) ?>
+		</fieldset>
+	</form>
+</div>
+
+<div class="a_cuatrocincuenta">
+	<?php echo $html->formTag('index','post'); ?>     
+		<fieldset>
+			<legend><span>Buscar anotaciones por comentario</span></legend>
+			<ol>  
+				<li>
+					<label>Ingrese parte del comentario</label>
+					<?php echo $html->input('FormBuscar/comentario', array('size' => '20','maxlength'=>'40')) ?>
+				</li>
+				<?php echo $html->hidden('FormBuscar/tipo_busqueda', array('value' => "comentario"));?>
+			</ol>
+		</fieldset>
+		<fieldset class="submit">  
+				<?php echo $html->submitTag('Buscar por comentario') ?>
+		</fieldset>
+	</form>
+</div>
+
+
+<?php
+
+//[Dawes] ejemplos de las funciones del helper anotacion...
+
+//este recibe dos fechas que determina el poriodo por el cual buscar anotaciones
+//para luego desplegarlas
+//echo $anotacion->anotacionesCalendario('2008-10-06','2008-10-07');
+
+//este recibe una lista de anotaciones y las despliega
+//echo $anotacion->desplegarAnotaciones($anotaciones);
+?>
+
+
+

@@ -1,0 +1,35 @@
+<?php 
+$jsvalid->setModel('Convenio'); 
+$jsvalid->required();
+echo $jsvalid->returnScript(); 
+?> 
+<h2>Nuevo Convenio</h2>
+<?php echo $jsvalid->form('add', '', 'post', 'a_cuatrocincuenta') ?>
+<fieldset class="a_cuatrocincuenta">
+<table>
+<tr><div class="required"> 
+	<td><?php echo $jsvalid->input('Convenio/nom_convenio', 'Nombre Convenio', array('size' => '30','maxlength'=>'255')) ?>
+	</td>
+</div></tr>
+<tr><div class="required"> 
+	<td><?php echo $jsvalid->input('Convenio/fec_inicio', 'Fecha de Inicio', array('size' => '15', 'class' => 'format-d-m-y divider-dash highlight-days-67 no-transparency'));?>
+ 	</td>
+</div></tr>
+<tr><div class="required"> 
+	<td><?php echo $jsvalid->input('Convenio/nom_responsable', 'Nombre Responsable', array('size' => '','maxlength'=>'255')) ?>
+	</td>
+</div></tr>
+<tr><div class="optional"> 
+	<td><?php echo $jsvalid->input('Convenio/num_contacto', 'Numero Contacto', array('size' => '','maxlength'=>'7')) ?>
+	</td>
+</div></tr>
+</table>
+</fieldset>
+<div class="submit">
+	<?php echo $html->submit('Agregar');?>
+</div>
+
+</form>
+<ul class="actions">
+<li><?php echo $html->link('Lista de Convenios', '/convenios/index')?></li>
+</ul>

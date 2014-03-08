@@ -1,0 +1,68 @@
+<!--validaciones del pago-->
+<?php $jsvalid->setModel('Pago'); ?> 
+<?php $jsvalid->required();?>
+ 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+
+
+<div class="contenedor">
+		<?php echo $jsvalid->form('add', '', 'post', 'a_cuatrocincuenta') ?>
+      
+        <fieldset class="a_cuatrocincuenta">
+                
+        <legend><span>Agregar Pago</span></legend>
+                                                    
+		<ol>
+    
+        <li>
+        	<label>C&oacute;digo Socio</label>     	
+        	<?php
+        	$tmp = '<select name="data[Pago][cod_socio]"  class="select_mediano" id="PagoCodSocio" style="width: 120px">';
+        	for($n=0; $n<count($socios); $n++)
+        		$tmp .= '<option value="'.$socios[$n].'" >'.$socios[$n].'</option>';
+        	$tmp .= '</select>';
+        	echo $tmp;
+			?>	
+        </li>
+        
+        <li>
+        	<label>Monto</label>
+        	<?php echo $html->input('Pago/num_monto',array('size' => '20'));?>
+        </li>
+
+        <li>
+        	<label>Medio de pago</label>
+        	<?php
+        	$tmp = '<select name="data[Pago][nom_mediopago]"  class="select_mediano" id="PagoNomMediopago" style="width: 120px">';
+        	for($n=0; $n<count($mediosDePago); $n++)
+        		$tmp .= '<option value="'.$mediosDePago[$n].'" >'.$mediosDePago[$n].'</option>';
+        	$tmp .= '</select>';
+        	echo $tmp;
+			?>
+        </li>
+         
+        <li>
+        	<?php echo $jsvalid->input('Pago/fec_inicio', 'Fecha inicio', array('size' => '15', 'class' => 'w8em format-d-m-y divider-dash highlight-days-12 no-transparency')); ?>
+        </li>
+       
+        <li>
+        	<label>Ajuste IPC</label>      	
+        	<?php echo '<select name="data[Pago][bit_ajusteipc]"  class="select_mediano" id="PagoBitAjusteipc" style="width: 120px"><option value="1" >S&iacute;</option><option value="0" >No</option></select>'; ?>       	
+        </li>
+
+        </ol>
+        <?php echo "<input type=\"hidden\" name=\"enviado\" value=\"enviado\">"; ?>
+        </fieldset>
+         
+        <fieldset class="submit">
+		<?php echo $html->submit('Agregar');?>
+		</fieldset>
+		
+	</form>
+</div>
+
+<ul class="actions">
+<li><?php echo $html->link('Volver', '/pagos/index')?></li>
+</ul>

@@ -1,0 +1,369 @@
+
+<?php
+/* SVN FILE: $Id: default.thtml 6305 2008-01-02 02:33:56Z phpnut $ */
+/**
+ *
+ * PHP versions 4 and 5
+ *
+ * CakePHP(tm) :  Rapid Development Framework <http://www.cakephp.org/>
+ * Copyright 2005-2008, Cake Software Foundation, Inc.
+ *								1785 E. Sahara Avenue, Suite 490-204
+ *								Las Vegas, Nevada 89104
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @filesource
+ * @copyright		Copyright 2005-2008, Cake Software Foundation, Inc.
+ * @link				http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @package			cake
+ * @subpackage		cake.cake.libs.view.templates.pages
+ * @since			CakePHP(tm) v 0.10.0.1076
+ * @version			$Revision: 6305 $
+ * @modifiedby		$LastChangedBy: phpnut $
+ * @lastmodified	$Date: 2008-01-01 20:33:56 -0600 (Tue, 01 Jan 2008) $
+ * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Fundaci&oacute;n ChileUnido : <?php echo $title_for_layout; ?></title>
+
+        <?php echo $html->charset(); ?>
+
+        <link rel="icon" href="<?php echo $this->webroot . 'favicon.ico'; ?>" type="image/x-icon" />
+
+        <?php echo $html->css('css')."\n"; ?>
+        <?php echo $html->css('datepicker')."\n"; ?>
+        <?php echo $html->css('nuevosCss')."\n"; ?>
+        <?php echo $html->css('paging')."\n"; ?>
+        <?php echo $html->css('calendario')."\n"; ?>
+        <?php echo $html->css('moreoptions')."\n"; ?>
+        <?php echo $html->css('comments')."\n"; ?>
+        <?php echo $html->css('encuestas')."\n"; ?>
+
+        <!--[if lte IE 7]>
+                <style type="text/css" media="all">
+        <?php echo $html->css('fieldset-styling-ie')."\n"; ?>
+	</style>
+        <![endif]-->
+
+
+        <?php echo $javascript->link('datepicker.js')."\n"; ?>
+        <?php echo $javascript->link('XHConn.js')."\n"; ?>
+        <?php echo $javascript->link('prototype.js')."\n"; ?>
+        <?php echo $javascript->link('scriptaculous.js')."\n"; ?>
+        <?php echo $javascript->link('funciones.js')."\n"; ?>
+        <?php echo $javascript->link('encuestas.js')."\n"; ?>
+        <?php echo $javascript->link('content.js')."\n"; ?>
+
+        <?php //echo $javascript->link('jquery-1.1.3.1.min.js')."\n"; ?>
+        <?php echo $javascript->link('jquery-1.3.2.min.js')."\n"; ?>
+        <?php echo $javascript->link('jquery.easing.min.js')."\n"; ?>
+        <?php echo $javascript->link('jquery.lavalamp.min.js')."\n"; ?>
+        <?php echo $javascript->link('jquery.tools.min.js')."\n"; ?>
+
+        <?php echo $javascript->link('sortable.js')."\n"; ?>
+        <?php echo $javascript->link('paginate.js')."\n"; ?>
+        <?php echo $javascript->link('tablesort.js')."\n"; ?>
+
+        <?php echo $javascript->link('tiny_mce/tiny_mce.js')."\n"; ?>
+        <?php echo $javascript->link('tiny_mce/plugins/tinybrowser/tb_tinymce.js.php')."\n"; ?>
+        <script type="text/javascript">
+			function init_editor_contents (editor)
+			{
+				var areas = document.getElementsByName (editor.id);
+				if (areas.length == 0) return;
+				editor.setContent (areas[0].value, {format : 'raw'});
+			}
+            // Init TinyMCE. Set class to mceEditor to set up the editor
+            tinyMCE.init ( {
+                mode : "specific_textareas",
+				editor_selector : "mceEditor",
+                language : "es",
+                theme : "advanced",
+                file_browser_callback : "tinyBrowser",
+                plugins : "media,emotions,spellchecker,preview", // To allow easy YouTube embed
+                theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,separator,forecolor,backcolor,separator,spellchecker,separator,preview",
+                theme_advanced_buttons2_add : "media,emotions",
+                plugin_preview_width : "500",
+                plugin_preview_height : "600",
+				setup : function (editor) { editor.onInit.add (function (ed) { init_editor_contents (ed); } ) }
+            } );
+        </script>
+
+        <script type="text/javascript">
+
+            function cargar(location)
+            {
+                var salir = alert("Ud. se ha desconectado del sistema. ¡Hasta pronto!");
+
+                var peticion;
+                var myConn = new XHConn();
+                if (!myConn) alert("XMLHTTP no esta disponible. Intentalo con un navegador mas nuevo.");
+
+                peticion=function(oXML){};
+
+                myConn.connect(location, "GET", "", peticion);
+            }
+
+        </script>
+        <script type="text/javascript">
+            jQuery(function() {
+
+                // initialize scrollable
+                jQuery.noConflict();
+                jQuery("#contenedor").scrollable({
+                    vertical:true,
+                    size: 3,
+                    autoplay: true
+
+                    // use mousewheel plugin
+                }).mousewheel().autoscroll().circular();
+
+            });
+        </script>
+
+        <script type="text/javascript">
+            jQuery.noConflict();
+            jQuery(function() { jQuery(".lavaLamp").lavaLamp({ fx: "backout", speed: 700 })});
+        </script>
+
+    </head>
+    <body>
+
+        <div id="container">
+            <div class="header_container">
+                <div class="header">
+                    <?php
+                    // imagen del header con link a /menu/:
+                    echo $html->link($html->image('logo.jpg', array('alt'=>"ChileUnido",'title'=>"ChileUnido")),'/menu/', false, false, false, null );
+                    ?>
+
+                    <div id="header_divs2">
+                        <div id="header_divs2_abs">
+                            <?php
+                            $textimage->fontFile = "bodoni.ttf";
+                            $textimage->setPointSize(30);
+                            $textimage->setColor("FFFFFF");
+                            $textimage->setBgColor("0000FF");
+                            $textimage->transparent = true;
+                            echo $textimage->image($titulo_pagina);
+                            ?>
+                        </div>
+                    </div>
+                    <div id="info_vol">
+                        <div class="header_divs" id="header_sesion"> <?php echo $name_for_layout." (".$programa_for_layout.")"; ?> </div>
+
+                        <div class="header_divs" id="header_cerrarsesion">
+                            <?php
+                            echo 'Ud. se ha conectado '.$nrovisitas_for_layout;
+
+                            if($nrovisitas_for_layout == 1) {
+                                echo ' vez | ';
+                            }
+                            else {
+                                echo ' veces | ';
+                            }
+
+                            echo $html->link('Cerrar Sesión', '/menu/logout/');
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="header_sombra"></div>
+
+
+                <?php
+                //Si el MSG_FOR_LAYOUT ES BUENO, su codigo debe ser >1000, si es malo, debe ser <-1000
+                if(isset($msg_for_layout) && $msg_for_layout!="") { ?>
+                <div class="errores" id="<?php if($msg_for_layout==1 || $msg_for_layout==6 || $msg_for_layout==8 || $msg_for_layout==10 || $msg_for_layout==12 || $msg_for_layout==14 || $msg_for_layout==16 || $msg_for_layout==18 || $msg_for_layout==20 || $msg_for_layout==22 || $msg_for_layout==25
+                        || $msg_for_layout==26 || $msg_for_layout==29 || $msg_for_layout==30 || $msg_for_layout==31 || $msg_for_layout==34 || $msg_for_layout==36 || $msg_for_layout==39 || $msg_for_layout==40 || $msg_for_layout==42 || $msg_for_layout==44
+                        || $msg_for_layout==100 || $msg_for_layout==103 || $msg_for_layout==107 || $msg_for_layout==110 || $msg_for_layout > 1000
+                         ) echo "verde"; else echo "rojo"; ?>">
+                             <?php
+                             $mensaje="";
+                             switch($msg_for_layout) {
+                                 case 1: $mensaje = "Los datos del beneficiario fueron modificados exitosamente"; break;
+                                 case 2: $mensaje = "No fue posible modificar los datos del beneficiario"; break;
+                                 case 3: $mensaje = "No fue posible modificar los datos de la persona"; break;
+                                 case 4: $mensaje = "No se encontraron coincidencias"; break;
+                                 case 5: $mensaje = "No se ha podido ingresar correctamente el caso"; break;
+                                 case 6: $mensaje = "El caso se ha ingresado exitosamente a la historia del beneficiario"; break;
+                                 case 7: $mensaje = "No todas las respuestas de la ficha fueron ingresadas correctamente. Por favor revise nuevamente sus respuestas"; break;
+                                 case 8: $mensaje = "El caso del beneficiario ha sido retirado exitosamente"; break;
+                                 case 9: $mensaje = "No se ha podido retirar correctamente el caso"; break;
+                                 case 10: $mensaje = "El caso del beneficiario ha sido reactivado exitosamente"; break;
+                                 case 11: $mensaje = "No se ha podido reactivar correctamente el caso"; break;
+                                 case 12: $mensaje = "El nuevo seguimiento fue creado con exito"; break;
+                                 case 13: $mensaje = "Error al ingresar el seguimiento"; break;
+                                 case 14: $mensaje = "Los par&aacute;metros del programa fueron modificadas satisfactoriamente"; break;
+                                 case 15: $mensaje = "No fue posible modificar los par&aacute;metros del programa"; break;
+                                 case 16: $mensaje = "Programa agregado satisfactoriamente"; break;
+                                 case 17: $mensaje = "Error al ingresar el programa"; break;
+                                 case 18: $mensaje = "Turno cambiado exitosamente"; break;
+                                 case 19: $mensaje = "No fue posible modificar el turno"; break;
+                                 case 20: $mensaje = "El seguimiento ha sido confirmado"; break;
+                                 case 21: $mensaje = "No ha sido posible confirmar el seguimiento"; break;
+                                 case 22: $mensaje = "Actualizaci&oacute;n exitosa."; break;
+                                 case 23: $mensaje = "No se ha podido actualizar"; break;
+                                 case 24: $mensaje = "Esta persona ya tiene un caso abierto"; break;
+                                 case 25: $mensaje = "El nuevo seguimiento clinico fue creado con exito"; break;
+                                 case 26: $mensaje = "El nuevo beneficiario fue creado exitosamente"; break;
+                                 case 27: $mensaje = "Consulta de busqueda no valida. Ingrese al menos un criterio de busqueda"; break;
+                                 case 28: $mensaje = "No existen resultados con los parametros entregados"; break;
+                                 case 29: $mensaje = "Beneficiario creado exitosamente; por favor ingrese datos de cierre de caso"; break;
+                                 case 30: $mensaje = "Seguimiento creado exitosamente; por favor ingrese datos de cierre de caso"; break;
+                                 case 31: $mensaje = "Anotacion fue creada";  break;
+                                 case 32: $mensaje = "Anotacion no pudo ser creada";  break;
+                                 case 33: $mensaje = "Error en el identificador de la anotacion";  break;
+                                 case 34: $mensaje = "Anotacion eliminada";  break;
+                                 case 35: $mensaje = "La anotacion no pudo ser eliminada";  break;
+                                 case 36: $mensaje = "Anotacion fue modificada";  break;
+                                 case 37: $mensaje = "Anotacion no pudo ser modificada";  break;
+                                 case 38: $mensaje = "Por favor ingrese todos los criterios de busqueda";  break;
+                                 case 39: $mensaje = "Busqueda exitosa";  break;
+                                 case 40: $mensaje = "Turno creado exitosamente"; break;
+                                 case 41: $mensaje = "No fue posible crear el turno"; break;
+                                 case 42: $mensaje = "Turno eliminado exitosamente"; break;
+                                 case 43: $mensaje = "No fue posible eliminar el turno"; break;
+                                 case 44: $mensaje = "Caso derivado exitosamente"; break;
+                                 case 45: $mensaje = "La consulta requerida no corresponde a el programa seleccionado"; break;
+                                 case 46: $mensaje = "No se pueden eliminar turnos con casos clínicos asignados"; break;
+                                 case 47: $mensaje = "Ya existe un turno asignado en este horario al voluntario seleccionado"; break;
+
+
+                                 case 100: $mensaje = "Se ha creado un nuevo socio"; break;
+                                 case 101: $mensaje = "No se pudo realizar la operaci&oacute;n, int&eacute;ntelo nuevamente"; break;
+                                 case 102: $mensaje = "Debe corregir la informaci&oacute;n "; break;
+                                 case 103: $mensaje = "Se ha editado satisfactoriamente la informaci&oacute;n"; break;
+                                 case 104: $mensaje = "No se pudo realizar la operaci&oacute;n, int&eacute;ntelo nuevamente"; break;
+                                 case 105: $mensaje = "Debe corregir la informaci&oacute;n "; break;
+                                 case 106: $mensaje = "Id inv&aacute;lido para socio"; break;
+                                 case 107: $mensaje = "Socio borrado exitosamente "; break;
+                                 case 108: $mensaje = "No se logr&oacute; completar la operaci&oacute;n, int&eacute;ntelo nuevamente"; break;
+                                 case 109: $mensaje = "El socio tiene pagos activos, debe desactivarlos antes de eliminarlo "; break;
+                                 case 110: $mensaje = "Beneficiario creado y derivado exitosamente"; break;
+
+                                 case -1000: $mensaje = "No cuenta con los permisos necesarios para realizar la action"; break;
+                                 case 1001: $mensaje = "El usuario ha sido desactivado";break;
+                                 case 1002: $mensaje = "El usuario ha sido reactivado";break;
+
+                                 case -1001: $mensaje = "No fue posible realizar la operaci&oacute;n, int&eacute;ntelo nuevamente";break;
+                                 case 1003: $mensaje = "El caso se encuentra a la espera de ser derivado";break;
+
+                                 default: $mensaje = "Error desconocido"; break;
+                             }
+                             echo $mensaje;
+                             ?>
+                </div>
+                <?php }?>
+
+                <div id="main-menu">
+                    <ul>
+                        <!-- Gestion Beneficiarios -->
+                        <?php if($permisoschecker->allowed('beneficiarios')): ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Gestión de Beneficiarios', '/beneficiarios/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Control de Casos -->
+                        <?php if($permisoschecker->allowed('controldecasos')): ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Control de Casos', '/controldecasos/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Turnos -->
+                        <?php if($permisoschecker->allowed('turnos')) : ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Turnos', '/turnos/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Calendario -->
+                        <?php if($permisoschecker->allowed('calendarios')) : ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Calendarios', '/calendarios/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Derivaciones -->
+                        <?php if($permisoschecker->allowed('derivaciones')) : ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Derivaciones', '/derivaciones/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Comunicaciones -->
+                        <?php if($permisoschecker->allowed('turnos')): ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Comunicaciones', '/admins/');  ?>
+                        </li>
+                        <?php endif; ?>
+                        <!-- Foro -->
+                        <?php //El foro puede ser visto por todos if($permisoschecker->allowed('forums')) : ?>
+                        <li class="nivel1">
+                                <?php echo $html->link('Foro', '/forums/');  ?>
+                        </li>
+                        <?php //endif; ?>
+                        <!-- Links -->
+                        <li class="nivel1">
+                                <?php echo $html->link('Links', '/links/');  ?>
+                            <ul>
+                                <li>
+                                        <?php echo $html->link('Subir', '/links/subir');  ?>
+                                </li>
+                                <li>
+                                        <?php echo $html->link('Borrar', '/links/borrar');  ?>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Estadisticas -->
+                        <?php if($permisoschecker->allowed('estadisticas')) : ?>
+                        <li class="nivel1">
+                            <?php echo $html->link('Estadísticas', '/estadisticas/');  ?></li>
+                        <?php endif; ?>
+                        <!-- Cuentas de Usuario -->
+                        <?php if($permisoschecker->allowed('personas')) : ?>
+                        <li class="nivel1">
+                            <?php echo $html->link('Cuentas de Usuario', '/personas/');  ?></li>
+                        <?php endif; ?>
+                        <!-- Programas -->
+                        <?php if($permisoschecker->allowed('programas')) : ?>
+                        <li class="nivel1">
+                            <?php echo $html->link('Programas', '/programas/');  ?></li>
+                        <?php endif; ?>
+                        <!-- Opciones -->
+                        <?php if(true) {
+                            echo "<li class=\"nivel1\">";
+                            echo $html->link('Opciones', '/menu/moreoptions')."</li>";  ?>
+                        <?php } ?>
+                        <!-- Mi Perfil -->
+                        <?php
+                        echo "<li class=\"nivel1\">";
+                        echo $html->link('Mi Perfil', '/personas/ver/'.$session->read('cod_voluntario')."</li>");  ?>
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <div id="content" align="center">
+                <?php if ($session->check('Message.flash')) {
+                    $session->flash();
+                }
+                echo $content_for_layout;
+                ?>
+            </div>
+
+            <div id="footer">
+		 	<hr style="clear:both; visibility:hidden" />
+			Fundación ChileUnido 2009
+            </div>
+        </div>
+
+        <?php echo $cakeDebug; ?>
+
+    </body>
+</html>

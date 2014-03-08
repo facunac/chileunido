@@ -1,0 +1,32 @@
+<?php 
+
+$excel->font = 'Verdana';
+$excel->size = 8;
+$excel->initFormats(); // initialize default formats
+
+$heading_format = $excel->AddFormat(array('bold' => 1, 'align' => 'center'));
+
+$sheet1 =& $excel->AddWorksheet('Hoja 1');
+
+$sheet1->setColumn(0, 2, 20);
+
+
+
+$excel->write($sheet1, 0, 0, $celdas["titulo"] ,$heading_format);
+
+$excel->write($sheet1, 2, 0, $celdas["xlabel"],$heading_format);
+$excel->write($sheet1, 2, 1, 'Frecuencia',$heading_format);
+$excel->write($sheet1, 2, 2, 'Porcentaje',$heading_format);
+
+
+foreach($celdas["dataset"] as $key => $data) {
+	$excel->write($sheet1, $key+3,0,$data["COLUMNA"]);
+	$excel->write($sheet1, $key+3,1,$data["DATO"]);
+	$excel->write($sheet1, $key+3,2,number_format($data["DATO"]/$celdas["Total"]*100,1,",",""));
+	
+}
+
+$excel->OutputFile();
+
+
+?> 

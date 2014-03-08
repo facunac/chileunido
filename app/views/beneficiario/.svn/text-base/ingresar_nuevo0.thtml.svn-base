@@ -1,0 +1,229 @@
+<!--validaciones de la persona-->
+<?php $jsvalid->setModel('Beneficiario'); ?> 
+<?php $jsvalid->required();?>
+<?php $jsvalid->setModel('Persona'); ?> 
+<?php $jsvalid->required();?>
+<?php $jsvalid->setModel('Caso'); ?> 
+<?php $jsvalid->required();?> 
+<!--este comando escribe el javascript de validacion-->
+<?php echo $jsvalid->returnScript(); ?>
+
+<script type="text/javascript">
+
+function paso_aborto() {
+	if (document.getElementById('FormCrearCodTipocaso').value == 3)
+	{
+		document.getElementById('ocultar_si_aborto').style.display = "none";
+		document.getElementById('ocultar_si_noaborto').style.display = "";
+	} else {
+		document.getElementById('ocultar_si_aborto').style.display = "";
+		document.getElementById('ocultar_si_noaborto').style.display = "none";
+	}
+}
+
+function paso_a_cierre(checkbox_id) {
+	if (checkbox_id.checked) {
+		document.getElementById('ocultar_si_cierre').style.display = "none";
+		document.getElementById('ocultar_si_cerrar').style.display = "none";
+		document.getElementById('FormCrearBitNocerrar_').value = "-1";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_cierre').style.display = "block";
+		document.getElementById('ocultar_si_cerrar').style.display = "";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "";
+	}
+}
+
+function paso_a_derivar(checkbox_id) {
+	if (checkbox_id.checked) {
+		document.getElementById('ocultar_si_derivar').style.display = "none";
+		document.getElementById('FormCrearTipProxrevision').value = "Visita";
+		document.getElementById('FormCrearBitDerivar_').value = "-1";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "none";
+	} else {
+		document.getElementById('ocultar_si_derivar').style.display = "";
+		document.getElementById('FormCrearTipProxrevision').value = "Llamada";
+		document.getElementById('ocultar_si_derivar_cerrar').style.display = "";
+	}
+}
+
+
+function confirmar_crear() {
+		
+	if(confirm("Â¿Ingresar el nuevo beneficiario?"))
+	{
+		document.body.setAttribute("onbeforeunload","");
+		return true;
+	}
+	else
+		return false;
+}
+
+</script>
+
+<h3>Ingrese datos del nuevo caso y beneficiario</h3>
+
+<div class="contenedor">
+
+	<?php echo $jsvalid->form('ingresar_nuevo',null,'post','form_horiz'); ?> 
+		<fieldset id="datos_ben">
+			<legend><span>Ingresar Datos B&aacute;sicos</span></legend>
+			<ol>
+				<li><label>Fecha Ingreso:</label><?php echo $html->input('FormCrear/fec_ingreso',array('class' => "format-d-m-y divider-dash no-transparency", 'readonly' => 'true','maxlength' => '255', "value" => $hoy)) ?></li>
+			</ol>
+			<br />
+			<ol>
+				<li><?php echo $jsvalid->input('Persona/nom_nombre','Nombre', array('size' => '20','maxlength'=>'255','value'=>$nom_nombre)) ?>	</li>	
+
+
+				<li><?php echo $jsvalid->input('Persona/nom_appat','Apellido Paterno' ,array('size' => '20','maxlength'=>'255', 'value'=> $nom_appat)) ?></li>
+
+				<li><?php echo $jsvalid->input('Persona/nom_apmat', 'Apellido Materno',array('size' => '20','maxlength'=>'255', 'value'=>$nom_apmat)) ?></li>
+				
+				<li>
+					<?php echo $jsvalid->input('Persona/nom_direccion', 'Direcci&oacute;n',array('size' => '90','maxlength'=>'255')) ?></li>
+					
+				<li><label>Regi&oacute;n</label>
+					<?php echo $html->selectTag('Persona/cod_region', $regiones, $cod_region, array("onchange" => "cargar_ubicacion('comuna','".$html->url("/comunas/listacomunas/")."'+this.value);", "class"=>"select_grande"), null, false); ?></li>
+
+				<li id="comuna"><label>Comuna</label>
+					<?php echo $html->selectTag('Persona/cod_comuna', $comunas, '', array("class"=>"select_grande"), null, true); ?></li>
+				
+				<li>
+					<?php echo $jsvalid->input('Persona/num_telefono1_pre', 'Tel&eacute;fono 1',array('size' => '2','maxlength'=>'255', 'value' => '02')); ?>
+					<?php echo $jsvalid->input('Persona/num_telefono1_post', '',array('size' => '20','maxlength'=>'255')); ?></li>
+			
+				<li>
+					<?php echo $jsvalid->input('Persona/num_telefono2_pre','Tel&eacute;fono 2',  array('size' => '2','maxlength'=>'255')); ?>
+					<?php echo $jsvalid->input('Persona/num_telefono2_post', '',array('size' => '20','maxlength'=>'255'));?></li>
+				
+				<li><label>Edad</label>
+						<?php echo $html->input('Persona/ano_nacimiento', array('size' => '2','maxlength'=>'2'));?></li>
+				
+				<li style="<?php echo $defaultStyle; ?>"><label>Sexo</label>
+					<?php echo $html->selectTag('Beneficiario/tip_sexo', array(''=>'', 'Femenino' => 'Femenino', 'Masculino' => 'Masculino'), $sexoDefault, array(), null, false); ?></li>
+			
+				<li>
+					<?php echo $jsvalid->input('Persona/nom_rut', 'RUT',array('size' => '10','maxlength'=>'255', 'value' =>$nom_rut)) ?>
+					-
+					<?php echo $html->input('Persona/num_rutcodver', array('size' => '2','maxlength'=>'255', 'value'=>$num_rutcodver)); ?></li>
+					
+				<li style="<?php echo $defaultStyle; ?>"><label>Identificaci&oacute;n en el grupo familiar</label>
+				<?php echo $html->selectTag('Beneficiario/tip_rolfamilia', $tip_rolfamilia, $famDefault, array(), null, true); ?></li>
+				<?php echo $html->tagErrorMsg('Persona/cod_comuna', 'Por favor selecione el rol familiar para el beneficiario.') ?>
+			
+			</ol>
+		
+		</fieldset>
+			
+		<fieldset id="via_acceso">
+			<legend><span>V&iacute;a de Acceso</span></legend>
+			<ol>
+			
+				<li><label>Tipo Ingreso</label>
+						<?php echo $html->selectTag('Persona/cod_medio', $medio, '', array("onchange" => "cargar_ubicacion('tipoingreso','".$html->url("/tipoingresos/listatipoingreso/")."'+this.value);"), null, true); ?></li>
+					
+				<li id="tipoingreso"><label>Cu&aacute;l</label>
+						<?php echo $html->selectTag('Caso/cod_tipoingreso', $tipoingreso, null, array(), null, true);?></li>
+						
+				<li style="<?php echo $defaultStyle; ?>"><label>Por qui&eacute;n llama?</label>
+						<?php echo $html->selectTag('Caso/est_porquien', $porquien, $whomDefault, array(), null, true);?></li>
+			</ol>
+		</fieldset>
+		<br/>		
+		
+		<!-- Parte dinï¿½mica del formulario -->
+		<?php echo $fichas->desplegarFormulario($cod_formulario, "FormCrear"); ?>
+					
+		<fieldset id="concl_caso">
+			<legend><span>Conclusi&oacute;n del Caso</span></legend>
+			<ol>
+
+				
+				<li><label>Tipo Caso</label>
+					<?php echo $html->selectTag('FormCrear/cod_tipocaso', $tipos_casos, null, array('onChange' => "javascript:paso_aborto();"), null, false); ?></li>
+				
+				<?php 
+				if (!$canRenderCaseClosure)	{
+				?>
+				
+				<span id="ocultar_si_aborto" style="display:none;">
+				<li><label>&nbsp;</label>
+					<?php echo $html->selectTag('FormCrear/cod_tipocaso_noaborto', $tipos_casos_noaborto, null, array(), array(), false); ?></li>
+				</span>
+				
+				<span id="ocultar_si_noaborto" style="display:;">
+				<li><label>&nbsp;</label>
+					<?php echo $html->selectTag('FormCrear/cod_tipocaso_aborto', $tipos_casos_aborto, null, array(), array(), false); ?></li>	
+				</span>
+				<?
+				}
+				?>
+				
+				
+				
+				
+				
+								
+				<span id="ocultar_si_cierre">
+				
+				<?php echo $javascript->codeBlock(""); ?>
+			
+				<li style="display:none;"><label>Prioridad</label>
+					<?php echo $html->selectTag('FormCrear/tip_prioridad', $prioridades,'Normal'); ?></li>
+
+				<span id="ocultar_si_derivar_cerrar">
+				<li><label>Asignar a <strong>(Solo Yo)</strong>: </label>
+					<?php echo $html->selectTag('FormCrear/cod_soloyo', $voluntarios,'0',null,null,false); ?></li>
+				
+				
+				<li id="fechas"><label>Fecha Seguimiento </label>
+					<?php echo $html->input("FormCrear/fec_proxrevision", array('class' => "format-d-m-y divider-dash disable-days-67 range-low-today no-transparency", 'maxlength' => '255', "value" => $seguimiento, 'readonly' => 'true'), array(), null, false);?></li>
+					
+					<?php echo $javascript->codeBlock("var fechas=new Array($script); disableDates(fechas)"); ?>
+				</span>
+				
+				
+				<!-- TODO:[Leonardo] Hay que sacar tipo de seguimiento, o es seguimiento o es visita. -->
+				<!-- <li><label>Tipo Seguimiento</label> -->
+					<?php echo $html->selectTag('FormCrear/tip_proxrevision', $tip_proxrevision, "Llamada", array('style' => 'display:none;', 'onChange' => 'javascript:seg_visita(this);'), null, false); ?>
+				<!-- </li>  -->	
+				
+				</span>
+				
+				
+				<?php 
+				//if (!$canRenderCaseClosure)	$display = "display:none";
+				?>
+				<span id="ocultar_si_cerrar" style="<?php echo $display; ?>">
+				<li><label>Derivar a psic&oacute;logo de la fundaci&oacute;n</label>
+					<?php echo $html->checkbox('FormCrear/bit_derivar', "", array('value' => '0', 'checked' => '0', 'onChange' => 'javascript:paso_a_derivar(this);')); ?>
+				</li>
+				</span>
+				
+				<span id="ocultar_si_derivar" style="<?php echo $display; ?>">
+				<li><label>Cerrar Caso</label>
+					<?php echo $html->checkbox('FormCrear/bit_nocerrar', "", array('value' => '0', 'checked' => '0', 'onChange' => 'javascript:paso_a_cierre(this);')); ?>
+				</li>
+				</span>
+				
+				
+				<?php echo $html->hidden('Caso/nom_comentario', array('value' => ' ')); ?>
+			</ol>
+		</fieldset>
+		
+		<fieldset class="submit" >
+			<?php echo $html->submitTag('Ingresar', array('onclick'=>'return confirmar_crear()')) ?>
+		</fieldset>
+	</form>
+</div>
+<script type="text/javascript">
+<!--
+var hijosHmnos = document.getElementById('Respuestaficha8300');
+hijosHmnos.size = 2;
+hijosHmnos.setAttribute('maxlength', '2');;
+
+document.body.setAttribute("onbeforeunload","return 'Â¿EstÃ¡ seguro que desea abandonar la pÃ¡gina?';");
+new validateForm(document.forms['ingresar_nuevo']);
+//-->
+</script>

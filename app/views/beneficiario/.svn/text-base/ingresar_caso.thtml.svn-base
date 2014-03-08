@@ -1,0 +1,24 @@
+<?php echo $html->formTag('ingresar_caso1') ?>
+<fieldset>
+	<legend>Buscar Beneficiario</legend>
+	
+	<p><label>RUT</label>
+		<?php echo $html->input('FormBuscar/nom_rut', array('size' => '20','maxlength'=>'255')) ?></p>
+		
+	<p><label>Nombre</label>
+		<?php echo $html->input('FormBuscar/nom_nombre', array('size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Paterno</label>
+		<?php echo $html->input('FormBuscar/nom_appat', array('size' => '20','maxlength'=>'255')) ?></p>
+	
+	<p><label>Apellido Materno</label>
+		<?php echo $html->input('FormBuscar/nom_apmat', array('size' => '20','maxlength'=>'255')) ?></p>
+	
+	
+
+	
+	<p><label for="login_button">&nbsp;</label>
+		<?php echo $html->submitTag('Buscar') ?></p>
+</fieldset>
+</form>
+
