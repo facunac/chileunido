@@ -45,7 +45,7 @@
 							<td class="td_gris"><?php 
 							$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
 						echo $f[0]; ?></td>
-								<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+								<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat'] ?></a></td>
 								<td class="td_gris"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
 								<td class="td_gris"><?php echo $v['beneficiarios']['tip_rolfamilia']; ?></td>
 								
@@ -82,7 +82,7 @@
 							<td class="td_rojo"><?php 
 							$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
 						echo $f[0]; ?></td>
-								<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+								<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat'] ?></a></td>
 								<td class="td_rojo"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
 								
 								<td class="td_rojo"><?php echo $v['beneficiarios']['tip_rolfamilia']; ?></td>
@@ -107,7 +107,7 @@
 											<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
 											<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$v['seguimientos']['num_evento'])); ?>
 											<?php echo $html->hidden('Beneficiario/nombre', array('value'=>$v['personas']['nom_nombre']." ".$v['personas']['nom_appat'])); ?>
-											<input type="image" src="<?php echo $this->webroot.'img/desagendar.png'; ?>" alt="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>" title="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>"/>
+											<input type="image" src="<?php echo $this->webroot.'img/desagendar.png'; ?>" alt="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat'];?>" title="Desagendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'];?>"/>
 										<?php echo "</form>"; ?>
 									</div>
 								</td>
@@ -167,7 +167,7 @@
 						<td class="td_gris"><?php 
 						$f=explode(" ", $v['seguimientos']['fec_ejecucion']);
 						echo $f[0]; ?></td>
-							<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat'] ?></a></td>
+							<td class="td_gris_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$v['personas']['cod_persona']); ?>"><?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat'] ?></a></td>
 							<td class="td_gris"><?php echo $v['tipocasos']['nom_tipocaso']; ?></td>
 							
 							<?php
@@ -187,7 +187,7 @@
 									<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
 									<?php echo $html->hidden('Caso/cod_caso', array('value'=>$v['casos']['cod_caso'])); ?>
 									<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$v['seguimientos']['num_evento'])); ?>
-									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" />
+									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $v['personas']['nom_nombre']." ".$v['personas']['nom_appat']." ".$v['personas']['nom_apmat']; ?> dentro de mis pacientes de hoy" />
 								<?php echo "</form>"; ?>
 							</td>
 						</tr>
@@ -200,7 +200,7 @@
 						<td class="td_rojo"><?php 
 						$f=explode(" ", $w['seguimientos']['fec_ejecucion']);
 						echo $f[0]; ?></td>
-							<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$w['personas']['cod_persona']); ?>"><?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat'] ?></a></td>
+							<td class="td_rojo_nombre"><a href="<?php echo $html->url('/beneficiarios/ver/'.$w['personas']['cod_persona']); ?>"><?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']." ".$w['personas']['nom_apmat']; ?></a></td>
 							<td class="td_rojo"><?php echo $w['tipocasos']['nom_tipocaso']; ?></td>
 							
 							<?php
@@ -221,7 +221,7 @@
 									<?php echo $html->hidden('Voluntario/cod_voluntario', array('value'=>$cod_voluntario)); ?>
 									<?php echo $html->hidden('Caso/cod_caso', array('value'=>$w['casos']['cod_caso'])); ?>
 									<?php echo $html->hidden('Seguimiento/num_evento', array('value'=>$w['seguimientos']['num_evento'])); ?>
-									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']; ?> dentro de mis pacientes de hoy"/>
+									<input type="image" src="<?php echo $this->webroot.'img/agendar.png'; ?>" alt="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']." ".$w['personas']['nom_apmat']; ?> dentro de mis pacientes de hoy" title="Agendar a <?php echo $w['personas']['nom_nombre']." ".$w['personas']['nom_appat']." ".$w['personas']['nom_apmat']; ?> dentro de mis pacientes de hoy"/>
 								</form><?php echo "</form>"; ?>
 							
 							</td>
@@ -260,19 +260,51 @@
 							</li>
 							
 							<li>
+								<label>Edad</label>
+								<?php echo $html->input('FormBuscar/edad', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+
+							<li>
+								<label>Tel&eacute;fono</label>
+								<?php echo $html->input('FormBuscar/num_telefono', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+
+							<li>
+								<label>Email</label>
+								<?php echo $html->input('FormBuscar/nom_email', array('size' => '20','maxlength'=>'30')) ?>
+							</li>
+
+							<li>    
+                                                                <label>Direcci&oacute;n</label>
+								<?php echo $html->input('FormBuscar/nom_direccion', array('size' => '20','maxlength'=>'30')) ?>
+                                                        </li>
+
+							<li>
 								<label>Comuna</label>
 								<?php echo $html->selectTag('FormBuscar/cod_comuna', $comunas); ?>
 							</li>
 							
+                                                        <li>
+                                                                <label>Creencia Religiosa</label>
+                                                                <?php echo $html->selectTag('FormBuscar/cod_creencia', $creencias); ?>
+                                                        </li>
+
+
 							<li>
 								<label>Convenio</label>
 								<?php echo $html->selectTag('FormBuscar/cod_convenio', $convenios); ?>
 							</li>
 							
 							<li>
+								<label>Tipo Caso</label>
+								<?php echo $html->selectTag('FormBuscar/cod_tipocaso', $tipocasos); ?>
+							</li>
+							
+							<li>
 								<label>Solo yo</label>
 								<?php echo $html->checkbox('FormBuscar/soloyo', null, array('value'=>'1', 'checked'=>'')); ?>
 							</li>
+
 							
 						</ol>
 					</fieldset>

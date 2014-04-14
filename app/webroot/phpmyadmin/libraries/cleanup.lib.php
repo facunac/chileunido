@@ -3,25 +3,30 @@
 /**
  * Functions for cleanup of user input.
  *
- * @version $Id: cleanup.lib.php 10723 2007-10-05 09:46:30Z cybot_tm $
+ * @package PhpMyAdmin
  */
+if (! defined('PHPMYADMIN')) {
+    exit;
+}
 
 /**
  * Removes all variables from request except whitelisted ones.
  *
- * @param string list of variables to allow
- * @return nothing
+ * @param string &$whitelist list of variables to allow
+ *
+ * @return void
  * @access public
- * @author  Michal Cihar (michal@cihar.com)
  */
-function PMA_remove_request_vars(&$whitelist)
+function PMA_removeRequestVars(&$whitelist)
 {
     // do not check only $_REQUEST because it could have been overwritten
     // and use type casting because the variables could have become
     // strings
-    $keys = array_keys(array_merge((array)$_REQUEST, (array)$_GET, (array)$_POST, (array)$_COOKIE));
+    $keys = array_keys(
+        array_merge((array)$_REQUEST, (array)$_GET, (array)$_POST, (array)$_COOKIE)
+    );
 
-    foreach($keys as $key) {
+    foreach ($keys as $key) {
         if (! in_array($key, $whitelist)) {
             unset($_REQUEST[$key], $_GET[$key], $_POST[$key], $GLOBALS[$key]);
         } else {

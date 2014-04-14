@@ -3,7 +3,7 @@
 	{
 		var $name = "Persona";
 		//Para poder usar otras tablas dentro de este controlador
-		var $uses = array("Persona", "Voluntario", "Permisovoluntario", "Programa", "Comuna", "Perfil", "Permisoperfil", "Sesion", "Turno","Seguimiento","Caso","Comentario","Role");
+		var $uses = array("Persona", "Voluntario", "Permisovoluntario", "Programa", "Comuna", "Perfil", "Permisoperfil", "Sesion", "Turno","Seguimiento","Caso","Comentario","Role","Creencia");
 		var $helpers = array('Html', 'Form', 'Time', 'Excel', 'Comentario'); 
 		
 		function index($exito=null)

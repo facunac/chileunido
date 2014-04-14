@@ -3,8 +3,12 @@
 /**
  * Holds class PMA_Error_Handler
  *
- * @version $Id: Error_Handler.class.php 10738 2007-10-08 16:02:58Z cybot_tm $
+ * @package PhpMyAdmin
  */
+
+if (! defined('PHPMYADMIN')) {
+    exit;
+}
 
 /**
  *
@@ -14,6 +18,7 @@ require_once './libraries/Error.class.php';
 /**
  * handling errors
  *
+ * @package PhpMyAdmin
  */
 class PMA_Error_Handler
 {
@@ -22,16 +27,23 @@ class PMA_Error_Handler
      *
      * @var array of PMA_Error
      */
-    protected $_errors = array();
+    protected $errors = array();
 
     /**
      * Constructor - set PHP error handler
      *
-     * @uses    set_error_handler()
      */
     public function __construct()
     {
-        set_error_handler(array($this, 'handleError'));
+        /**
+         * Do not set ourselves as error handler in case of testsuite.
+         *
+         * This behavior is not tested there and breaks other tests as they
+         * rely on PHPUnit doing it's own error handling which we break here.
+         */
+        if (!defined('TESTSUITE')) {
+            set_error_handler(array($this, 'handleError'));
+        }
     }
 
     /**
@@ -39,10 +51,6 @@ class PMA_Error_Handler
      *
      * stores errors in session
      *
-     * @uses    $_SESSION['errors']
-     * @uses    array_merge()
-     * @uses    PMA_Error_Handler::$_errors
-     * @uses    PMA_Error::isDisplayed()
      */
     public function __destruct()
     {
@@ -51,15 +59,25 @@ class PMA_Error_Handler
                 $_SESSION['errors'] = array();
             }
 
-            if ($GLOBALS['cfg']['Error_Handler']['gather']) {
-                // remember all errors
-                $_SESSION['errors'] = array_merge($_SESSION['errors'], $this->_errors);
-            } else {
-                // remember only not displayed errors
-                foreach ($this->_errors as $key => $error) {
-                    if (! $error->isDisplayed()) {
-                        $_SESSION['errors'][$key] = $error;
-                    }
+            // remember only not displayed errors
+            foreach ($this->errors as $key => $error) {
+                /**
+                 * We don't want to store all errors here as it would
+                 * explode user session.
+                 */
+                if (count($_SESSION['errors']) >= 10) {
+                    $error = new PMA_Error(
+                        0,
+                        __('Too many error messages, some are not displayed.'),
+                        __FILE__,
+                        __LINE__
+                    );
+                    $_SESSION['errors'][$error->getHash()] = $error;
+                    break;
+                } else if (($error instanceof PMA_Error)
+                    && ! $error->isDisplayed()
+                ) {
+                    $_SESSION['errors'][$key] = $error;
                 }
             }
         }
@@ -68,90 +86,103 @@ class PMA_Error_Handler
     /**
      * returns array with all errors
      *
-     * @uses    PMA_Error_Handler::$_errors as return value
-     * @uses    PMA_Error_Handler::_checkSavedErrors()
      * @return array PMA_Error_Handler::$_errors
      */
     protected function getErrors()
     {
-        $this->_checkSavedErrors();
-        return $this->_errors;
+        $this->checkSavedErrors();
+        return $this->errors;
     }
 
     /**
-     * Error handler - called when errors are triggered/occured
+     * Error handler - called when errors are triggered/occurred
+     *
+     * This calls the addError() function, escaping the error string
+     *
+     * @param integer $errno   error number
+     * @param string  $errstr  error string
+     * @param string  $errfile error file
+     * @param integer $errline error line
+     *
+     * @return void
+     */
+    public function handleError($errno, $errstr, $errfile, $errline)
+    {
+        $this->addError($errstr, $errno, $errfile, $errline, true);
+    }
+
+    /**
+     * Add an error; can also be called directly (with or without escaping)
      *
      * The following error types cannot be handled with a user defined function:
      * E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR,
      * E_COMPILE_WARNING,
      * and most of E_STRICT raised in the file where set_error_handler() is called.
      *
-     * @uses    E_USER_NOTICE
-     * @uses    E_USER_WARNING
-     * @uses    E_STRICT
-     * @uses    E_NOTICE
-     * @uses    E_WARNING
-     * @uses    E_CORE_WARNING
-     * @uses    E_COMPILE_WARNING
-     * @uses    E_USER_ERROR
-     * @uses    E_ERROR
-     * @uses    E_PARSE
-     * @uses    E_CORE_ERROR
-     * @uses    E_COMPILE_ERROR
-     * @uses    E_RECOVERABLE_ERROR
-     * @uses    PMA_Error
-     * @uses    PMA_Error_Handler::$_errors
-     * @uses    PMA_Error_Handler::_dispFatalError()
-     * @uses    PMA_Error::getHash()
-     * @uses    PMA_Error::getNumber()
-     * @param   integer $errno
-     * @param   string  $errstr
-     * @param   string  $errfile
-     * @param   integer $errline
-     * @param   array   $errcontext
+     * Do not use the context parameter as we want to avoid storing the
+     * complete $GLOBALS inside $_SESSION['errors']
+     *
+     * @param string  $errstr  error string
+     * @param integer $errno   error number
+     * @param string  $errfile error file
+     * @param integer $errline error line
+     * @param boolean $escape  whether to escape the error string
+     *
+     * @return void
      */
-    public function handleError($errno, $errstr, $errfile, $errline, $errcontext)
+    public function addError($errstr, $errno, $errfile, $errline, $escape = true)
     {
+        if ($escape) {
+            $errstr = htmlspecialchars($errstr);
+        }
         // create error object
-        $error = new PMA_Error($errno, $errstr, $errfile, $errline, $errcontext);
+        $error = new PMA_Error(
+            $errno,
+            $errstr,
+            $errfile,
+            $errline
+        );
 
         // do not repeat errors
-        $this->_errors[$error->getHash()] = $error;
+        $this->errors[$error->getHash()] = $error;
 
         switch ($error->getNumber()) {
-            case E_USER_NOTICE:
-            case E_USER_WARNING:
-            case E_STRICT:
-            case E_NOTICE:
-            case E_WARNING:
-            case E_CORE_WARNING:
-            case E_COMPILE_WARNING:
-            case E_USER_ERROR:
-            case E_RECOVERABLE_ERROR:
-                // just collect the error
-                // display is called from outside
-                break;
-            case E_ERROR:
-            case E_PARSE:
-            case E_CORE_ERROR:
-            case E_COMPILE_ERROR:
-            default:
-                // FATAL error, dislay it and exit
-                $this->_dispFatalError($error);
-                exit;
-                break;
+        case E_USER_NOTICE:
+        case E_USER_WARNING:
+        case E_STRICT:
+        case E_DEPRECATED:
+        case E_NOTICE:
+        case E_WARNING:
+        case E_CORE_WARNING:
+        case E_COMPILE_WARNING:
+        case E_USER_ERROR:
+        case E_RECOVERABLE_ERROR:
+            // just collect the error
+            // display is called from outside
+            break;
+        case E_ERROR:
+        case E_PARSE:
+        case E_CORE_ERROR:
+        case E_COMPILE_ERROR:
+        default:
+            // FATAL error, dislay it and exit
+            $this->dispFatalError($error);
+            exit;
+            break;
         }
     }
+
 
     /**
      * log error to configured log facility
      *
-     * @todo    finish!
-     * @uses    PMA_Error::getMessage()
-     * @uses    error_log()
-     * @param   PMA_Error $error
+     * @param PMA_Error $error the error
+     *
+     * @return bool
+     *
+     * @todo finish!
      */
-    protected function _logError($error)
+    protected function logError($error)
     {
         return error_log($error->getMessage());
     }
@@ -159,79 +190,74 @@ class PMA_Error_Handler
     /**
      * trigger a custom error
      *
-     * @uses    trigger_error()
-     * @param   string  $errorInfo
-     * @param   integer $errorNumber
-     * @param   string  $file
-     * @param   integer $line
+     * @param string  $errorInfo   error message
+     * @param integer $errorNumber error number
+     * @param string  $file        file name
+     * @param integer $line        line number
+     *
+     * @return void
      */
-    public function triggerError($errorInfo, $errorNumber = null, $file = null, $line = null)
-    {
-        // we could also extract file and line from backtrace and call handleError() directly
+    public function triggerError($errorInfo, $errorNumber = null,
+        $file = null, $line = null
+    ) {
+        // we could also extract file and line from backtrace
+        // and call handleError() directly
         trigger_error($errorInfo, $errorNumber);
     }
 
     /**
      * display fatal error and exit
      *
-     * @uses    headers_sent()
-     * @uses    PMA_Error::display()
-     * @uses    PMA_Error_Handler::_dispPageStart()
-     * @uses    PMA_Error_Handler::_dispPageEnd()
-     * @param   PMA_Error $error
+     * @param PMA_Error $error the error
+     *
+     * @return void
      */
-    protected function _dispFatalError($error)
+    protected function dispFatalError($error)
     {
         if (! headers_sent()) {
-            $this->_dispPageStart($error);
+            $this->dispPageStart($error);
         }
         $error->display();
-        $this->_dispPageEnd();
+        $this->dispPageEnd();
         exit;
     }
 
     /**
-     * display the whole error page with all errors
+     * Displays user errors not displayed
      *
-     * @uses    headers_sent()
-     * @uses    PMA_Error_Handler::dispAllErrors()
-     * @uses    PMA_Error_Handler::_dispPageStart()
-     * @uses    PMA_Error_Handler::_dispPageEnd()
-     */
-    public function dispErrorPage()
-    {
-        if (! headers_sent()) {
-            $this->_dispPageStart();
-        }
-        $this->dispAllErrors();
-        $this->_dispPageEnd();
-    }
-
-    /**
-     * display user errors not displayed
-     *
-     * @uses    PMA_Error_Handler::getErrors()
-     * @uses    PMA_Error::isDisplayed()
-     * @uses    PMA_Error::isUserError()
-     * @uses    PMA_Error::display()
+     * @return void
      */
     public function dispUserErrors()
     {
+        echo $this->getDispUserErrors();
+    }
+
+    /**
+     * Renders user errors not displayed
+     *
+     * @return string
+     */
+    public function getDispUserErrors()
+    {
+        $retval = '';
         foreach ($this->getErrors() as $error) {
             if ($error->isUserError() && ! $error->isDisplayed()) {
-                $error->display();
+                $retval .= $error->getDisplay();
             }
         }
+        return $retval;
     }
 
     /**
      * display HTML header
      *
-     * @uses    PMA_Error::getTitle()
-     * @param   PMA_error $error
+     * @param PMA_error $error the error
+     *
+     * @return void
      */
-    protected function _dispPageStart($error = null)
+    protected function dispPageStart($error = null)
     {
+        PMA_Response::getInstance()->disable();
         echo '<html><head><title>';
         if ($error) {
             echo $error->getTitle();
@@ -244,71 +270,68 @@ class PMA_Error_Handler
     /**
      * display HTML footer
      *
+     * @return void
      */
-    protected function _dispPageEnd()
+    protected function dispPageEnd()
     {
         echo '</body></html>';
     }
 
     /**
-     * display all errors regardless already displayed or user errors
+     * renders errors not displayed
      *
-     * @uses    PMA_Error_Handler::getErrors()
-     * @uses    PMA_Error::display()
+     * @return string
      */
-    public function dispAllErrors()
+    public function getDispErrors()
     {
-        foreach ($this->getErrors() as $error) {
-            $error->display();
-        }
-    }
-
-    /**
-     * display errors not displayed
-     *
-     * @uses    $cfg['Error_Handler']['display']
-     * @uses    PMA_Error_Handler::getErrors()
-     * @uses    PMA_Error_Handler::dispUserErrors()
-     * @uses    PMA_Error::isDisplayed()
-     * @uses    PMA_Error::display()
-     */
-    public function dispErrors()
-    {
+        $retval = '';
         if ($GLOBALS['cfg']['Error_Handler']['display']) {
             foreach ($this->getErrors() as $error) {
                 if ($error instanceof PMA_Error) {
                     if (! $error->isDisplayed()) {
-                        $error->display();
+                        $retval .= $error->getDisplay();
                     }
                 } else {
+                    ob_start();
                     var_dump($error);
+                    $retval .= ob_get_contents();
+                    ob_end_clean();
                 }
             }
         } else {
-            $this->dispUserErrors();
+            $retval .= $this->getDispUserErrors();
         }
+        return $retval;
+    }
+
+    /**
+     * displays errors not displayed
+     *
+     * @return void
+     */
+    public function dispErrors()
+    {
+        echo $this->getDispErrors();
     }
 
     /**
      * look in session for saved errors
      *
-     * @uses    $_SESSION['errors']
-     * @uses    PMA_Error_Handler::$_errors
-     * @uses    array_merge()
+     * @return void
      */
-    protected function _checkSavedErrors()
+    protected function checkSavedErrors()
     {
         if (isset($_SESSION['errors'])) {
 
             // restore saved errors
             foreach ($_SESSION['errors'] as $hash => $error) {
-                if ($error instanceof PMA_Error && ! isset($this->_errors[$hash])) {
-                    $this->_errors[$hash] = $error;
+                if ($error instanceof PMA_Error && ! isset($this->errors[$hash])) {
+                    $this->errors[$hash] = $error;
                 }
             }
-            //$this->_errors = array_merge($_SESSION['errors'], $this->_errors);
+            //$this->errors = array_merge($_SESSION['errors'], $this->errors);
 
-            // delet stored errors
+            // delete stored errors
             $_SESSION['errors'] = array();
             unset($_SESSION['errors']);
         }
@@ -317,9 +340,7 @@ class PMA_Error_Handler
     /**
      * return count of errors
      *
-     * @uses    PMA_Error_Handler::getErrors()
-     * @uses    count()
-     * @return  integer number of errors occoured
+     * @return integer number of errors occoured
      */
     public function countErrors()
     {
@@ -329,10 +350,7 @@ class PMA_Error_Handler
     /**
      * return count of user errors
      *
-     * @uses    PMA_Error_Handler::countErrors()
-     * @uses    PMA_Error_Handler::getErrors()
-     * @uses    PMA_Error::isUserError()
-     * @return  integer number of user errors occoured
+     * @return integer number of user errors occoured
      */
     public function countUserErrors()
     {
@@ -349,10 +367,9 @@ class PMA_Error_Handler
     }
 
     /**
-     * whether use errors occured or not
+     * whether use errors occurred or not
      *
-     * @uses    PMA_Error_Handler::countUserErrors()
-     * @return  boolean
+     * @return boolean
      */
     public function hasUserErrors()
     {
@@ -360,10 +377,9 @@ class PMA_Error_Handler
     }
 
     /**
-     * whether errors occured or not
+     * whether errors occurred or not
      *
-     * @uses    PMA_Error_Handler::countErrors()
-     * @return  boolean
+     * @return boolean
      */
     public function hasErrors()
     {
@@ -373,9 +389,6 @@ class PMA_Error_Handler
     /**
      * number of errors to be displayed
      *
-     * @uses    $cfg['Error_Handler']['display']
-     * @uses    PMA_Error_Handler::countErrors()
-     * @uses    PMA_Error_Handler::countUserErrors()
      * @return integer number of errors to be displayed
      */
     public function countDisplayErrors()
@@ -390,7 +403,6 @@ class PMA_Error_Handler
     /**
      * whether there are errors to display or not
      *
-     * @uses    PMA_Error_Handler::countDisplayErrors()
      * @return boolean
      */
     public function hasDisplayErrors()

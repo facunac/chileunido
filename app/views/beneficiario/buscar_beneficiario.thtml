@@ -58,10 +58,13 @@ function confirmar_crear() {
 					<tr>
 						<th class="sortable-text" width="123">Nombre</th>
 						<th class="sortable-numeric" width="100">Edad</th>
-						<th class="sortable-text" width="204">Rol Familiar</th>
-
-						<th class="sortable-text" width="116">Comuna</th>
+						<!-- <th class="sortable-text" width="204">Rol Familiar</th>-->
+						<th class="sortable-text" width="116">Comuna</th>
+						<th class="sortable-text" width="150">Direcci&oacute;n</th>
 						<th class="sortable-numeric" width="122">Tel&eacute;fono</th>
+						<th class="sortable-text" width="116">Email</th>
+						<th class="sortable-text" width="116">Solo Yo</th>
+						<th class="sortable-text" width="116">Motivo Consulta</th>
 					    <th class="th_tablagris" width="100">Ver<br>
 				        
 					</tr>
@@ -77,11 +80,16 @@ function confirmar_crear() {
 					
 	            	<tr class ="odd">
 											
-					<td class="td_gris_nombre"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
+					<td class="td_gris_nombre"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat']." ".$p['nom_apmat'] ?></a></td>
 					<td class="td_gris"><?php echo $p['edad'] ?></td>
-					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
+					<!-- <td class="td_gris"><?php echo $p['rol_familiar'] ?></td>-->
 					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
-					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_direccion'] ?></td>
+					<td class="td_gris"><?php echo $p['num_telefono1']."<br>".$p['num_telefono2'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_email'] ?></td>
+					<td class="td_gris"><?php echo $p['soloyo'] ?></td>
+					<td class="td_gris"><?php echo $p['nom_tipocaso'] ?></td>					
+
 					<td class="td_gris"><?php
 								echo $html->formTag('ver');
 								echo $html->hidden('Persona/cod_persona', array('value' => $p['cod_persona']));
@@ -107,14 +115,17 @@ function confirmar_crear() {
 				
 				<thead>
 					<tr>
-						<th class="sortable-text" width="123" scope="col">Nombre</th>
-						<th class="sortable-numeric" width="100" scope="col">Edad</th>
-						<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
-
-						<th class="sortable-text" width="116" scope="col">Comuna</th>
-
-						<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
-				        
+						
+                                                <th class="sortable-text" width="123" scope="col">Nombre</th>
+                                                <th class="sortable-numeric" width="100" scope="col">Edad</th>
+                                                <!-- <th class="sortable-text" width="204" scope="col">Rol Familiar</th>-->
+	                                        <th class="sortable-text" width="116" scope="col">Comuna</th>
+                                                <th class="sortable-text" width="150" scope="col">Direcci&oacute;n</th>
+                                                <th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+                                                <th class="sortable-text" width="116" scope="col">Email</th>
+                                                <th class="sortable-text" width="116" scope="col">Solo Yo</th>
+                                                <th class="sortable-text" width="116" scope="col">Motivo Consulta</th>
+		        
 					</tr>
 				</thead>	
 				<tfoot>
@@ -125,11 +136,17 @@ function confirmar_crear() {
 				{ ?>
 					<tr class ="odd">
 											
-					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td></td>
-					<td class="td_gris"><?php echo $p['edad'] ?></td>
-					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
-					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
-					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat']." ".$p['nom_apmat'] ?></a></td></td>
+					
+                                        <td class="td_gris"><?php echo $p['edad'] ?></td>
+                                        <!-- <td class="td_gris"><?php echo $p['rol_familiar'] ?></td>-->
+                                        <td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_direccion'] ?></td>
+                                        <td class="td_gris"><?php echo $p['num_telefono1']."<br>".$p['num_telefono2'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_email'] ?></td>
+                                        <td class="td_gris"><?php echo $p['soloyo'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_tipocaso'] ?></td>
+
 					
 					</tr>
 				
@@ -152,13 +169,17 @@ function confirmar_crear() {
 				
 				<thead>
 					<tr>
-						<th class="sortable-text" width="123" scope="col">Nombre</th>
-						<th class="sortable-numeric" width="100" scope="col">Edad</th>
-						<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
+						
+                                                <th class="sortable-text" width="123" scope="col">Nombre</th>
+                                                <th class="sortable-numeric" width="100" scope="col">Edad</th>
+                                                <!-- <th class="sortable-text" width="204" scope="col">Rol Familiar</th>-->
+                                                <th class="sortable-text" width="116" scope="col">Comuna</th>
+                                                <th class="sortable-text" width="150" scope="col">Direcci&oacute;n</th>
+                                                <th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+                                                <th class="sortable-text" width="116" scope="col">Email</th>
+                                                <th class="sortable-text" width="116" scope="col">Solo Yo</th>
+                                                <th class="sortable-text" width="116" scope="col">Motivo Consulta</th>
 
-						<th class="sortable-text" width="116" scope="col">Comuna</th>
-
-						<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
 					    <th class="th_tablagris" width="100" scope="col">Ver<br>
 				        
 					</tr>
@@ -171,12 +192,17 @@ function confirmar_crear() {
 				{ ?>
 					<tr class ="odd">
 											
-					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver3/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
-					<td class="td_gris"><?php echo $p['edad'] ?></td>
-					<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
-					<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
-					<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
-					
+					<td class="td_gris_nombre" scope="row" id="r97"><a href="ver3/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat']." ".$p['nom_apmat'] ?></a></td>
+														
+                                        <td class="td_gris"><?php echo $p['edad'] ?></td>
+                                        <!-- <td class="td_gris"><?php echo $p['rol_familiar'] ?></td>-->
+                                        <td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_direccion'] ?></td>
+                                        <td class="td_gris"><?php echo $p['num_telefono1']."<br>".$p['num_telefono2'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_email'] ?></td>
+                                        <td class="td_gris"><?php echo $p['soloyo'] ?></td>
+                                        <td class="td_gris"><?php echo $p['nom_tipocaso'] ?></td>
+
 					<td class="td_gris">
 						<?php
 							echo $html->formTag('ver3');
@@ -208,12 +234,15 @@ function confirmar_crear() {
 			<thead>
 				<tr>
 					<th class="sortable-text" width="123" scope="col">Nombre</th>
-					<th class="sortable-numeric" width="100" scope="col">Edad</th>
-					<th class="sortable-text" width="204" scope="col">Rol Familiar</th>
+                                        <th class="sortable-numeric" width="100" scope="col">Edad</th>
+                                        <!-- <th class="sortable-text" width="204" scope="col">Rol Familiar</th>-->
+                                        <th class="sortable-text" width="116" scope="col">Comuna</th>
+                                        <th class="sortable-text" width="150" scope="col">Direcci&oacute;n</th>
+                                        <th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
+                                        <th class="sortable-text" width="116" scope="col">Email</th>
+                                        <th class="sortable-text" width="116" scope="col">Solo Yo</th>
+                                        <th class="sortable-text" width="116" scope="col">Motivo Consulta</th>
 
-					<th class="sortable-text" width="116" scope="col">Comuna</th>
-
-					<th class="sortable-numeric" width="122" scope="col">Tel&eacute;fono</th>
 				    <th class="th_tablagris" width="100" scope="col">Ver<br>
 			        
 				</tr>
@@ -225,13 +254,18 @@ function confirmar_crear() {
 			foreach($array_retiro as $p)
 			{ ?>
 				<tr class ="odd">
-									
-				<td class="td_gris_nombre"><a href="ver2/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat'] ?></a></td>
-				<td class="td_gris"><?php echo $p['edad'] ?></td>
-				<td class="td_gris"><?php echo $p['rol_familiar'] ?></td>
-				<td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
-				<td class="td_gris"><?php echo $p['num_telefono1'] ?></td>
+								
+				<td class="td_gris_nombre"><a href="ver2/<?php echo $p['cod_persona']?>"><?php echo $p['nom_nombre']." ".$p['nom_appat']." ".$p['nom_apmat'] ?></a></td>
 				
+                                <td class="td_gris"><?php echo $p['edad'] ?></td>
+                                <!-- <td class="td_gris"><?php echo $p['rol_familiar'] ?></td>-->
+                                <td class="td_gris"><?php echo $p['nom_comuna'] ?></td>
+                                <td class="td_gris"><?php echo $p['nom_direccion'] ?></td>
+                                <td class="td_gris"><?php echo $p['num_telefono1']."<br>".$p['num_telefono2'] ?></td>
+                                <td class="td_gris"><?php echo $p['nom_email'] ?></td>
+                                <td class="td_gris"><?php echo $p['soloyo'] ?></td>
+                                <td class="td_gris"><?php echo $p['nom_tipocaso'] ?></td>
+
 				<td class="td_gris">
 					<?php
 						echo $html->formTag('ver2');

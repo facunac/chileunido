@@ -1,45 +1,52 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * Config file view and save screen
  *
- * @package    phpMyAdmin-setup
- * @author     Piotr Przybylski <piotrprz@gmail.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: config.inc.php 11650 2008-10-14 10:31:07Z crackpl $
+ * @package PhpMyAdmin-Setup
  */
 
 if (!defined('PHPMYADMIN')) {
     exit;
 }
 
-require_once './setup/lib/FormDisplay.class.php';
+/**
+ * Core libraries.
+ */
+require_once './libraries/config/FormDisplay.class.php';
 require_once './setup/lib/index.lib.php';
+require_once './setup/lib/ConfigGenerator.class.php';
 
 $config_readable = false;
 $config_writable = false;
 $config_exists = false;
-check_config_rw($config_readable, $config_writable, $config_exists);
-?>
-<h2><?php echo $GLOBALS['strSetupConfigurationFile'] ?></h2>
-<?php display_form_top('config.php?type=post'); ?>
-<input type="hidden" name="eol" value="<?php echo htmlspecialchars(PMA_ifSetOr($_GET['eol'], 'unix')) ?>" />
-<?php display_fieldset_top('', '', null, array('class' => 'simple')); ?>
-<tr>
-    <td>
-        <textarea cols="50" rows="20" name="textconfig" id="textconfig" spellcheck="false"><?php
-            echo htmlspecialchars(ConfigFile::getInstance()->getConfigFile())
-        ?></textarea>
-    </td>
-</tr>
-<tr>
-    <td class="lastrow" style="text-align: left">
-        <input type="submit" name="submit_download" value="<?php echo $GLOBALS['strSetupDownload'] ?>" class="green" />
-        <input type="submit" name="submit_save" value="<?php echo $GLOBALS['strSave'] ?>"<?php if (!$config_writable) echo ' disabled="disabled"' ?> />
-        &nbsp; &nbsp;
-        <input type="reset" value="<?php echo $GLOBALS['strReset'] ?>" />
-    </td>
-</tr>
-<?php
-display_fieldset_bottom_simple();
-display_form_bottom();
+PMA_checkConfigRw($config_readable, $config_writable, $config_exists);
+echo '<h2>' . __('Configuration file') . '</h2>';
+
+PMA_displayFormTop('config.php');
+echo '<input type="hidden" name="eol" value="'
+    . htmlspecialchars(PMA_ifSetOr($_GET['eol'], 'unix')) . '" />';
+PMA_displayFieldsetTop('config.inc.php', '', null, array('class' => 'simple'));
+echo '<tr>';
+echo '<td>';
+echo '<textarea cols="50" rows="20" name="textconfig" '
+    . 'id="textconfig" spellcheck="false">';
+echo htmlspecialchars(ConfigGenerator::getConfigFile($GLOBALS['ConfigFile']));
+echo '</textarea>';
+echo '</td>';
+echo '</tr>';
+echo '<tr>';
+echo '<td class="lastrow" style="text-align: left">';
+echo '<input type="submit" name="submit_download" value="'
+    . __('Download') . '" class="green" />';
+echo '<input type="submit" name="submit_save" value="' . __('Save') . '"';
+if (!$config_writable) {
+    echo ' disabled="disabled"';
+}
+echo '/>';
+echo '</td>';
+echo '</tr>';
+
+PMA_displayFieldsetBottomSimple();
+PMA_displayFormBottom();
 ?>

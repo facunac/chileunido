@@ -2,7 +2,7 @@
 	class BeneficiariosController extends AppController
 	{
 		var $name = "Beneficiario";
-		var $uses = array("Caso","Tipocaso","Seguimiento","Beneficiario","Persona", "Voluntario", "Permisovoluntario", "Programa", "Comuna", "Perfil", "Permisoperfil", "Actividad", "Formulario", "Seccion", "Pregunta", "Dimension", "Subpregunta", "Respuestaficha", "Tipoingreso", "Turno", "Convenio");
+		var $uses = array("Creencia", "Caso","Tipocaso","Seguimiento","Beneficiario","Persona", "Voluntario", "Permisovoluntario", "Programa", "Comuna", "Perfil", "Permisoperfil", "Actividad", "Formulario", "Seccion", "Pregunta", "Dimension", "Subpregunta", "Respuestaficha", "Tipoingreso", "Turno", "Convenio");
 		var $components = array ('Pagination','Expermission'); // [Gabriela] para paginacion
 		var $helpers = array('Pagination','Excel','Permisoschecker'); // [Gabriela] para paginacion
 		
@@ -49,10 +49,19 @@
 			$comunas=$this->Comuna->getAllAsArray();
 			$this->set('comunas', $comunas);
 			
+			$creencias=$this->Creencia->getAllAsArray();
+			$this->set('creencias', $creencias);
+
 			$convenios=$this->Convenio->getAllAsArray();
 			$this->set('convenios', $convenios);
-			
-			
+
+			$tipocasos=$this->Tipocaso->query("SELECT cod_tipocaso, nom_tipocaso FROM tipocasos");
+			$tipocasos2=array();
+			foreach($tipocasos as $tipocaso){
+				$tipocasos2[$tipocaso['tipocasos']['cod_tipocaso']]=$tipocaso['tipocasos']['nom_tipocaso'];
+			}
+			$this->set('tipocasos', $tipocasos2);			
+		
 			$msg = '';
 			$this->set('msg', $msg);
 			
@@ -293,10 +302,20 @@
 			$soloyo=$this->data['FormBuscar']['soloyo'];
 			$cod_voluntario = $this->Session->read('cod_voluntario');
 			
+			$edad		=$this->data['FormBuscar']['edad'];
+			$nom_direccion	=$this->data['FormBuscar']['nom_direccion'];
+			$num_telefono	=$this->data['FormBuscar']['num_telefono'];
+			$nom_email	=$this->data['FormBuscar']['nom_email'];
+			$cod_tipocaso	=$this->data['FormBuscar']['cod_tipocaso'];
+			
+			$cod_creencia	=$this->data['FormBuscar']['cod_creencia'];
+			//var_dump($this->data['FormBuscar']);
+			
 			$mensaje="";
 			
 			
-			if($nom_nombre=="" && $nom_appat=="" && $nom_apmat=="" && $cod_comuna=="" && $cod_convenio=="" && $nom_rut1.$num_rutcodver=="" && $inicial==null && $soloyo!=1)
+			if($nom_nombre=="" && $nom_appat=="" && $nom_apmat=="" && $cod_comuna=="" && $cod_convenio=="" && $nom_rut1.$num_rutcodver=="" && $inicial==null && $soloyo!=1
+				&& $edad=="" && $nom_direccion=="" && $num_telefono=="" && $nom_email=="" && $cod_tipocaso=="" && $cod_creencia=="")
 			{
 				$mensaje= 27;
 				$this->redirect('/beneficiarios/index/'.$mensaje);
@@ -315,43 +334,90 @@
 												
 				if($inicial==null)
 					{
-					if($cod_convenio=="")
-					{				
-						if($cod_comuna!="") {
-							$personas=$this->Persona->findAll(array("Persona.nom_rut" => "like %$nom_rut%", 
-													"Persona.nom_nombre" => "like %$nom_nombre%", 
-													"Persona.nom_appat" => "like %$nom_appat%",
-													"Persona.nom_apmat" => "like %$nom_apmat%",
-													"Persona.cod_comuna" => $cod_comuna));						
-						}
-						else
-						{
-							$personas=$this->Persona->findAll("Persona.nom_rut like '%$nom_rut%' 
-													and Persona.nom_nombre like '%$nom_nombre%' 
-													and Persona.nom_appat like '%$nom_appat%'
-													and Persona.nom_apmat like '%$nom_apmat%'");						
-						}
-					}
-					else
-					{
-						$personas=$this->Persona->findAll(array("Persona.nom_rut" => "like %$nom_rut%", 
-													"Persona.nom_nombre" => "like %$nom_nombre%", 
-													"Persona.nom_appat" => "like %$nom_appat%",
-													"Persona.nom_apmat" => "like %$nom_apmat%",
-													"Persona.cod_comuna" => "like %$cod_comuna%",
-													"Beneficiario.cod_convenio" => $cod_convenio));
-								
-						/*$personas=$this->Persona->query("SELECT * FROM personas as Persona NATURAL JOIN beneficiarios 
-															WHERE Persona.nom_rut like '%$nom_rut%' 
-															and Persona.nom_nombre like '%$nom_nombre%' 
-															and Persona.nom_appat like '%$nom_appat%'
-															and Persona.nom_apmat like '%$nom_apmat%'
-															and beneficiarios.cod_convenio=$cod_convenio");
-							*/								
-					}
+					
+					//if($cod_convenio=="")
+					//{				
+					//	if($cod_comuna!="") {
+					//	/*	$personas=$this->Persona->findAll(array("Persona.nom_rut" => "like %$nom_rut%", 
+					//								"Persona.nom_nombre" => "like %$nom_nombre%", 
+					//								"Persona.nom_appat" => "like %$nom_appat%",
+					//								"Persona.nom_apmat" => "like %$nom_apmat%",
+					//								"Persona.cod_comuna" => $cod_comuna));*/
+					//
+					//		$personas=$this->Persona->findAll("Persona.nom_rut like '%$nom_rut%' 
+                                        //                                                                and Persona.nom_nombre like '%$nom_nombre%' 
+                                        //                                                                and Persona.nom_appat like '%$nom_appat%'
+                                        //                                                                and Persona.nom_apmat like '%$nom_apmat%'
+					//								and Persona.cod_comuna = $cod_comuna
+                                        //                                                                and (timestampdiff(year,Persona.fec_nacimiento,now()) = $edad
+                                        //                                                                       or
+                                        //                                                                       year(now())-ano_nacimiento = $edad)
+                                        //                                                                ");
+					//	
+					//	}
+					//	else
+					//	{
+					//		$personas=$this->Persona->findAll("Persona.nom_rut like '%$nom_rut%' 
+					//								and Persona.nom_nombre like '%$nom_nombre%' 
+					//								and Persona.nom_appat like '%$nom_appat%'
+					//								and Persona.nom_apmat like '%$nom_apmat%'
+					//								and (timestampdiff(year,Persona.fec_nacimiento,now()) = $edad
+					//									or
+					//									year(now())-ano_nacimiento = $edad)
+					//								");
+					//		//var_dump($personas);
+					//		//die();						
+					//	}
+					//}
+					//else
+					//{
+					//
+                                        //        $personas=$this->Persona->findAll("Persona.nom_rut like '%$nom_rut%' 
+                                        //                                           and Persona.nom_nombre like '%$nom_nombre%' 
+                                        //                                           and Persona.nom_appat like '%$nom_appat%'
+                                        //                                           and Persona.nom_apmat like '%$nom_apmat%'
+                                        //                                           and Beneficiario.cod_convenio = $cod_convenio");
+					//	
+					//	/*$personas=$this->Persona->findAll(array("Persona.nom_rut" => "like %$nom_rut%", 
+					//								"Persona.nom_nombre" => "like %$nom_nombre%", 
+					//								"Persona.nom_appat" => "like %$nom_appat%",
+					//								"Persona.nom_apmat" => "like %$nom_apmat%",
+					//								"Persona.cod_comuna" => "like %$cod_comuna%",
+					//								"Beneficiario.cod_convenio" => $cod_convenio));*/
+					//			
+					//
+					//	/*$personas=$this->Persona->query("SELECT * FROM personas as Persona, beneficiarios as Beneficiario 
+					//										WHERE Persona.cod_persona = Beneficiario.cod_persona 
+					//										and Persona.nom_rut like '%$nom_rut%' 
+					//										and Persona.nom_nombre like '%$nom_nombre%' 
+					//										and Persona.nom_appat like '%$nom_appat%'
+					//										and Persona.nom_apmat like '%$nom_apmat%'
+					//										and beneficiarios.cod_convenio=$cod_convenio");*/
+					//										
+					//}
+					
+
+					$query = "";
+					$query .= ($nom_rut=="")	? "" : "Persona.nom_rut like '%$nom_rut%' and " ;
+					$query .= ($nom_nombre=="")	? "" : "Persona.nom_nombre like '%$nom_nombre%' and ";
+					$query .= ($nom_appat=="")	? "" : "Persona.nom_appat like '%$nom_appat%' and ";	
+					$query .= ($nom_apmat=="")	? "" : "Persona.nom_apmat like '%$nom_apmat%' and ";
+					$query .= ($cod_comuna=="")	? "" : "Persona.cod_comuna = $cod_comuna and ";
+					$query .= ($cod_convenio=="")	? "" : "Beneficiario.cod_convenio = $cod_convenio and ";
+					$query .= ($nom_direccion=="") 	? "" : "Persona.nom_direccion like '%$nom_direccion%' and ";
+					$query .= ($num_telefono=="")	? "" : "(Persona.num_telefono1 like '%$num_telefono%' or Persona.num_telefono2 like '%$num_telefono%') and ";
+					$query .= ($nom_email=="")	? "" : "Persona.nom_email like '%$nom_email%' and ";
+					$query .= ($edad=="")		? "" : "(timestampdiff(year,Persona.fec_nacimiento,now()) = $edad or year(now())-ano_nacimiento = $edad) and ";
+					$query .= ($cod_creencia=="")	? "" : "Persona.cod_creencia = $cod_creencia and ";
+
+					$query =  ($query=="") 		? "" : substr($query,0,strlen($query)-strlen(" and ")); 					
+					//die($query);
+
+					$personas = $this->Persona->findAll($query);
+
 					//print_r($personas);
 					$mensaje=4;
-					
+
 					if($personas=="")
 					{	
 						$res=0;
@@ -400,34 +466,71 @@
 							{
 								$codigo= $p['Persona']['cod_persona'];
 																
-								if( $soloyo != 1 )
-								{
-									$casos_activo= $this->Caso->query("
-									SELECT casos.est_caso
-									FROM casos,tipocasos 
-									WHERE casos.cod_tipocaso=tipocasos.cod_tipocaso 
-									AND tipocasos.cod_programa=".$cod_programa." 
-									AND casos.cod_beneficiario=".$codigo."
-									ORDER BY casos.est_caso
-									LIMIT 0,1;"
-									);
-								} 
-								else
-								{
-									$casos_activo= $this->Caso->query("
-									SELECT casos.est_caso
-									FROM casos,tipocasos 
-									WHERE casos.cod_tipocaso=tipocasos.cod_tipocaso 
-									AND tipocasos.cod_programa=".$cod_programa." 
-									AND casos.cod_beneficiario=".$codigo."
-									AND casos.cod_soloyo=".$cod_voluntario."
-									ORDER BY casos.est_caso
-									LIMIT 0,1;"
-									);
-								}
-					
+								//if( $soloyo != 1 )
+								//{
+								//	$casos_activo= $this->Caso->query("
+								//	SELECT casos.est_caso
+								//	FROM casos,tipocasos 
+								//	WHERE casos.cod_tipocaso=tipocasos.cod_tipocaso 
+								//	AND tipocasos.cod_programa=".$cod_programa." 
+								//	AND casos.cod_beneficiario=".$codigo."
+								//	ORDER BY casos.est_caso
+								//	LIMIT 0,1;"
+								//	);
+								//} 
+								//else
+								//{
+								//	$casos_activo= $this->Caso->query("
+								//	SELECT casos.est_caso
+								//	FROM casos,tipocasos 
+								//	WHERE casos.cod_tipocaso=tipocasos.cod_tipocaso 
+								//	AND tipocasos.cod_programa=".$cod_programa." 
+								//	AND casos.cod_beneficiario=".$codigo."
+								//	AND casos.cod_soloyo=".$cod_voluntario."
+								//	ORDER BY casos.est_caso
+								//	LIMIT 0,1;"
+								//	);
+								//}
 								
+								$query = "";
+								$query .= "select casos.est_caso from casos, tipocasos";
+								$query .= " where casos.cod_tipocaso=tipocasos.cod_tipocaso";
+								$query .= " and tipocasos.cod_programa=".$cod_programa;
+								$query .= " and casos.cod_beneficiario=".$codigo;
+								$query .= ( $cod_tipocaso=="" ) ? "" : " and tipocasos.cod_tipocaso=".$cod_tipocaso;
+								$query .= ( $soloyo != 1 ) ? "" : " and casos.cod_soloyo=".$cod_voluntario;
+								$query .= " order by casos.est_caso limit 0,1;";
 								
+								//die($query);
+								$casos_activo = $this->Caso->query($query);
+								
+								//var_dump($p);
+								//die("a1");
+
+								// Se le agrega indicador "solo yo"
+								$query2 = "";
+								$query2 .= "select count(*) as soloyo from casos, tipocasos";
+								$query2 .= " where casos.cod_tipocaso=tipocasos.cod_tipocaso";
+								$query2 .= " and tipocasos.cod_programa=".$cod_programa;
+								$query2 .= " and casos.cod_beneficiario=".$codigo;
+								$query2 .= " and casos.cod_soloyo=".$cod_voluntario;
+								$count_soloyo = $this->Caso->query($query2);
+								
+								//var_dump($count_soloyo[0][0]['soloyo']); die("a");
+								$p['Persona']+= ( $count_soloyo[0][0]['soloyo'] == "0" ) ? array('soloyo'=>"No") : array('soloyo'=>"S&iacute;");
+
+								// Se le agrega "tipo de caso"
+								$query3 = "";
+								$query3 .= "select tipocasos.nom_tipocaso from casos, tipocasos";
+								$query3 .= " where casos.cod_tipocaso=tipocasos.cod_tipocaso";
+								$query3 .= " and tipocasos.cod_programa=".$cod_programa;
+								$query3 .= " and casos.cod_beneficiario=".$codigo;
+								$query3 .= " order by casos.est_caso limit 0,1;";
+
+								$result3 = $this->Caso->query($query3);
+								//var_dump($result3[0]['tipocasos']['nom_tipocaso']);
+								$p['Persona']+= ( $result3[0]['tipocasos']['nom_tipocaso'] == NULL ) ? array('nom_tipocaso'=>"") : array('nom_tipocaso'=>$result3[0]['tipocasos']['nom_tipocaso']);
+							
 								// Se le agrega el nombre de la comuna a la persona, para poder mostrarlo adecuadamente en la vista
 								$p['Persona']+=array('nom_comuna' => $p['Comuna']['nom_comuna']); 
 								
@@ -436,10 +539,10 @@
 								
 								//[Gabriela] Se le agrega la edad estimada
 								if($p['Persona']['ano_nacimiento']!=null)
-									$edad= (int)date('Y')-$p['Persona']['ano_nacimiento'];
+									$edad_aux= (int)date('Y')-$p['Persona']['ano_nacimiento'];
 								else 
-									$edad='-';
-								$p['Persona']+=array('edad'=>$edad);
+									$edad_aux='-';
+								$p['Persona']+=array('edad'=>$edad_aux);
 								if(count($casos_activo)) {
 									if($casos_activo[0]['casos']['est_caso']=='Activo')
 									{
@@ -588,6 +691,25 @@
 			$comunas=$this->Comuna->getAllAsArray($cod_region);
 			$this->set('comunas', $comunas);
 			
+			//die("a2");
+			$rel=array();
+			$query1="select cod_creencia, nom_creencia from creencias where cod_creencia in (0,1) order by cod_creencia desc";
+			$query2="select cod_creencia, nom_creencia from creencias where cod_creencia not in (0,1) order by nom_creencia asc";
+			$aux1=$this->Persona->query($query1);
+			$aux2=$this->Persona->query($query2);
+			foreach($aux2 as $creencia){
+				$rel[$creencia['creencias']['cod_creencia']]=$creencia['creencias']['nom_creencia'];
+			}
+			foreach($aux1 as $creencia){
+				$rel[$creencia['creencias']['cod_creencia']]=$creencia['creencias']['nom_creencia'];
+			}		
+			
+			//var_dump($aux2);
+			//die("a1");
+			//var_dump($comunas);
+			$this->set('creencias', $rel);
+
+			
 			/***********/
 			
 			// Via de acceso: Cual?
@@ -705,10 +827,11 @@
 		
 		function ingresar_nuevo()
 		{
-				
+							
 			// Se mandan algunas variables al layout para que se vea bien COPIAR SIEMPRE Y CAMBIAR NOMBRE PAGINA
 			$this->escribirHeader("Ingreso de Caso");	
 			
+
 			// Se rescata la informaciÃ¯Â¿Â½n desde el formulario
 			$nom_nombre=$this->data['Persona']['nom_nombre'];
 			$this->data['FormCrear']+=array('nom_nombre' => $nom_nombre);
@@ -723,6 +846,14 @@
 			$this->data['FormCrear']+=array('nom_direccion' => $nom_direccion);
 			$cod_comuna=$this->data['Persona']['cod_comuna'];
 			$this->data['FormCrear']+=array('cod_comuna' => $cod_comuna);
+			
+			$nom_email=$this->data['Persona']['nom_email'];
+			$this->data['FormCrear']+=array('nom_email'=>$nom_email);
+			$cod_creencia=$this->data['Persona']['cod_creencia'];
+			$this->data['FormCrear']+=array('cod_creencia'=>$cod_creencia);
+			
+			//var_dump($this->data['FormCrear']);
+			//die($cod_creencia);
 
 			$contador = 0;
 			// EST: por quien llama??
@@ -870,6 +1001,11 @@
 			}
 			
 			//Se crea la persona con la informaciÃ¯Â¿Â½n bÃ¯Â¿Â½sica
+			//var_dump($this->data['FormCrear']);
+			
+			//var_dump($this->data['FormCrear']);
+			//die("a1");
+	
 			if($this->Persona->save($this->data['FormCrear']))
 			{
 					
@@ -1958,6 +2094,11 @@
 			$persona['Persona']+=array('edad'=>$edad);
 			$this->set('edad',$persona['Persona']['edad']);
 			
+			$creencia=$this->Creencia->findByCodCreencia($persona['Persona']['cod_creencia']);
+			//var_dump($creencia['Creencia']['nom_creencia']);
+			//die("a1");
+			$this->set('creencia',$creencia);	
+
 			//[Diego Jorquera] Buscar caso del beneficiario
 		
 			$caso=$this->Caso->find("est_caso = 'Activo' and cod_beneficiario = $codigo", "", "", "", "", 0);
@@ -2031,6 +2172,18 @@
 			$this->set('ultimo', $fecha_ultimo);
 		
 			$personas=$this->Persona->findByCodPersona($codigo);
+			
+			//$personas['Caso']=$caso['Caso'];
+			//$personas['Voluntario']=$voluntario['Voluntario'];
+			$tipocasos=$this->Tipocaso->findByCodTipocaso($caso['Caso']['cod_tipocaso']);
+			//$personas['Tipocaso']=$tipocasos['Tipocaso'];
+			//die("a.".$tipocasos['Tipocaso']['nom_tipocaso']);			
+
+			
+			$this->set('caso', $caso);
+			$this->set('voluntario', $voluntario);
+			$this->set('tipocasos', $tipocasos);
+
 			$this->set('personas', $personas);
 			
 			$beneficiarios=$this->Beneficiario->findByCodPersona($codigo);

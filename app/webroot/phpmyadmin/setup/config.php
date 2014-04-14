@@ -1,98 +1,79 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * Front controller for config view / download and clear
  *
- * @package    phpMyAdmin-setup
- * @author     Piotr Przybylski <piotrprz@gmail.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: config.php 11582 2008-09-10 16:53:28Z lem9 $
+ * @package PhpMyAdmin-Setup
  */
-
-require './lib/common.inc.php';
-require_once './setup/lib/Form.class.php';
-require_once './setup/lib/FormDisplay.class.php';
 
 /**
- * Returns config file contents depending on GET type value:
- * o session - uses ConfigFile::getConfigFile()
- * o post - uses POST textconfig value
- *
- * @return string
+ * Core libraries.
  */
-function get_config() {
-    $type = PMA_ifSetOr($_GET['type'], 'session');
+require './lib/common.inc.php';
+require_once './libraries/config/Form.class.php';
+require_once './libraries/config/FormDisplay.class.php';
+require_once './setup/lib/ConfigGenerator.class.php';
 
-    if ($type == 'session') {
-        $config = ConfigFile::getInstance()->getConfigFile();
-    } else {
-        $config = PMA_ifSetOr($_POST['textconfig'], '');
-        // make sure our eol is \n
-        $config = str_replace("\r\n", "\n", $config);
-        if ($_SESSION['eol'] == 'win') {
-            $config = str_replace("\n", "\r\n", $config);
-        }
-    }
+require './libraries/config/setup.forms.php';
 
-    return $config;
-}
-
-
-$form_display = new FormDisplay();
-$form_display->registerForm('_config.php');
+$form_display = new FormDisplay($GLOBALS['ConfigFile']);
+$form_display->registerForm('_config.php', $forms['_config.php']);
 $form_display->save('_config.php');
-$config_file_path = ConfigFile::getInstance()->getFilePath();
+$config_file_path = $GLOBALS['ConfigFile']->getFilePath();
 
 if (isset($_POST['eol'])) {
     $_SESSION['eol'] = ($_POST['eol'] == 'unix') ? 'unix' : 'win';
 }
 
 if (PMA_ifSetOr($_POST['submit_clear'], '')) {
-	//
-	// Clear current config and return to main page
-	//
-	$_SESSION['ConfigFile'] = array();
+    //
+    // Clear current config and return to main page
+    //
+    $GLOBALS['ConfigFile']->resetConfigData();
     // drop post data
     header('HTTP/1.1 303 See Other');
     header('Location: index.php');
     exit;
 } elseif (PMA_ifSetOr($_POST['submit_download'], '')) {
-	//
-	// Output generated config file  
-	//
-    header('Content-Type: text/plain');
-    header('Content-Disposition: attachment; filename="config.inc.php"');
-    echo get_config();
+    //
+    // Output generated config file
+    //
+    PMA_downloadHeader('config.inc.php', 'text/plain');
+    echo ConfigGenerator::getConfigFile($GLOBALS['ConfigFile']);
     exit;
 } elseif (PMA_ifSetOr($_POST['submit_save'], '')) {
-	//
-	// Save generated config file on the server
-	//
-    file_put_contents($config_file_path, get_config());
+    //
+    // Save generated config file on the server
+    //
+    file_put_contents(
+        $config_file_path,
+        ConfigGenerator::getConfigFile($GLOBALS['ConfigFile'])
+    );
     header('HTTP/1.1 303 See Other');
-    header('Location: index.php');
+    header('Location: index.php?action_done=config_saved');
     exit;
 } elseif (PMA_ifSetOr($_POST['submit_load'], '')) {
-	//
-	// Load config file from the server
-	//
+    //
+    // Load config file from the server
+    //
     $cfg = array();
-    require_once $config_file_path;
-    $_SESSION['ConfigFile'] = $cfg;
+    include_once $config_file_path;
+    $GLOBALS['ConfigFile']->setConfigData($cfg);
     header('HTTP/1.1 303 See Other');
     header('Location: index.php');
     exit;
 } elseif (PMA_ifSetOr($_POST['submit_delete'], '')) {
-	//
-	// Delete config file on the server
-	//
+    //
+    // Delete config file on the server
+    //
     @unlink($config_file_path);
     header('HTTP/1.1 303 See Other');
     header('Location: index.php');
     exit;
 } else {
-	//
-	// Show generated config file in a <textarea>
-	//
+    //
+    // Show generated config file in a <textarea>
+    //
     header('HTTP/1.1 303 See Other');
     header('Location: index.php?page=config');
     exit;

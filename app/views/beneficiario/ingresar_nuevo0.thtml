@@ -97,12 +97,17 @@ function confirmar_crear() {
 					<?php echo $jsvalid->input('Persona/num_telefono2_pre','Tel&eacute;fono 2',  array('size' => '2','maxlength'=>'255')); ?>
 					<?php echo $jsvalid->input('Persona/num_telefono2_post', '',array('size' => '20','maxlength'=>'255'));?></li>
 				
+				<li>
+					<?php echo $jsvalid->input('Persona/nom_email', 'Email', array('size'=>'20', 'maxlenght'=>'255', 'value'=>$nom_email)) ?></li>
+				</li>	
+
 				<li><label>Edad</label>
 						<?php echo $html->input('Persona/ano_nacimiento', array('size' => '2','maxlength'=>'2'));?></li>
 				
 				<li style="<?php echo $defaultStyle; ?>"><label>Sexo</label>
 					<?php echo $html->selectTag('Beneficiario/tip_sexo', array(''=>'', 'Femenino' => 'Femenino', 'Masculino' => 'Masculino'), $sexoDefault, array(), null, false); ?></li>
 			
+				
 				<li>
 					<?php echo $jsvalid->input('Persona/nom_rut', 'RUT',array('size' => '10','maxlength'=>'255', 'value' =>$nom_rut)) ?>
 					-
@@ -112,6 +117,11 @@ function confirmar_crear() {
 				<?php echo $html->selectTag('Beneficiario/tip_rolfamilia', $tip_rolfamilia, $famDefault, array(), null, true); ?></li>
 				<?php echo $html->tagErrorMsg('Persona/cod_comuna', 'Por favor selecione el rol familiar para el beneficiario.') ?>
 			
+                                <li>
+					<label>Creencia Religiosa</label>
+                                        <?php echo $html->selectTag('Persona/cod_creencia', $creencias, '', array("class"=>"select_mediano"), null, true); ?></li>
+                                </li>
+
 			</ol>
 		
 		</fieldset>

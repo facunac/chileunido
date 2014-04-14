@@ -1,26 +1,15 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
+ * Displays status of phpMyAdmin configuration storage
  *
- * @version $Id: chk_rel.php 10239 2007-04-01 09:51:41Z cybot_tm $
+ * @package PhpMyAdmin
  */
 
-/**
- * Gets some core libraries
- */
-require_once './libraries/common.inc.php';
-require_once './libraries/db_common.inc.php';
-require_once './libraries/relation.lib.php';
+require_once 'libraries/common.inc.php';
+$response = PMA_Response::getInstance();
+$response->addHTML(
+    PMA_getRelationsParamDiagnostic(PMA_getRelationsParam())
+);
 
-
-/**
- * Gets the relation settings
- */
-$cfgRelation = PMA_getRelationsParam(TRUE);
-
-
-/**
- * Displays the footer
- */
-require_once './libraries/footer.inc.php';
 ?>

@@ -12,7 +12,7 @@
 					</tr>
 					<tr>
 						<td class="id">Nombre:</td>
-						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat'];?></td>
+						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat']." ".$personas['Persona']['nom_apmat'] ;?></td>
 					</tr>
 					<tr>
 						<td class="id">Edad:</td>
@@ -30,6 +30,14 @@
 						<td class="id">Tel&eacute;fono 2:</td>
 						<td class="result"><?php echo $personas['Persona']['num_telefono2']; ?></td>
 					</tr>
+                                        <tr>
+                                                <td class="id">Email:</td>
+                                                <td class="result"><?php echo $personas['Persona']['nom_email']; ?></td>
+                                        </tr>
+					<tr>
+						<td class="id">Direcci&oacute;n:</td>
+						<td class="result"><?php echo $personas['Persona']['nom_direccion']; ?></td>	
+					</tr>
 					<tr>
 						<td class="id">Comuna:</td>
 						<td class="result">
@@ -40,6 +48,23 @@
 								echo $comunas[$i];				
 							?>
 						</td>
+					</tr>
+					<tr>
+						<td class="id">Creencia Religiosa</td>
+						<td class="result"><?php echo $creencia['Creencia']['nom_creencia']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Tipo Caso:</td>
+						<td class="result"><?php echo $tipocasos['Tipocaso']['nom_tipocaso']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Solo Yo:</td>
+						<td class="result"><?php 
+						if($caso['Caso']['cod_soloyo']==$voluntario['Voluntario']['cod_persona'] && $caso['Caso']['cod_soloyo']!=NULL)
+							echo "Sí";
+						else
+							echo "No";
+						?></td>
 					</tr>
 					<tr>
 						<td class="id" style="">Comentario:</td>

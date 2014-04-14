@@ -12,16 +12,35 @@
 					</tr>
 					<tr>
 						<td class="id">Nombre:</td>
-						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat'];?></td>
+						<td class="result"><?php echo $personas['Persona']['nom_nombre']." ".$personas['Persona']['nom_appat']." ".$personas['Persona']['nom_apmat'];?></td>
 					</tr>
 					<tr>
 						<td class="id">Edad:</td>
 						<td class="result"><?php echo $edad; ?></td>
 					</tr>
+											
 					<tr>
 						<td class="id">Rol Familiar:</td>
 						<td class="result"><?php echo $beneficiarios['Beneficiario']['tip_rolfamilia']; ?></td>
 					</tr>
+					
+					<tr>
+						<td class="id">Tel&eacute;fono 1:</td>
+						<td class="result"><?php echo $personas['Persona']['num_telefono1']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Tel&eacute;fono 2:</td>
+						<td class="result"><?php echo $personas['Persona']['num_telefono2']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Email:</td>
+						<td class="result"><?php echo $personas['Persona']['nom_email']; ?></td>
+					</tr>
+					<tr>
+						<td class="id">Direcci&oacute;n:</td>
+						<td class="result"><?php echo $personas['Persona']['nom_direccion']; ?></td>
+					</tr>
+
 					<tr>
 						<td class="id">Comuna:</td>
 						<td class="result">

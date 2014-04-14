@@ -1,22 +1,13 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * @uses    PMA_generate_common_url()
- * @uses    PMA_isSuperuser()
- * @uses    PMA_DBI_select_db()
- * @uses    PMA_DBI_fetch_result()
- * @uses    PMA_DBI_QUERY_STORE
- * @uses    $userlink
- * @version $Id: server_common.inc.php 11336 2008-06-21 15:01:27Z lem9 $
+ * Shared code for server pages
+ *
+ * @package PhpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
 }
-
-/**
- * Gets some core libraries
- */
-require_once './libraries/common.inc.php';
 
 /**
  * Handles some variables that may have been sent by the calling script
@@ -31,31 +22,30 @@ if (empty($viewing_mode)) {
 /**
  * Set parameters for links
  */
-$url_query = PMA_generate_common_url($db);
+$url_query = PMA_URL_getCommon($db);
 
 /**
  * Defines the urls to return to in case of error in a sql statement
  */
-$err_url = 'main.php' . $url_query;
-
-/**
- * Displays the headers
- */
-require_once './libraries/header.inc.php';
+$err_url = 'index.php' . $url_query;
 
 /**
  * @global boolean Checks for superuser privileges
  */
-$is_superuser = PMA_isSuperuser();
+$is_superuser = $GLOBALS['dbi']->isSuperuser();
 
 // now, select the mysql db
-if ($is_superuser) {
-    PMA_DBI_select_db('mysql', $userlink);
+if ($is_superuser && ! PMA_DRIZZLE) {
+    $GLOBALS['dbi']->selectDb('mysql', $userlink);
 }
 
+PMA_Util::checkParameters(
+    array('is_superuser', 'url_query'), false
+);
+
 /**
- * @global array binary log files
+ * shared functions for server page
  */
-$binary_logs = PMA_DBI_fetch_result('SHOW MASTER LOGS', 'Log_name', null, null,
-    PMA_DBI_QUERY_STORE);
+require_once './libraries/server_common.lib.php';
+
 ?>

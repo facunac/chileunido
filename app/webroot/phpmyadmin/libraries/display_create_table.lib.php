@@ -22,7 +22,7 @@
  * warnings about the lack of privileges for CREATE TABLE. Tested
  * on MySQL 5.0.18.
  *
- * @version $Id: display_create_table.lib.php 11336 2008-06-21 15:01:27Z lem9 $
+ * @package PhpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -35,30 +35,47 @@ require_once './libraries/check_user_privileges.lib.php';
 
 $is_create_table_priv = true;
 
-?>
-<form method="post" action="tbl_create.php"
-    onsubmit="return (emptyFormElements(this, 'table') &amp;&amp; checkFormElementInRange(this, 'num_fields', '<?php echo str_replace('\'', '\\\'', $GLOBALS['strInvalidFieldCount']); ?>', 1))">
-<fieldset>
-    <legend>
-<?php
-if ($GLOBALS['cfg']['PropertiesIconic']) {
-    echo '<img class="icon" src="' . $pmaThemeImage . 'b_newtbl.png" width="16" height="16" alt="" />';
+/**
+ * Returns the html for create table.
+ *
+ * @param string $db database name
+ *
+ * @return string
+ */
+function PMA_getHtmlForCreateTable($db)
+{
+    $html  = '<form id="create_table_form_minimal" method="post" '
+        . 'action="tbl_create.php">';
+    $html .= '<fieldset>';
+    $html .= '<legend>';
+
+    if (PMA_Util::showIcons('ActionLinksMode')) {
+        $html .= PMA_Util::getImage('b_newtbl.png');
+    }
+    $html .= __('Create table');
+
+    $html .= ' </legend>';
+    $html .= PMA_URL_getHiddenInputs($db);
+    $html .= '<div class="formelement">';
+    $html .= __('Name') . ":";
+    $html .= '  <input type="text" name="table" maxlength="64" '
+        . 'size="30" required />';
+    $html .= ' </div>';
+    $html .= '  <div class="formelement">';
+    $html .= __('Number of columns') . ":";
+    $html .= '  <input type="number" min="1" name="num_fields" size="2" />';
+    $html .= ' </div>';
+    $html .= '  <div class="clearfloat"></div>';
+    $html .= '</fieldset>';
+    $html .= '<fieldset class="tblFooters">';
+    $html .= '   <input type="submit" value="' . __('Go') . '" />';
+    $html .= '</fieldset>';
+    $html .= '</form>';
+
+    return $html;
 }
-echo sprintf($strCreateNewTable, PMA_getDbLink());
+
+if (!defined('TESTSUITE')) {
+    echo PMA_getHtmlForCreateTable($db);
+}
 ?>
-    </legend>
-    <?php echo PMA_generate_common_hidden_inputs($db); ?>
-    <div class="formelement">
-        <?php echo $strName; ?>:
-        <input type="text" name="table" maxlength="64" size="30" />
-    </div>
-    <div class="formelement">
-        <?php echo $strNumberOfFields; ?>:
-        <input type="text" name="num_fields" size="2" />
-    </div>
-    <div class="clearfloat"></div>
-</fieldset>
-<fieldset class="tblFooters">
-    <input type="submit" value="<?php echo $strGo; ?>" />
-</fieldset>
-</form>

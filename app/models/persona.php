@@ -1,13 +1,12 @@
 <?php
 	
-//hola
 	class Persona extends AppModel
 	{
 		var $name='Persona'; // nombre del modelo
 		var $primaryKey='cod_persona';
-		var $belongsTo=array('Comuna' => array('foreignKey' => 'cod_comuna'));
-		var $hasOne=array('Voluntario' => array('foreignKey' => 'cod_persona'),
-							'Beneficiario' => array('foreignKey' => 'cod_persona', 'dependent' => true));
+		var $belongsTo=array('Comuna' => array('foreignKey' => 'cod_comuna'), 'Creencia'=>array('foreignKey'=>'cod_creencia'));
+		var $hasOne=array('Voluntario' => array('foreignKey' => 'cod_persona'),// 'Creencia'=>array('foreignKey'=>'cod_creencia'),
+					'Beneficiario' => array('foreignKey' => 'cod_persona', 'dependent' => true));
 		var $hasMany=array('Comentario' => array('className'=>'Comentario',
 												'order' => 'Comentario.fec_creado DESC',
 												'limit' => '10',
