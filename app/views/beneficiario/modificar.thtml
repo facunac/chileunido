@@ -43,9 +43,28 @@
 				<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255','value' => $persona['Persona']['num_telefono2_pre'])); ?>
 				<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255','value' => $persona['Persona']['num_telefono2']));?></li>
 				
+				
+				<li>
+				<label>Email</label>
+				<?php echo $html->input('Persona/nom_email', array('size'=>'20','maxlength'=>'255','value'=>$persona['Persona']['nom_email'])); ?>
+				</li>				
+
+
+				<li>
+				<label>Direcci&oacute;n</label>
+				<?php echo $html->input('Persona/nom_direccion', array('size'=>'20','maxlength'=>'255','value'=>$persona['Persona']['nom_direccion'])); ?>
+				</li>
+				
+
 				<li><label>Comuna</label>
 					<?php echo $html->selectTag('Persona/cod_comuna', $comunas, $persona['Persona']['cod_comuna'], array(), null, false); ?></li>
 				
+
+				<li>
+				<label>Creencia Religiosa</label>
+				<?php echo $html->selectTag('Persona/cod_creencia', $creencias, $persona['Persona']['cod_creencia'], array(), null, false); ?>
+				</li>
+
 				<li><?php echo $jsvalid->textarea('Beneficiario/nom_comentario', 'Comentario', array('size' => '20','maxlength'=>'255','value' => $persona['Beneficiario']['nom_comentario'])) ?></li>
 				
 				<?php echo $html->hidden('Seguimiento/cod_caso', array('size' => '20','maxlength'=>'255','value' => $ultimo['Seguimiento']['cod_caso'])) ?>

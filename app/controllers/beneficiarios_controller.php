@@ -2227,6 +2227,10 @@
 									
 			$comunas=$this->Comuna->getAllAsArray();
 			$this->set('comunas', $comunas);
+
+			$creencias=$this->Creencia->getAllAsArray();
+			$this->set('creencias', $creencias);
+
 			$tip_rolfamilia= $this->Beneficiario->getRolesFamilia();
 			$this->set('tip_rolfamilia',$tip_rolfamilia);
 			
@@ -2907,6 +2911,9 @@
 			
 			$comunas=$this->Comuna->getAllAsArray();
 			$this->set('comunas', $comunas);
+
+			$creencias=$this->Creencia->getAllAsArray();
+			$this->set('creencias', $creencias);
 			
 			$cod_persona=$this->Session->read('cod_voluntario');
 			$voluntario= $this->Voluntario->find(array("Voluntario.cod_persona" => $cod_persona), array(), array(), "", "", -1);
@@ -3108,12 +3115,14 @@
 			}
 			
 			//var_dump( $this->data['Persona'] );
-			//die();
+			//die($this->data['Beneficiario']['cod_sexo']);
 			
 			if($this->Persona->save($this->data['Persona'])){
 							
 				//guardar los datos del beneficiario y seguimiento
 				$this->data['Beneficiario']['cod_persona']=$this->data['Persona']['cod_persona'];
+				$this->data['Beneficiario']['tip_sexo']=($this->data['Beneficiario']['cod_sexo']==1)?"Masculino":"Femenino";
+
 				if($this->Beneficiario->save($this->data['Beneficiario'])){
 					$this->Seguimiento->save($this->data['Seguimiento']);
 					
@@ -3313,8 +3322,10 @@
 					//Arreglo para poder ver el RUT separado de su cod verificador en las vistas de modificacion.
 					$ruts=explode("-",$informacion_personal['Persona']['nom_rut']);
 					$informacion_personal['Persona']['nom_rut_pre']=$ruts[0];
-					$informacion_personal['Persona']['num_rutcodver']=$ruts[1]?$ruts[1]:"";
+					$informacion_personal['Persona']['num_rutcodver']=$ruts[1];
 					
+					//die($ruts[1]);
+
 					if($informacion_personal['Persona']['ano_nacimiento']!="")
 						$edad= (int)date('Y')-$informacion_personal['Persona']['ano_nacimiento'];
 					else

@@ -70,7 +70,10 @@ if($formulario==1)
 							</tr>
 							<tr>	
 								<td class="id">Sexo</td>
-								<td class="result"><?php echo $informacion_beneficiario['Beneficiario']['tip_sexo'] ?></td>
+								<!-- <td class="result"><?php echo $informacion_beneficiario['Beneficiario']['tip_sexo'] ?></td> -->
+								<?php $sexos=array(); $sexos[1]="Masculino"; $sexos[2]="Femenino"; ?>
+								<?php $cod_sexo=(strcmp($informacion_beneficiario['Beneficiario']['tip_sexo'],"Masculino")==0)?1:2; ?>
+								<td class="result"><?php echo $html->selectTag('Beneficiario/cod_sexo', $sexos, $cod_sexo, array(), null, false); ?></td>
 							</tr>
 							
 							<tr>	
@@ -90,16 +93,16 @@ if($formulario==1)
 								<td class="result"><?php echo $html->input('Persona/ano_nacimiento', array('size' => '20','maxlength'=>'3', 'value' => $edad));?></td>
 							</tr>
 							<tr>	
-								<td class="id">Direccion</td>
-								<td class="result"><?php echo $informacion_personal['Persona']['nom_direccion']?></td>
+								<td class="id">Direcci&oacute;n</td>
+								<td class="result"><?php echo $html->input('Persona/nom_direccion', array('size'=>'20','maxlength'=>'255','value'=> $informacion_personal['Persona']['nom_direccion'])); ?></td>
 							</tr>
 							<tr>	
 								<td class="id">Comuna</td>
 								<td class="result"><?php echo $html->selectTag('Persona/cod_comuna', $comunas, $informacion_personal['Persona']['cod_comuna'], array(), null, false); ?></td>
 							</tr>
 							<tr>	
-								<td class="id">Region</td>
-								<td class="result"><?php echo $informacion_personal['Comuna']['nom_region']?></td>
+								<td class="id">Regi&oacute;n</td>
+								<td class="result"><?php echo $informacion_personal['Comuna']['nom_region']; ?></td> 
 							</tr>
 							<tr>	
 								<td class="id">Tel&eacute;fonoFijo</td>
@@ -114,6 +117,18 @@ if($formulario==1)
 								<td class="result">
 									<?php echo $html->input('Persona/num_telefono2_pre', array('size' => '2','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono2_pre'])); ?>
 									<?php echo $html->input('Persona/num_telefono2_post', array('size' => '20','maxlength'=>'255','value' => $informacion_personal['Persona']['num_telefono2_post']));?>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="id">Email</td>
+								<td class="result"><?php echo $html->input('Persona/nom_email', array('size'=>'20','maxlength'=>'255','value'=> $informacion_personal['Persona']['nom_email'])); ?>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="id">Creencia Religiosa</td>
+								<td class="result"><?php echo $html->selectTag('Persona/cod_creencia', $creencias, $informacion_personal['Persona']['cod_creencia'], array(), null, false); ?>
 								</td>
 							</tr>
 	
